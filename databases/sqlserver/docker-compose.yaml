@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  sqlserver:
+    build: .
+    container_name: sqlserver
+    restart: on-failure:15
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: "P@ssword"   
+      # user: sa 
+    volumes:
+      - sqlserver-storage:/var/opt/mssql
+    networks:
+      - sqlserver      
+    # ports:
+    #   - "1433:1433"      
+  adminer:
+    image: adminer:latest
+    restart: always
+    container_name: adminer
+    ports:
+      - 8888:8080
+    networks:
+      - sqlserver
+volumes:
+  sqlserver-storage:
+networks:
+  sqlserver:
