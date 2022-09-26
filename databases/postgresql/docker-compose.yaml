@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgresql:
+    image: postgres
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+    volumes:
+      - postgresql-storage:/var/lib/postgresql/data
+    networks:
+      postgresql:         
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8888:8080
+    networks:
+      postgresql:            
+volumes:
+  postgresql-storage:
+networks:
+  postgresql:
