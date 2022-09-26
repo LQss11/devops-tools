@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    volumes:
+      - mysql-storage:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb #Initial database
+    networks:
+      - mysql
+    # ports:
+    #   - '3306:3306'   
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8888:8080
+    networks:
+      - mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - '8889:80'
+    environment:
+      PMA_HOST: mysql
+    networks:
+      - mysql
+volumes:
+  mysql-storage:
+networks:
+  mysql:
