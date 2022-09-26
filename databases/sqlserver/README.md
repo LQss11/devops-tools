@@ -5,8 +5,9 @@ docker-compose up --build
 ```sh
 docker-compose down -v
 ```
-visit adminer url at **localhost:8888**
 # Credentials
-
+visit adminer url at **localhost:8888**
+- **System:** MS SQL (beta)
+- **Server:**  sqlserver
 - **Username:** sa
 - **Password:** P@ssword 
