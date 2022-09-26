@@ -8,10 +8,10 @@ docker-compose down -v
 # Credentials
 visit adminer url at **localhost:8888**
 - **System:** MYSQL
-- **Server:**  mariadb
+- **Server:**  mysql
 - **Username:** root
 - **Password:** root
 visit phpmyadmin url at **localhost:8889**
-- **Server:**  mariadb
+- **Server:**  mysql
 - **Username:** root
 - **Password:** root
