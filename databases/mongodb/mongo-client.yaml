@@ -1,0 +1,22 @@
+version: '2'
+
+
+services:
+    mongodb:
+      image: mongo:latest
+      container_name: mongodb
+      hostname: mongodb
+      networks:
+        - mongodb_net
+      ports:
+        - 27017:27017
+    mongoclient:
+      image: mongoclient/mongoclient:latest
+      container_name: mongoclient
+      hostname: mongoclient
+      depends_on:
+        - mongodb
+      networks:
+        - mongodb_net
+      ports:
+        - 3300:3000
