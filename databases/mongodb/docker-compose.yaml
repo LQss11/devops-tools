@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    volumes:
+      - mongodb-storage:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - mongodb
+    # ports:
+    #   - 27017:27017 
+  mongoclient:
+    image: mongoclient/mongoclient:latest
+    container_name: mongoclient
+    networks:
+      - mongodb
+    ports:
+      - 3300:3000    
+    volumes:
+      - mongoclient-storage:/data/db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8888:8080
+    networks:
+      - mongodb
+volumes:
+  mongodb-storage:
+networks:
+  mongodb:
