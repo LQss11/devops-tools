@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  terraform-http-backend:
+    container_name: terraform-http-backend
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/server
