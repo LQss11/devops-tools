@@ -1,3 +1,5 @@
+**/.terraform.lock.hcl
+**/.stateserver
 # Local .terraform directories
 **/.terraform/*
 
