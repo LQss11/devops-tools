@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  vault-server:
+    build: .
+    #image: vault:latest
+    container_name: vault-server
+    ports:
+      - "8200:8200"  
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "token"
+    cap_add:
+      - IPC_LOCK
+    command: sh -c "vault server -config /vault/config/local.json -dev-root-token-id=${VAULT_DEV_ROOT_TOKEN_ID}"
+    tty: true
+    volumes:
+      - ./config/json/config.json:/vault/config/local.json
+    #   - hashicorp-vault:/vault
+# volumes:
+#   hashicorp-vault:
