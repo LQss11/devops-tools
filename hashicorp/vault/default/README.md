@@ -11,3 +11,8 @@ docker-compose up -d
 | ---------- | -------------- |
 | URL        | localhost:8200 |
 | Root Token | token          |
+
+to stop run this:
+```sh
+docker-compose down -v
+```

@@ -17,12 +17,12 @@ export VAULT_TOKEN="token"
 ```
 
 Create a new secret set
-vault kv get -format=table env/db 
+vault kv get -format=table cubbyhole/somesecret 
 
 Add values to the secret
 
 Get kv 
-vault kv get -format=yaml -field=data env/db
+vault kv get -format=yaml -field=mydatakey mykv/mysecret
 
 ### Additional HElP
 You can start the server manually by running vault server -dev
