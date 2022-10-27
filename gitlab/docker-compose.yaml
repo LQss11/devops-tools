@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  gitlab:
+    container_name: gitlab
+    hostname: gitlab.example.com
+    image: gitlab/gitlab-ee:latest
+    ports:
+      - "8080:80"
+      - "8443:443"
+      - "22:22"
+    volumes:
+      - gitlab-etc:/etc/gitlab
+      - gitlab-log:/var/log/gitlab
+      - gitlab-opt:/var/opt/gitlab
+volumes:
+  gitlab-etc:
+  gitlab-log:
+  gitlab-opt:    
