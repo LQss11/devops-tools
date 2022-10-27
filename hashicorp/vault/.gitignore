@@ -24,4 +24,4 @@
 
 # Generated private key
 *.key
-/cert
+**/certs
