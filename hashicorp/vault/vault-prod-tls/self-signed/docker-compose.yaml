@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  vault-server:
+    build: 
+      context: .
+      args:
+        - CONFIG_TYPE=${CONFIG_TYPE}
+    container_name: vault-server
+    environment:
+      - VAULT_ADDR=https://localhost:8200
+      - CONFIG_TYPE=${CONFIG_TYPE}
+    ports:
+      - "8200:8200"  
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/${CONFIG_TYPE}/config.${CONFIG_TYPE}:/vault/config/local.${CONFIG_TYPE}
+      - hashicorp-vault:/vault
+    command:  sh -c "vault server -config /vault/config/local.${CONFIG_TYPE} -tls-skip-verify"
+volumes:
+  hashicorp-vault:

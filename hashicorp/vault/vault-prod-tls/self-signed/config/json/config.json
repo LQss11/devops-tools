@@ -1,0 +1,23 @@
+{
+  "disable_mlock": "true",
+  "ui": "true",
+  "max_lease_ttl": "10h",
+  "default_lease_ttl": "10h",
+  "api_addr": "https://0.0.0.0:8200",
+  "listener": [
+    {
+      "tcp": {
+        "address": "0.0.0.0:8200",
+        "tls_disable": false,
+        "tls_disable_client_certs": true,
+        "tls_cert_file": "/etc/vault/ssl/self.crt",
+        "tls_key_file": "/etc/vault/ssl/self.key"
+      }
+    }
+  ],
+  "storage": {
+    "file": {
+      "path": "/vault/data"
+    }
+  }
+}
