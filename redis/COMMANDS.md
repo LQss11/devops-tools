@@ -23,6 +23,5 @@ redis-server /usr/local/etc/redis/redis.conf
 
 To get a specific config value type **CONFIG GET KEY**
 
-save 900 1
-save 300 10
-save 60 10000
+# Persistence
+[https://redis.io/docs/manual/persistence/ ](https://redis.io/docs/manual/persistence/)
