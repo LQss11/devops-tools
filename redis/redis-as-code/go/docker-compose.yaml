@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  go:
+    container_name: go
+    image: golang:alpine
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./app.go:/app/app.go
+    command: sh -c "rm -rf /app/sum.go && rm -rf mod.go && go mod init redis-go && go get && sh"
+  redis-go:
+    container_name: redis-go
+    hostname: redis-go
+    image: redis    
