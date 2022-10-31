@@ -1,69 +1,85 @@
 # Redis commands:
-
+Make sure before running any command to either get in redis cli by running `redis-cli` or simply `redis-cli <REDIS-COMMAND>`
+You can run benchmark commands to check the performance of a redis instance:
+```sh
 redis-benchmark -q -n 1000 -d 10 -t get,set -c 50 -r 1000
-
+```
+Here is a set of redis basic commands:
+```sh
+# Connect to a redis instance
+redis-cli <host> -p <port> -a <access-key>
+# Get all redis keys
 keys *
+# Get number of keys in redis instance
 dbsize
-
+# Delete all redis keys
 flushall
+# Set a redis key
 set key val
+# Get a redis key
 get key
+# Delete a redis key
 del key
 
-
+# Set and Get multiple keys at the same time
+mset key1 val1 key2 val2 key3 val3
+mget key1 key2 key3
+```
+Another example is to create a counter/sequence:
+```sh
 set seq_id 1
 get seq_id
 incr seq_id
 incr seq_id
 get seq_id
-
-mset key1 val1 key2 val2 key3 val3
-mget key1 key2 key3
-
+```
+You can use some additional features in redis cli:
+```sh
+# Check if key exists in redis
 exists key2
-
-Make a new key expire after 60 seconds
+# Make a new key expire after 60 seconds
 set key val EX 60 
-Make an existing key expire after 60 seconds
+# Make an existing key expire after 60 seconds
 expire mykey 60
-To cancel expiration we can run 
+# To cancel expiration we can run 
 persist mykey
+```
+**We always get the latest set value and the old data is lost**
 
-We always get the latest set value and the old data is lost
 # List insertion
+A set of commands for list insertion
+```sh
+# Put data in redis from the begining
 lpush color red blue white
-get command wouldn't work here so to do so we need to use 
+#get command wouldn't work here so to do so we need to use lrange instead
+# 0 -1 is to get all values in set
+# 0 2 will prompt first 3 values 
 lrange color 0 -1
 lpush color black
+# Will Put data by the end of the set
 rpush color magenta
 lrange color 0 -1
 lpush color col1 col2 col3
-
-Remove from left side
+# Remove from left side
 lpop color
-Remove from right side
+# Remove from right side
 rpop color
-
-Remove all except range of values specified
+# Remove all except range of values specified
 ltrim color 0 2
-
+```
 # Hset key value pair
+A set of commands for HashSets data:
+```sh
 hset product chair 100 table 200 TV 300
 hget product chair
 hmget product chair table TV
+```
 ## Mass insertion
 
-If working with csv file
+If working with Large CSV files you can convert them to redis like scripts:
+```sh
 awk -F ',' '{print "SET " $2 " " $1}' countries.csv
 wc countries.csv
 cat countries.csv | redis-cli --pipe
+```
 
-# Configuration 
-any changes need restart
-This is the link where you can find the [default redis configuration from multiple versions](https://redis.io/docs/manual/config/)
-redis-server /usr/local/etc/redis/redis.conf
-
-To get a specific config value type **CONFIG GET KEY**
-
-# Persistence
-[https://redis.io/docs/manual/persistence/ ](https://redis.io/docs/manual/persistence/)
