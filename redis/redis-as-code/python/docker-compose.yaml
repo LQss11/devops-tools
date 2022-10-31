@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  python:
+    container_name: python
+    image: python:alpine
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./app.py:/app/app.py
+    command: sh -c "pip install redis && sh"
+  redis-python:
+    container_name: redis-python
+    hostname: redis-python
+    image: redis    
