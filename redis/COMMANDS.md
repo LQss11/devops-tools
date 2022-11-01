@@ -113,4 +113,19 @@ APPEND key "stringtoappend"
 GETSET key "newval"
 # Set a key that will expire after 10 sec
 SETEX mykey 10 "hello"
+# Scan commands (rerun the command later with the prompted value to get the rest)
+SCAN 0 
+SCAN 0 COUNT 2 MATCH key1*
+# CONFIG 
+CONFIG GET *
+INFO all
+# Get information about a specific command
+COMMAND COUNT
+COMMAND INFO GET
+# Get info about connected clients/sessions
+CLIENT LIST
+CLIENT SETNAME clientname
+CLIENT GETNAME
+CLIENT KILL 127.0.0.1:<port>
+CLIENT KILL <id>
 ``` 
