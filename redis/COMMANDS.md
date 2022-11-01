@@ -82,4 +82,35 @@ awk -F ',' '{print "SET " $2 " " $1}' countries.csv
 wc countries.csv
 cat countries.csv | redis-cli --pipe
 ```
+# MISC
+Additional commands that could be used:
+You can disable or rename commands to prevent other users from running them:
+```sh
+# rename command
+rename-command CONFIG 21384e853ad79f2e70fa8d066acb
+# disable command
+rename-command CONFIG ""
+```
 
+```sh
+RENAME mykey newkey
+# Rename old key to new key if new key doesn't exist
+RENAMEX
+PING
+MONITOR
+ECHO 
+# Get time for expiration
+TTL KEY
+INCRBY
+DECR
+DECRBY
+# LIKE mset but will not perform insertion if key already exist
+MSETNX key1 val1 key2 val2
+SETNX KEY "val"
+# IF key exist value will be appended
+APPEND key "stringtoappend"
+# prompt old val and set value
+GETSET key "newval"
+# Set a key that will expire after 10 sec
+SETEX mykey 10 "hello"
+``` 
