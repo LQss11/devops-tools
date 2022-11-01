@@ -33,3 +33,4 @@ volumes:
   mongodb-storage:
 networks:
   mongodb:
+  mongoclient-storage: 
