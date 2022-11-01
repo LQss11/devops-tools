@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  node:
+    container_name: node
+    image: node
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    entrypoint: ""
+    command: sh -c "npm install && npm install nodemon -g && nodemon /app/app.js"
+    ports:
+      - 3000:3000
+    depends_on:
+      - "redis-node" 
+  redis-node:
+    container_name: redis-node
+    hostname: redis-node
+    image: redis    
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOSTS=local:redis-node:6379
+    ports:
+    - "8081:8081"    
