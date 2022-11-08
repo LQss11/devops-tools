@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  ngrok:
+    image: ngrok/ngrok:alpine
+    networks:
+      - ngrok
+    container_name: ngrok
+    environment:
+      - NGROK_AUTHTOKEN=27GQxM5WN1k1NAXd8gRNHNijJJ1_6CusMQq2LbaGh1odzTe1d
+    depends_on:
+      - nginx
+    entrypoint: ""
+    command: sh
+    tty: true
+  nginx:
+    image: nginx:alpine
+    networks:
+      - ngrok
+    container_name: nginx
+    ports:
+      - 9999:80
+networks:
+  ngrok:
