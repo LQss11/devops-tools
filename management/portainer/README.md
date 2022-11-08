@@ -31,4 +31,4 @@ service/portainer-agent-headless   ClusterIP   None           <none>        <non
 
 **Attache agent**
 
-<img src="/.github/images/portainer/attache-cluster.png">
+<img src="../../.github/images/portainer/attache-cluster.png">
