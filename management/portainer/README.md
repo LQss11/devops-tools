@@ -19,6 +19,8 @@ You can add a docker agent by starting this container on the node you want to ad
 ```sh
 docker run -d   -p 9001:9001   --name portainer_agent   --restart=always   -v /var/run/docker.sock:/var/run/docker.sock   -v /var/lib/docker/volumes:/var/lib/docker/volumes   portainer/agent:2.16.0
 ```
+
+You can also attache another docker instance to your portainer through the docker daemon address usually with port x.x.x.x:2375
 ### Kubernetes agent
 For a kubernetes agent we need:
 ```sh
