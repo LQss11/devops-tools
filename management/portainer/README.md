@@ -13,7 +13,13 @@ docker stop portainer
 docker rm portainer
 ```
 
-## Portainer agent
+## Portainer agents
+### Docker agent
+You can add a docker agent by starting this container on the node you want to add **make sure connection is established between host and remote machine**! also the agent and host must have same versions or you ll face some issues:
+```sh
+docker run -d   -p 9001:9001   --name portainer_agent   --restart=always   -v /var/run/docker.sock:/var/run/docker.sock   -v /var/lib/docker/volumes:/var/lib/docker/volumes   portainer/agent:2.16.0
+```
+### Kubernetes agent
 For a kubernetes agent we need:
 ```sh
 # Deploy portainer agent
