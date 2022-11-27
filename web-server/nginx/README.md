@@ -6,4 +6,4 @@ To start the example you can simply run
 docker-compose up -d
 ```
 ## URIS redirection
-**/httpd** for apache and **/tomcat** for tomcat server
+**localhost:8880/httpd/** for apache and **localhost:8880/tomcat/** for tomcat server
