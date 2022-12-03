@@ -1,0 +1,41 @@
+stages:
+  - build
+  - deploy
+
+build_image:
+  image: docker:stable
+  services:
+    - docker:dind
+  stage: build
+  script:
+    - >
+      docker build
+      --build-arg NODE_ENV=production
+      -t $DOCKER_IMAGE_NAME:$CI_PIPELINE_ID 
+      .
+  rules:
+    - if: $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "development"
+  tags:
+    - docker
+ 
+registry_deployment:
+  image: docker:stable
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - echo $CI_COMMIT_SHA > commitsha
+    - >
+      docker build
+      --build-arg NODE_ENV=production 
+      -t $DOCKER_IMAGE_NAME:$CI_PIPELINE_ID 
+      -t $DOCKER_IMAGE_NAME:latest 
+      .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - >
+      docker push $DOCKER_IMAGE_NAME:$CI_PIPELINE_ID && 
+      docker push $DOCKER_IMAGE_NAME:latest
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "development"
+  tags:
+    - docker

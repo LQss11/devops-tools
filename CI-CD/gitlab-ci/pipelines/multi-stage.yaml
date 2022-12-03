@@ -1,0 +1,45 @@
+variables:
+  HOST_USER: "gitlab"
+  HOST_IP: "192.168.1.4"
+  BUILD_DIR: "/home/gitlab/myapp"
+  REGISTRY_URL: "192.168.1.5:5000"
+
+stages:
+  - build
+  - publish
+  - deploy
+
+maven-build:
+  image: maven:3-alpine
+  stage: build
+  variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  script:
+    - "mvn clean package"
+    - "mvn sonar:sonar"
+  artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"  
+    expire_in: 1 week
+    paths:
+      - target/my-artifact.war
+
+deploy-master:
+  stage: deploy
+  script:
+    - scp target/my-artifact.war ${HOST_USER}@${HOST_IP}:${BUILD_DIR}
+    - scp Dockerfile ${HOST_USER}@${HOST_IP}:${BUILD_DIR}
+    - scp docker-compose.yml ${HOST_USER}@${HOST_IP}:${BUILD_DIR}
+    - ssh ${HOST_USER}@${HOST_IP} "docker-compose up -f ${BUILD_DIR}/docker-compose.yml -d"
+
+publish:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
+  script:
+    - echo "publish"
+    - docker build -t test .
+    - docker tag test ${REGISTRY_URL}/test
+    - docker push ${REGISTRY_URL}/test
+    - ssh ${HOST_USER}@${HOST_IP} "docker pull ${REGISTRY_URL}/test"
+    - ssh ${HOST_USER}@${HOST_IP} "docker-compose -f ${BUILD_DIR}/docker-compose.yml up -d"
