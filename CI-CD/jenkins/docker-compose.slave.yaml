@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  jenkins-slave:
+    image: openjdk:11
+    container_name: jenkins-slave
+    user: root
+    environment:
+      JENKINS_MASTER_URL: http://jenkins:8080
+      SLAVE_NAME: jenkins-slave
+      SECRET: ec35ba603e5db70937ebd5ae5f3eeb2a2399ffef0109d878f8ae724d1db09800
+      WORK_DIR: /home/jenkins/agent
+
+    command: |
+      apt-get update && apt-get install openssh-server -y
+      curl -sO ${JENKINS_MASTER_URL}/jnlpJars/agent.jar
+      java -jar agent.jar -jnlpUrl ${JENKINS_MASTER_URL}/computer/jenkins%2Dslave/jenkins-agent.jnlp -secret ${SECRET} -workDir "${WORK_DIR}"
+      tail -f /dev/null
+    restart: always
+    volumes:
+      - jnlp-slave:/var/jenkins_home
+    tty: true
+volumes:
+  jnlp-slave:
