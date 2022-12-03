@@ -1,0 +1,66 @@
+def suiteFile             // collect data from approval step
+
+pipeline {
+    agent any
+    stages {
+        stage('ENVSET') {
+            steps {
+                script {
+                    sh '''echo value1 >file1
+                    echo value2 >file2
+                    echo value3 >file3
+                    echo value4 >file4
+                    '''
+                    env.FILES = sh(returnStdout: true, script: 'ls | grep file')
+                }
+            }
+        }
+
+        stage('Suite selection') {
+            steps {
+                timeout(60) {                // timeout waiting for input after 60 minutes
+                    script {
+                        // capture the approval details in approvalMap.
+                        suiteFile = input id: 'test1', message: 'SUITE', ok: 'Proceed?',
+                        parameters: [
+                            choice(
+                                choices: env.FILES,
+                                description: 'Select your file',
+                                name: 'SUITE'
+                            )
+                        ],
+                        //submitter: 'user1,user2,group1',
+                        submitterParameter: 'APPROVER'
+                    }
+                }
+            }
+        }
+        stage('Test Selection') {
+            steps {
+                timeout(60) {                // timeout waiting for input after 60 minutes
+                    script {
+                        // capture the approval details in approvalMap.
+                        suiteTest = input id: 'test2', message: 'Test', ok: 'Proceed?',
+                        parameters: [
+                            choice(
+                                choices: sh(returnStdout: true, script: "cat ${suiteFile['SUITE']}"),
+                                description: 'Select your file',
+                                name: 'TEST'
+                            )
+                        ],
+                        //submitter: 'user1,user2,group1',
+                        submitterParameter: 'APPROVER'
+                    }
+                }
+            }
+        }
+        stage('Stage 2') {
+            agent any
+
+            steps {
+                // print the details gathered from the approval
+                echo "This build was approved by: ${suiteFile['SUITE']}"
+            }
+        }
+    }
+}

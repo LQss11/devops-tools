@@ -1,0 +1,19 @@
+// git plugin required
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                dir('some-repo-dir') {
+                    git branch: 'main', credentialsId: 'jenkins-master-key', url: 'git@github.com:LQss11/repo.git'
+                }
+            }
+        }
+        stage('Run') {
+            steps {
+                sh 'exec ./some-repo-dir/scriptfile.sh'
+            }
+        }
+    }
+}
+

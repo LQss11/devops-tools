@@ -1,0 +1,13 @@
+
+pipeline {
+    agent any
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo 'Printing message....'
+                sh 'echo hello world'
+            }
+        }
+    }
+}
+

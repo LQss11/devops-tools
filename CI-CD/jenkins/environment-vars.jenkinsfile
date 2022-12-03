@@ -1,0 +1,30 @@
+// ENV VAR interpretation https://stackoverflow.com/a/48026479/13541620
+pipeline {
+    environment {
+        TAG = '3'
+    }
+    agent any
+    stages {
+        stage('Stage 1') {
+            environment {
+                REGISTRY = 'docker.io'
+            }
+            steps {
+                if (env.TAG == null) {
+                    env.TAG = 'latest'
+                }
+                if (env.REGISTRY != null) {
+                    env.REGISTRY = env.REGISTRY + '/'
+                }
+                echo '### Building repo/image:' + env.TAG + ' Image ###'
+                sh 'docker build -t ${REGISTRY}repo/image:${TAG} .'
+                sh "echo This is another ${TAG} message double quote is ok." 
+                sh '''
+                VARX=$(ls)
+                echo $VARX
+                '''
+            }
+        }
+    }
+}
+

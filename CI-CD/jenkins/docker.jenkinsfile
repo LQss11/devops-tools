@@ -1,0 +1,32 @@
+//docker pipeline plugin required
+pipeline {
+  environment {
+    repository = 'user/image'
+    registryCredential = 'docker-hub-credentials'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Building our image') {
+      steps {
+        script {
+          dockerImage = docker.build repository + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy image to Docker Hub') {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Cleaning up Docker Image') {
+      steps {
+        sh "docker rmi $repository:$BUILD_NUMBER"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+
+pipeline {
+    agent any
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "Printing message using jenkins on windows...."
+                //notice that we used "bat" instead of "sh"
+                bat 'echo hello world'
+            }
+        }
+    }
+}
+

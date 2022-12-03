@@ -1,0 +1,30 @@
+// git plugin required
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                dir('some-repo-dir') {
+                    git branch: 'main', credentialsId: 'jenkins-master-key', url: 'git@github.com:LQss11/repo.git'
+                }
+            }
+        }
+        stage('Helm chart git push') {
+            steps {
+                sh 'git config --global user.email "example@domain.com"'
+                sh 'git config --global user.name "Jenkins"'
+                dir('helm-repo') {
+                    sshagent(credentials: ['jenkins-master-key']) {
+                        sh '''
+                          git branch -M main
+                          git add .
+                          git commit -m "Jenkins package repo commit"
+                          git push -u origin main
+                      '''
+                    }
+                }
+            }
+        }
+    }
+}
+
