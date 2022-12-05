@@ -17,3 +17,22 @@ vault kv put -mount=secret mykv bar=baz
 # Get data from a kv
 vault kv get -field bar -format=table secret/mykv
 ```
+
+# Policies
+
+vault policy write prometheus-metrics - << EOF
+path "/sys/metrics" {
+  capabilities = ["read"]
+}
+EOF
+
+# Token
+```sh
+vault token create \
+  -field=token \
+  -policy prometheus-metrics \
+  > $LEARN_VAULT/prometheus-config/prometheus-token
+
+vault login
+vault token lookup | grep policies
+```
