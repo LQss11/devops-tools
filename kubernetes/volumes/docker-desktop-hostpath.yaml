@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine
+spec:
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+    spec:
+      containers:
+        - name: alpine
+          imagePullPolicy: IfNotPresent
+          image: alpine
+          command:
+            - sleep
+          args:
+            - infinity
+          resources: {}
+          volumeMounts:
+            - name: workdir
+              mountPath: "/tmp/data"
+      volumes:
+        - name: workdir
+          hostPath:
+            path: /
