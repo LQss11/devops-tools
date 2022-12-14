@@ -3,6 +3,9 @@
 ## Az login
 * Create file **variables.auto.tfvars**:
 ```sh
+# Create sp
+az ad sp create-for-rbac --name mysp
+# Login with sp to have access for plan and apply
 az login --service-principal --username "00000000-0000-0000-0000-000000000000" --password "00000000-0000-0000-0000-000000000000-" --tenant "00000000-0000-0000-0000-000000000000"
 ```
 ## Using hardcoded vars
