@@ -15,3 +15,8 @@ provider "azurerm" {
 #   tenant_id       = var.tenant_id
 #   client_secret   = var.client_secret
 }
+
+resource "azurerm_resource_group" "example" {
+  location = "West Europe"
+  name     = "authrgtest"
+}
