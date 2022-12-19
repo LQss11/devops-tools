@@ -1,0 +1,59 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - terraform/staging/*
+      
+pool: "Default"
+
+steps:
+  - task: Bash@3
+    displayName: "Setup terraform cli"  
+    inputs:
+      targetType: 'inline'
+      script: |
+        cat >.env <<EOF
+        ARM_CLIENT_ID=$(CLIENT_ID)
+        ARM_CLIENT_SECRET=$(CLIENT_SECRET)
+        ARM_SUBSCRIPTION_ID=$(SUBSCRIPTION_ID)
+        ARM_TENANT_ID=$(TENANT_ID)
+        EOF
+        docker run -d --name terraform-cli --env-file=".env" --entrypoint="" -w="/terraform/staging" -v $(System.DefaultWorkingDirectory)/terraform/staging/:/terraform/staging hashicorp/terraform tail -f /dev/null
+        
+  - task: Bash@3
+    displayName: "terraform init"  
+    inputs:
+      targetType: 'inline'
+      script: 'docker exec -i terraform-cli sh -c "terraform init -upgrade"'    
+
+  - task: Bash@3
+    displayName: "terraform plan"  
+    inputs:
+      targetType: 'inline'
+      script: 'docker exec -i terraform-cli sh -c "terraform plan"'
+
+  - task: Bash@3
+    displayName: "Cleanup and Close terraform cli"  
+    inputs:
+      targetType: 'inline'
+      script: |
+        docker exec -i terraform-cli sh -c "rm -rf .terraform"
+        docker stop terraform-cli
+        docker rm -f terraform-cli
+        git clean -ffdx
+
+  - task: CopyFiles@2
+    displayName: "Copy terraform artifacts"  
+    inputs:
+      SourceFolder: 'terraform'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish terraform artifacts"  
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'    
