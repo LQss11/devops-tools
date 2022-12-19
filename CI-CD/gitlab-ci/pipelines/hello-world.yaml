@@ -2,7 +2,8 @@ build-job:
   stage: build
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
-
+# The next two jobs will be run in paralel
+# Since they belong to the same stage
 test-job1:
   stage: test
   script:
