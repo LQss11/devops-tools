@@ -21,3 +21,5 @@ kubectl run nginx --image=nginx --context=DevUser
 ```
 
 If you need the CA certificate you can get it by getting under `run/config/pki/ca.crt` in the cluster or if you have already a kubeconfig with a ca config (**it should be in b64**) make sure to convert it from b64 to verify the crt.
+## Ref
+[RBAC k8s](https://www.infracloud.io/blogs/role-based-access-kubernetes/)
