@@ -1,0 +1,47 @@
+# https://gaunacode.com/deploying-terraform-at-scale-with-github-actions
+name: "Terraform - Staging"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - staging/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - staging/**
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    name: Terraform
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.8
+          terraform_wrapper: false
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }} 
+          ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        working-directory: staging # Use your environment folder
+        shell: bash
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out tf.plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }} 
+          ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        working-directory: staging # Use your environment folder
+        shell: bash
