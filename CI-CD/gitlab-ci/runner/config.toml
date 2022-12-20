@@ -1,0 +1,9 @@
+[[runners]]
+  name = "lqss-runner"
+  url = "gitlab.url"
+  token = "GR13489...juL6K2mrDqh_"
+  limit = 0
+  executor = "docker"
+  builds_dir = "/tmp"
+  shell = "bash"
+  environment = ["ENV=value", "LC_ALL=en_US.UTF-8"]
