@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  jenkins-controller:
+    image: jenkins/jenkins:2.375.1-lts-jdk11
+    container_name: jenkins-controller
+    ports:
+      - 8090:8080
+      - 50000:50000      
+    volumes:
+      - jenkins-data:/var/jenkins_home
+    networks:
+      - jenkins    
+networks:
+  jenkins:
+volumes:
+  jenkins-controller-data:

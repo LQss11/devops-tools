@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  jenkins-agent:
+    image: jenkins/inbound-agent:4.11-1-jdk11
+    container_name: jenkins-${JENKINS_AGENT_NAME}
+    init: true
+    networks:
+      - jenkins
+    environment:
+      - JENKINS_URL=${JENKINS_URL}
+      - JENKINS_SECRET=${JENKINS_SECRET}
+      - JENKINS_AGENT_WORKDIR=${JENKINS_AGENT_WORKDIR}
+      - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME}
+      - JENKINS_WEB_SOCKET=true
+    volumes:
+      - jenkins-worker-data:${JENKINS_AGENT_WORKDIR}
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+networks:
+  jenkins:
+volumes:
+  jenkins-worker-data:
