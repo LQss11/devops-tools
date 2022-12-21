@@ -1,0 +1,27 @@
+# Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx1.14.2
+spec:
+  selector:
+    matchLabels:
+      app: nginx1.14.2 # Deployment pod label selector
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: nginx1.14.2 # Pod Label for the Deployment selector
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        volumeMounts:
+          - mountPath: "/usr/share/nginx/html"
+            name: nginx-pv-storage  # Points to volumes > name 
+      volumes:
+        - name: nginx-pv-storage
+          persistentVolumeClaim:
+            claimName: nginx-pv-claim  # points to pvc              
+            
+# kubectl apply -f nginx-pv.yaml nginx-deployement.yaml

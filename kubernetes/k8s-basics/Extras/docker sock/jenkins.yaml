@@ -1,0 +1,35 @@
+# bind host machine's UNIX docker socket to a jenkins container 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  selector:
+    matchLabels:
+      app: jenkins
+  replicas: 1
+  template:
+    metadata:
+      name: jenkins
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: dockersock
+              mountPath: "/var/run/docker.sock"
+            - name: docker
+              mountPath: "/usr/bin/docker"   
+          securityContext: 
+              privileged: true     
+              runAsUser: 0  # Root                  
+      volumes:
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: docker
+        hostPath:
+          path: /usr/bin/docker         

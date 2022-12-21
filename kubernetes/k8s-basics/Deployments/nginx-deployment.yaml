@@ -1,0 +1,34 @@
+# Deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx1.14.2
+spec:
+  selector:
+    matchLabels:
+      app: nginx1.14.2 # Deployment pod label selector
+  replicas: 2
+  template: # template for the pods
+    metadata:
+      labels:
+        app: nginx1.14.2 # Pod Label for the Deployment selector
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: nginx1.14.2 # Service pod label selector
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+  type: NodePort
+
+
+# You can start this file with apply -f /src/kubernetes/Deployments/nginx-deployment.yaml

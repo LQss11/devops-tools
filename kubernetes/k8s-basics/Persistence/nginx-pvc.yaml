@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi  # Must be equal or greater than Storage capacity specified in pv
+
+# kubectl apply -f nginx-pvc.yaml    
+# kubectl get pv <pv-name>
+#kubectl get pvc <pvc-name>
