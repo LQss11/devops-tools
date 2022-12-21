@@ -1,0 +1,5 @@
+#[defaults]
+#host_key_checking = False
+192.168.112.2 ansible_ssh_pass=root ansible_ssh_user=root
+192.168.112.3 ansible_ssh_pass=root ansible_ssh_user=root
+192.168.112.4 ansible_ssh_pass=root ansible_ssh_user=root
