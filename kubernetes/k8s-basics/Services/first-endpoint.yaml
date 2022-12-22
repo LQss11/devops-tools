@@ -1,0 +1,13 @@
+# This replaces services if we need to specify 
+# the endpoint we want to connect instead of
+# setting up selectors
+apiVersion: v1
+kind: Endpoints # Notice that this is not like services
+metadata:
+  name: my-service2
+subsets: # Manually map the service to network address (replaces dynamic mapping of selectors)
+  # 192.0.2.42:9376 (TCP)
+  - addresses:
+      - ip: 192.0.2.42 # Pod IP
+    ports:
+      - port: 9376 # Pod Port

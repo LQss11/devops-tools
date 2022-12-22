@@ -1,0 +1,15 @@
+# This is a service example that uses selectors
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec: 
+  selector:   # This is the selector that will allow you to link a pod with service.
+    app: MyApp
+  # key: Value  
+  ports:
+    - protocol: http
+      port: 80 #  will redirect traffic to target port if exists
+      targetPort: 8080 # Pod port for app server for example
+      nodePort: 30475 # Mapped port to the outside
+  type: NodePort # Default is ClusterIP and could also specify LoadBalancer if needed

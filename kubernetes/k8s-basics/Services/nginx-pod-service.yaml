@@ -1,0 +1,31 @@
+# Nginx Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx1.14.2 # for selector
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+--- 
+# Nginx Service    
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec: 
+  selector:
+    app: nginx1.14.2 # Label Selector
+  ports:
+    - name: http
+      nodePort: 30080
+      port: 80
+  type: NodePort
+
+
+# You can start this file with apply -f /src/kubernetes/Services/nginx-pod-service.yaml
