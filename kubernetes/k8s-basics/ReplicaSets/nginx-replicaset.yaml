@@ -1,0 +1,35 @@
+
+# Replicaset
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx1.14.2
+spec:
+  selector:
+    matchLabels:
+      app: nginx1.14.2 # Replicaset pod label selector
+  replicas: 2
+  template: # template for the pods
+    metadata:
+      labels:
+        app: nginx1.14.2 # Pod Label for the Replicaset selector
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: nginx1.14.2 # Service pod label selector
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+  type: NodePort
+
+
+# You can start this file with apply -f /src/kubernetes/ReplicaSets/nginx-replicaset.yaml
