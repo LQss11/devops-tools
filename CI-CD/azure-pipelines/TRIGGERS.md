@@ -23,3 +23,12 @@ schedules:
         - new-feature
     always: true
 ```
+## Pipeline deps:
+```yaml
+resources:
+    pipelines:
+    - pipeline: upstream-lib
+      source: upstream-lib-ci
+      project: <project-name>
+      trigger: true
+```
