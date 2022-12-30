@@ -32,3 +32,9 @@ resources:
       project: <project-name>
       trigger: true
 ```
+## Pull requests:
+```yaml
+pr:
+- master
+- releases/*
+```
