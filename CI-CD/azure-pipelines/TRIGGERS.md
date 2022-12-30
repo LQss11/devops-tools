@@ -13,3 +13,13 @@ trigger:
         include:
             - terraform/staging/*        
 ```
+## Scheduled Triggers:
+```yaml
+schedules:
+  - cron: '*/10 * * * *'
+    displayName: my-scheduled-build
+    branches: 
+        include:
+        - new-feature
+    always: true
+```
