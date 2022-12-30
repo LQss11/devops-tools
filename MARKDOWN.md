@@ -12,6 +12,7 @@ This provides some syntax to create better markdown files
 # URL reference
 [Direct link](https://www.google.com/)
 [Test Url][SomeURL]
+[SomeURL]
 <!-- URLS  -->
 [SomeURL]: https://www.google.com/
 
