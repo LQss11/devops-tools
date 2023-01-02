@@ -33,6 +33,8 @@ NAME                               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT
 service/portainer-agent            NodePort    10.109.254.7   <none>        9001:30778/TCP   67m
 service/portainer-agent-headless   ClusterIP   None           <none>        <none>           67m
 ```
+You can now add the new kubernetes agent into portainer in this example the endpoint should be **10.109.254.7:9001**
+
 **Add environment**
 
 <img src="../../.github/images/portainer/add-env.png">
