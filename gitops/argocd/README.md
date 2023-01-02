@@ -17,8 +17,8 @@ argocd cluster add docker-desktop
 # Create new app
 argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
 # Another nginx app (localhost:30080)
-argocd app create devops-nginx --repo https://github.com/LQss11/devops-tools --path gitops/argocd/manifests --dest-server https://kubernetes.default.svc --dest-namespace default
-# Make it sync automatically
+argocd app create devops-nginx --repo https://github.com/LQss11/devops-tools --path gitops/argocd/manifests --dest-server https://kubernetes.default.svc --dest-namespace default 
+# Make it sync automatically (if not applied)
 argocd app set devops-nginx --sync-policy automated
 # Expose port of app (localhost:8082)
 kubectl port-forward svc/guestbook-ui 8082:80
@@ -28,7 +28,7 @@ argocd app delete guestbook
 
 For more docs follow this [link](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
-Once Installed you can expose port: 
+<!-- Once Installed you can expose port: 
 ```sh
 $env:KUBE_EDITOR="code -w"; kubectl edit -n argocd svc/argocd-server
-```
+``` -->
