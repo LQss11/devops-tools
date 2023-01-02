@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: nginx # Deployment pod label selector
-  replicas: 2
+  replicas: 1
   template: # template for the pods
     metadata:
       labels:
@@ -16,19 +16,3 @@ spec:
       containers:
       - name: nginx
         image: nginx:alpine
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-service
-spec:
-  selector:
-    app: nginx # Service pod label selector
-  ports:
-    - name: http
-      port: 80
-      nodePort: 30080
-  type: NodePort
-
-
-# You can start this file with apply -f /src/kubernetes/Deployments/nginx-deployment.yaml
