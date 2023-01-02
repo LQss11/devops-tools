@@ -15,3 +15,12 @@ Get available rbac permissions:
 ```sh
 kubectl auth can-i --list
 ```
+
+# CLI
+To update the text editor make sure to configure this env var **KUBE_EDITOR**
+```sh
+# Powershell
+$env:KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
+# Linux
+KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
+```
