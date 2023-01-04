@@ -16,3 +16,5 @@ This provides some syntax to create better markdown files
 <!-- URLS  -->
 [SomeURL]: https://www.google.com/
 
+# Passwords
+<details><summary>Hidden password</summary>MyPass here</details>
