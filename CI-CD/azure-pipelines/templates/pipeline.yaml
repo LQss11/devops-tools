@@ -1,0 +1,20 @@
+trigger:
+- master
+
+# example variables 
+# (Pipeline.Workspace) (Build.BuildId)
+variables:
+  vmImageName: 'ubuntu-latest'
+  environmentName: 'production'
+  projectRoot: $(System.DefaultWorkingDirectory)
+  pythonVersion: '3.7'
+
+stages: 
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build job
+    pool: 
+      vmImage: $(vmImageName)
+    steps:
+      - template: template.yaml

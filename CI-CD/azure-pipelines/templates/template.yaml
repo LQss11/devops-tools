@@ -1,0 +1,11 @@
+steps:
+- task: Bash@3
+    displayName: execute some script 1
+- script: | 
+    echo BUILD 1
+    workingDirectory: $(projectRoot)
+- task: Bash@3
+    displayName: execute some script 2
+- script: | 
+    echo BUILD 2
+    workingDirectory: $(projectRoot)      
