@@ -41,3 +41,18 @@ terraform show
 terraform workspace show # Get existing workspaces
 terraform workspace list # List workspaces
 ```
+
+```sh
+# Debugging 
+## TRACE DEBUG INFO WARN ERROR
+export TF_LOG="TRACE"
+# turn off
+export TF_LOG=""
+
+export TF_LOG_PATH="terraform_log.txt"
+export TF_LOG_PATH=""
+
+# powershell
+setx TF_LOG="TRACE"
+setx TF_LOG_PATH="terraform_log.txt"
+```
