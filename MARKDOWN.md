@@ -15,6 +15,7 @@ This provides some syntax to create better markdown files
 [SomeURL]
 <!-- URLS  -->
 [SomeURL]: https://www.google.com/
-
+<!-- IMAGE -->
+![alt](path)
 # Passwords
 <details><summary>Hidden password</summary>MyPass here</details>
