@@ -14,3 +14,8 @@ ansible all -i tests -m ping
 ```sh
 ansible-playbook  -i hosts second-playbook.yml --check
 ```
+# Docker
+```sh
+docker-compose -f Ansible/docker-compose.yaml up -d 
+docker exec -it ansible sh
+```
