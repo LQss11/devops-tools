@@ -1,0 +1,11 @@
+FROM python:alpine
+RUN pip install openai
+COPY data/openai/chatgpt /app
+WORKDIR /app
+RUN chmod +x entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]
+
+# docker build -t openai:chatgpt -f ./Dockerfile.openai.chatgpt .
+# docker run -it --rm -v ${pwd}/data/openai/file.txt:/app/file.txt -e METHOD="read-from-file" -e API_KEY="sk-2CN...UjmC" openai:chatgpt "hello who are you"
+# docker run -it --rm -e METHOD="read-from-file" -e API_KEY="sk-2CN...UjmC" openai:chatgpt "hello who are you"
+# docker run -it --rm -e API_KEY="sk-2...UjmC" openai:chatgpt hello
