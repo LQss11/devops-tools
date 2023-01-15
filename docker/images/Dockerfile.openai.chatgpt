@@ -6,6 +6,6 @@ RUN chmod +x entrypoint.sh
 ENTRYPOINT [ "./entrypoint.sh" ]
 
 # docker build -t openai:chatgpt -f ./Dockerfile.openai.chatgpt .
-# docker run -it --rm -v ${pwd}/data/openai/file.txt:/app/file.txt -e METHOD="read-from-file" -e API_KEY="sk-2CN...UjmC" openai:chatgpt "hello who are you"
-# docker run -it --rm -e METHOD="read-from-file" -e API_KEY="sk-2CN...UjmC" openai:chatgpt "hello who are you"
+# docker run -it --rm -e METHOD="read-from-file" -e API_KEY="sk-2CN...UjmC" -v ${pwd}/data/openai/file.txt:/app/file.txt  openai:chatgpt "can you exaplain the usage of this file\n"
+# docker run -it --rm -e METHOD="chatgpt" -e API_KEY="sk-2CN...UjmC" openai:chatgpt "hello who are you"
 # docker run -it --rm -e API_KEY="sk-2...UjmC" openai:chatgpt hello

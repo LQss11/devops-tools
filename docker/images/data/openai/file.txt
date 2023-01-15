@@ -1,1 +1,4 @@
-Can you please help me generate some text?
+import os
+
+# set the API key
+openai.api_key = os.environ.get('API_KEY') 
