@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  ansible:
+    container_name: ansible
+    build: 
+      context: ..
+      dockerfile: "docker/images/Dockerfile.ansible.alpine"
+    volumes:
+      - ./playground:/playground
+    working_dir: /playground
+    networks:
+      - ansible      
+  ssh1:
+    container_name: ssh1
+    build: 
+      context: ..
+      dockerfile: "docker/images/Dockerfile.ssh.alpine"
+    networks:
+      - ansible      
+  ssh2:
+    container_name: ssh2
+    build: 
+      context: ..
+      dockerfile: "docker/images/Dockerfile.ssh.alpine"
+    networks:
+      - ansible
+networks:
+  ansible:
