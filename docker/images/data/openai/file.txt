@@ -1,4 +1,9 @@
-import os
+Unable to run the images for any of them
 
-# set the API key
-openai.api_key = os.environ.get('API_KEY') 
+1) Unable to find image 'docker/whalesay:latest' locally docker: Error response from daemon: application/vnd.docker.distribution.manifest.v1+prettyjws not supported.
+
+2) Unable to find image 'timer:latest' locally docker: Error response from daemon: failed to resolve reference "docker.io/library/timer:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed.
+
+3) exec /docker-entrypoint.sh: exec format error
+
+Checked the versions of Docker, docker is up to date
