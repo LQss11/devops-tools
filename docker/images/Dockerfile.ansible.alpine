@@ -1,0 +1,33 @@
+FROM alpine:latest
+
+# Install necessary packages
+RUN apk update && apk add curl net-tools openssh openrc ansible
+
+
+# Setup SSH Service
+RUN rc-update add sshd && mkdir /run/openrc
+
+# Expose port for ssh
+EXPOSE 22
+
+# Update root password
+RUN echo 'root:root' | chpasswd
+
+# Allow root login with ssh
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+RUN ssh-keygen -A
+# Remove Cache
+RUN rm -rf /var/cache/apk/*
+
+# Start SSH Service & Run the entrypoint script
+ENTRYPOINT [ "sh", "-c", "/usr/sbin/sshd -D -e && sh" ]
+
+# docker build -t ansible:alpine -f .\Dockerfile.ansible.alpine .
+# docker run -d --name controller -v ${pwd}/playground:/playground ansible:alpine 
+# docker run -d --name ssh1 ssh:alpine 
+# docker run -d --name ssh2 ssh:alpine 
+# docker exec -it controller sh
+
+# docker stop controller ssh1 ssh2
+# docker rm controller ssh1 ssh2
