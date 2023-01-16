@@ -1,4 +1,5 @@
 # API_KEY="YOURTOKEN" ./docker/images/data/openai/chatgpt/chatgpt.sh "hello"
+# curl -s https://raw.githubusercontent.com/LQss11/devops-tools/main/docker/images/data/openai/chatgpt/chatgpt.sh | API_KEY="YOURTOKEN" bash -s -- "hello" 
 openai_prompt="$1"
 openai_api_key="$API_KEY"
 openai_model_engine="text-davinci-003"
