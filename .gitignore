@@ -1,3 +1,6 @@
 /workspace/**
 
 !/workspace/README.md
+*.log
+response.json
+conversationHistory.txt
