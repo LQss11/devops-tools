@@ -13,7 +13,7 @@ prompt="$1"
 model_engine="text-davinci-003"
 
 # Set the temperature, max tokens, and presence penalty
-temperature=0.9
+temperature=0.5
 max_tokens=4000
 presence_penalty=0.0
 
