@@ -1,16 +1,36 @@
+#!/bin/bash
+
 # API_KEY="YOURTOKEN" ./docker/images/data/openai/chatgpt/chatgpt.sh "hello"
 # curl -s https://raw.githubusercontent.com/LQss11/devops-tools/main/docker/images/data/openai/chatgpt/chatgpt.sh | API_KEY="YOURTOKEN" bash -s -- "hello" 
-openai_prompt="$1"
-openai_api_key="$API_KEY"
-openai_model_engine="text-davinci-003"
-openai_temperature=0.5
-openai_max_tokens=4000
-openai_presence_penalty=0.0
 
+# Set the OpenAI API key
+API_KEY="$API_KEY"
+
+# Set the prompt for the completion
+prompt="$1"
+
+# Set the model engine to use
+model_engine="text-davinci-003"
+
+# Set the temperature, max tokens, and presence penalty
+temperature=0.5
+max_tokens=4000
+presence_penalty=0.0
+
+# Create the JSON data for the API request
+data=$(jq -n \
+    --arg prompt "$prompt" \
+    --argjson temperature "$temperature" \
+    --argjson max_tokens "$max_tokens" \
+    --argjson presence_penalty "$presence_penalty" \
+    '{prompt: $prompt, temperature: $temperature, max_tokens: $max_tokens, presence_penalty: $presence_penalty}')
+
+# Send the API request and store the response
 response=$(curl -s -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $openai_api_key" \
-  -d "{\"prompt\": \"$openai_prompt\", \"temperature\": $openai_temperature, \"max_tokens\": $openai_max_tokens, \"presence_penalty\": $openai_presence_penalty}" \
-  https://api.openai.com/v1/engines/$openai_model_engine/completions) 
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $API_KEY" \
+    -d "$data" \
+    "https://api.openai.com/v1/engines/$model_engine/completions")
 
-echo -e $(echo "$response" | grep -Po '"choices":\[\K[^\]]*' | awk -F '{' '{print $2}' | awk -F '"' '{print $4}')
+# Extract the choice from the response and print it
+echo  "$response" | jq -r '.choices[0].text'
