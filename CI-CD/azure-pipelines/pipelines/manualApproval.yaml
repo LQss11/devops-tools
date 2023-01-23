@@ -2,34 +2,15 @@ pool:
    vmImage: ubuntu-latest
 
 jobs:
-- job: exampleTests
-  displayName: initializing steps...
-  pool: "Azure Pipelines"    
-  steps:   
-  - task: Bash@3
-    displayName: "terraform init"  
-    inputs:
-      targetType: 'inline'
-      script: |
-        echo terraform init
-  - task: Bash@3
-    displayName: "terraform plan"  
-    inputs:
-      targetType: 'inline'
-      script: |
-        echo terraform plan
-
 - job: waitForValidation
   displayName: Wait for external validation  
-  pool: "server"    
-  timeoutInMinutes: 60 # Wait 60 minutes to validate 
+  pool: server    
+  timeoutInMinutes: 4320 # job times out in 3 days
   steps:   
-    - task: ManualValidation@0
-      inputs:
-          notifyUsers: |
+   - task: ManualValidation@0
+     timeoutInMinutes: 1440 # task times out in 1 day
+     inputs:
+         notifyUsers: |
             someone@example.com
-          instructions: 'Please validate the build configuration and resume'
-          onTimeout: 'resume'
-    - task: CmdLine@2
-      inputs: 
-        script: echo terraform apply
+         instructions: 'Please validate the build configuration and resume'
+         onTimeout: 'resume'
