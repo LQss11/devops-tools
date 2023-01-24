@@ -1,0 +1,18 @@
+steps:
+  - task: DownloadBuildArtifacts@1
+    inputs:
+      buildType: 'specific'
+      project: $(System.TeamProject)
+      # Make sure this is the azure devops pipeline name for packaging
+      pipeline: "package-publish"
+      buildVersionToDownload: 'latestFromBranch'
+      branchName: '$(Build.SourceBranch)'
+      downloadType: 'specific'
+      downloadPath: '$(System.ArtifactsDirectory)'
+  # Verify data
+  - task: Bash@3
+    displayName: "test"  
+    inputs:
+      targetType: 'inline'
+      workingDirectory: '$(System.ArtifactsDirectory)/drop'
+      script: 'pwd && ls -laht'          
