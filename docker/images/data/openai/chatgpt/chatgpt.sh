@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # API_KEY="YOURTOKEN" ./docker/images/data/openai/chatgpt/chatgpt.sh "hello"
-# curl -s https://raw.githubusercontent.com/LQss11/devops-tools/main/docker/images/data/openai/chatgpt/chatgpt.sh | API_KEY="YOURTOKEN" bash
-
+# API_KEY="YOURTOKEN" bash <(curl -s https://raw.githubusercontent.com/LQss11/devops-tools/main/docker/images/data/openai/chatgpt/chatgpt.sh)
 #!/bin/bash
 
 # Set the OpenAI API key
