@@ -1,0 +1,20 @@
+branches:
+  include:
+    - master
+paths:
+  include:
+    - dir/subdir/*
+steps:
+  - task: CopyFiles@2
+    displayName: "Copy files"  
+    inputs:
+      SourceFolder: 'dir/subdir'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish package"  
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'    
