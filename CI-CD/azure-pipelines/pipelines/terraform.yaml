@@ -47,7 +47,7 @@ stages:
   condition: succeeded()
   jobs: 
   - deployment: validate
-    environment: $(environmentName)
+    environment: ${{ environmentName }}
     pool: server
     strategy:
       runOnce:
