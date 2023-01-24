@@ -5,6 +5,7 @@ paths:
   include:
     - dir/subdir/*
 steps:
+# You can use .artifactignore file to ignore specific files like using gitignore
   - task: CopyFiles@2
     displayName: "Copy files"  
     inputs:
