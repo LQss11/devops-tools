@@ -1,16 +1,91 @@
-pool: 
-   vmImage: ubuntu-latest
+trigger:
+  - master
 
-jobs:
-- job: waitForValidation
-  displayName: Wait for external validation  
-  pool: server    
-  timeoutInMinutes: 4320 # job times out in 3 days
-  steps:   
-   - task: ManualValidation@0
-     timeoutInMinutes: 1440 # task times out in 1 day
-     inputs:
-         notifyUsers: |
-            someone@example.com
-         instructions: 'Please validate the build configuration and resume'
-         onTimeout: 'resume'
+
+# example variables 
+# (Pipeline.Workspace) (Build.BuildId)
+variables:
+  vmImageName: 'ubuntu-latest'
+parameters:
+  - name: environmentName
+    type: string
+    default: dev
+    values:
+      - dev
+      - prod
+stages: 
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: "Init_Job"
+    pool: 
+      vmImage: $(vmImageName)
+    steps:
+    - task: Bash@3
+      displayName: "execute some script 1"  
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo Init 1
+    - task: Bash@3
+      displayName: "execute some script 2"  
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo Init 2
+
+- stage: Validation
+  displayName: ManualValidation
+  dependsOn: Build
+  condition: succeeded()
+  jobs: 
+  - deployment: validate
+    environment: $(environmentName)
+    pool: server
+    strategy:
+      runOnce:
+        deploy: 
+          steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440 # task times out in 1 day
+            inputs:
+              notifyUsers: |
+                test@test.com
+                example@example.com
+              instructions: 'Please validate the build configuration and resume'
+              onTimeout: 'reject'
+  - deployment: DeploymentJob
+    environment: $(environmentName)
+    dependsOn: validate
+    pool: 
+      vmImage: $(vmImageName)          
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: Bash@3
+              displayName: "Get env"  
+              inputs:
+                targetType: 'inline'
+                script: |
+                  echo "environment name is ${{ parameters.environmentName }} "  
+- stage: Cleanup
+  displayName: Cleanup stage
+  dependsOn: Validation
+  jobs:
+  - job: "test_cleanup"
+    pool: 
+      vmImage: $(vmImageName)
+    steps:
+    - task: Bash@3
+      displayName: "Get env"  
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "environment name is $(environmentName)"  
+    - task: Bash@3
+      displayName: "execute some script 2"  
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo Init 2
