@@ -1,0 +1,23 @@
+# If else
+  - ${{ if eq(parameters.example, true) }}:
+    - task: Bash@3
+      inputs:
+        targetType: "inline"
+        script: echo "${{ parameters.example }} is true
+  - ${{ if eq(parameters.example, false) }}:
+    - task: Bash@3
+      inputs:
+        targetType: "inline"
+        script: echo "${{ parameters.example }} is false
+
+# Condition option
+  - task: Bash@3
+    condition: eq(${{ parameters.example }}, true)
+    inputs:
+      targetType: "inline"
+      script: echo "${{ parameters.example }} is true
+  - task: Bash@3
+    condition: eq(${{ parameters.example }}, false)
+    inputs:
+      targetType: "inline"
+      script: echo "${{ parameters.example }} is false
