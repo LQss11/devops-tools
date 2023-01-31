@@ -9,7 +9,7 @@ trigger:
       - master
   paths:
     include:
-      - $(path)
+      - $(path)/*
 variables:
     path: terraform
 
