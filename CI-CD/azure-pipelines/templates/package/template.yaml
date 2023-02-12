@@ -1,0 +1,15 @@
+steps:
+  # Copy files
+  - task: CopyFiles@2
+    displayName: "Copy terraform artifacts"  
+    inputs:
+      SourceFolder: $(path)
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  # Publish artifacts
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish terraform artifacts"  
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'terraform'
+      publishLocation: 'Container'    

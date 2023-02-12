@@ -1,0 +1,21 @@
+branches:
+  include:
+    - master
+paths:
+  include:
+    - dir/subdir/*
+steps:
+# You can use .artifactignore file to ignore specific files like using gitignore
+  - task: CopyFiles@2
+    displayName: "Copy files"  
+    inputs:
+      SourceFolder: 'dir/subdir'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish package"  
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'    

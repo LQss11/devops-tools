@@ -1,0 +1,25 @@
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: pipelines-templates/pipelines-templates
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - $(path)/*
+variables:
+    path: terraform
+
+stages:
+  - stage: Publish
+    jobs:
+      ##############################
+      # Build and Publish Artifact #
+      ##############################
+      - job: Publish_Artifact
+        displayName: Build and Publish terraform artifact
+        steps:
+          - template: publish-artifact.yaml@templates

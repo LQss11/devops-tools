@@ -1,0 +1,90 @@
+# Template parameters
+parameters:
+  - name: apply
+    displayName: plan=false | apply=true (default false)
+    type: boolean
+    default: false
+  - name: path
+    displayName: Path to the terraform files in Artifact (default /)
+    type: string
+    default: /
+  - name: pipeline
+    displayName: The package pipeline name
+    type: string
+    default: package
+  - name: environment
+    displayName: "Target environment"
+    type: string
+    default: dev
+    values:
+      - dev
+      - uat
+      - prod
+# Template steps
+steps:
+  # Download Artifact
+  - task: DownloadBuildArtifacts@1
+    inputs:
+      buildType: "specific"
+      project: $(System.TeamProject)
+      # Make sure this is the azure devops pipeline name for packaging
+      pipeline: ${{ parameters.pipeline }}
+      buildVersionToDownload: "latestFromBranch"
+      branchName: "$(Build.SourceBranch)"
+      downloadType: "specific"
+      downloadPath: "$(System.ArtifactsDirectory)"
+  # Print artifact content
+  - task: Bash@3
+    displayName: "${{ parameters.path }} content tree"
+    inputs:
+      targetType: "inline"
+      workingDirectory: "$(System.ArtifactsDirectory)/${{ parameters.path }}"
+      script: find . -print | sed -e 's;[^/]*/;|--;g;s;--|;  |;g'
+  # Replace tokens
+  - task: replacetokens@5
+    displayName: Replace tokens by pipeline variables
+    inputs:
+      rootDirectory: "$(System.ArtifactsDirectory)/${{ parameters.path }}"
+      targetFiles: "**/*.tf"
+      encoding: "auto"
+      # Variables format "#{example}#"
+      tokenPattern: "default"
+      writeBOM: true
+      verbosity: "detailed"
+      actionOnMissing: "warn"
+      keepToken: false
+      actionOnNoFiles: "warn"
+      enableTransforms: false
+      enableRecursion: false
+      useLegacyPattern: false
+      enableTelemetry: true
+  # Terraform init
+  - task: TerraformTaskV3@3
+    displayName: terraform init
+    inputs:
+      provider: "azurerm"
+      command: "init"
+      workingDirectory: "$(System.ArtifactsDirectory)/${{ parameters.path }}"
+      # State variables
+      backendServiceArm: "$(subscription_id)"
+      backendAzureRmResourceGroupName: "$(resource_group_name)"
+      backendAzureRmStorageAccountName: "$(storage_account_name)"
+      backendAzureRmContainerName: "$(container_name)"
+      backendAzureRmKey: "$(key).tfstate"
+  # Terraform plan/apply
+  - ${{ if eq(parameters.apply, true) }}:
+      - task: TerraformTaskV3@3
+        displayName: terraform apply
+        inputs:
+          provider: "azurerm"
+          command: "apply"
+          workingDirectory: "$(System.ArtifactsDirectory)/${{ parameters.path }}"
+          environmentServiceNameAzureRM: "$(subscription_id)"
+  - ${{ if eq(parameters.apply, false) }}:
+      - task: TerraformTaskV3@3
+        displayName: terraform plan
+        inputs:
+          provider: "azurerm"
+          command: "plan"
+          workingDirectory: "$(System.ArtifactsDirectory)/${{ parameters.path }}"
+          environmentServiceNameAzureRM: "$(subscription_id)"

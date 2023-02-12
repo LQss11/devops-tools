@@ -13,20 +13,16 @@ stages:
 - stage: Build
   displayName: Build stage
   jobs:
-  - job: Build job
+  - job: Build_job
     pool: 
       vmImage: $(vmImageName)
     steps:
     - task: Bash@3
-      displayName: execute some script 1
-    - script: | 
-        echo BUILD 1
-      workingDirectory: $(projectRoot)
-    - task: Bash@3
-      displayName: execute some script 2
-    - script: | 
-        echo BUILD 2
-      workingDirectory: $(projectRoot)      
+      displayName: "execute some script 1"  
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo Init 1
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
@@ -43,6 +39,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : appname'
             inputs:
+              appType: webApp
               azureSubscription: $(azureServiceConnectionId)
               appName: appname
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip

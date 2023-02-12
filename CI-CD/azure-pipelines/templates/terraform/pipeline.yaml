@@ -1,0 +1,76 @@
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: pipelines-templates/pipelines-templates
+trigger: none
+parameters:
+  - name: environment
+    displayName: "Target environment"
+    type: string
+    default: dev
+    values:
+      - dev
+      - uat
+      - prod
+  - name: path
+    displayName: "Terraform files path in Artifact"
+    type: string
+    default: terraform
+variables:
+  - name: environment
+    value: ${{ parameters.environment }}
+  - group: state-backend
+
+stages:
+  - stage: Terraform_${{ parameters.environment }}
+    jobs:
+      ########
+      # PLAN #
+      ########
+      - job: plan
+        displayName: terraform plan
+        steps:
+          # Install terraform
+          - task: TerraformInstaller@0
+            displayName: Install terraform
+            inputs:
+              terraformVersion: "latest"
+          # Terraform install/init/plan/apply
+          - template: terraform-template.yaml@templates
+            parameters:
+              apply: false
+              pipeline: package
+              path: ${{ parameters.path }}
+      #####################
+      # Manual Validation #
+      #####################
+      - job: ManualValidation
+        displayName: ManualValidation of execution
+        dependsOn: plan
+        pool: server
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 60 # task times out in 1 hour
+            inputs:
+              notifyUsers: |
+                test@test.com
+              instructions: "Please validate the build configuration and resume (rejected on timeout)"
+              onTimeout: "reject"
+      #########
+      # Apply #
+      #########
+      - deployment: Apply
+        displayName: terraform apply
+        environment: ${{ parameters.environment }}
+        dependsOn: ManualValidation
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # Terraform install/init/plan/apply
+                - template: terraform-template.yaml@templates
+                  parameters:
+                    apply: true
+                    pipeline: package
+                    path: ${{ parameters.path }}
