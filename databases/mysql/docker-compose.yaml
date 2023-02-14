@@ -13,13 +13,13 @@ services:
       - mysql
     # ports:
     #   - '3306:3306'   
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8888:8080
-    networks:
-      - mysql
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8888:8080
+  #   networks:
+  #     - mysql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
