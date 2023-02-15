@@ -45,7 +45,7 @@ resource "aws_security_group" "main-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description        = "allow-all-ssh"
+    description = "allow-all-ssh"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
