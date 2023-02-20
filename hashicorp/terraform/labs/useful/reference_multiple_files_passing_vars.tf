@@ -5,3 +5,5 @@ resource "aws_athena_named_query" "foo" {
   database  = aws_athena_database.main.name
   query     = templatefile("${path.module}/scripts/${each.key}", { bucket_name = var.bucket_name })
 }
+# Reference  in file
+# ${bucket_name}
