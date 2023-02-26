@@ -1,0 +1,23 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    # Access mode - proxy (server in the UI) or direct (browser in the UI).
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST
+      tlsSkipVerify: true
+  - name: Jmeter
+    type: influxdb
+    access: proxy
+    url: http://${INFLUX_SERVICE_NAME}:${INFLUX_SERVICE_PORT}
+    # This database should be mapped to a bucket
+    database: jmeter
+    jsonData:
+      httpMode: GET
+      httpHeaderName1: "Authorization"
+    secureJsonData:
+      httpHeaderValue1: "Token mytoken"
