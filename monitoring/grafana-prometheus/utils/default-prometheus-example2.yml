@@ -1,0 +1,51 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'my-app'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['my-app:80']
+  - job_name: 'nginx113'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+  - job_name: 'nginx'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['my-app:8080']
+    metrics_path: /nginx_metrics
+    params:
+      module: ['http_stub_status_module']
+
+  - job_name: 'nginx-logs'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['my-app:8080']
+    metrics_path: /nginx_metrics
+    params:
+      module: ['http_stub_status_module']
+    scheme: http
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: "my-app:8080"
+  - job_name: 'nginx-status'
+    scrape_interval: 5s
+    metrics_path: /nginx_status
+    static_configs:
+      - targets: ['my-app:8080']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: instance
+        replacement: nginx
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "^(.*)"
+        target_label: __name__
+        replacement: "nginx_$1"
