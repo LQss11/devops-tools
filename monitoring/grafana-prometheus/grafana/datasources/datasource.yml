@@ -1,26 +1,12 @@
 apiVersion: 1
 
 datasources:
-- name: 'prometheus'
-  orgId: 1
-  type: 'prometheus'
-  url: 'http://prometheus:9090'
-  access: 'proxy'
-  isDefault: true
-  editable: true
-  jsonData:
-    timeInterval: '5s'
-    httpMethod: 'POST'
-    tlsSkipVerify: true
-  secureJsonData:
-    basicAuthPassword: ''
-    basicAuthUser: ''
-    bearerToken: ''
-    tlsAuth: null
-  version: 1
-  meta:
-    defaultDatasource: true
-    created: '2023-02-25T00:00:00Z'
-    updated: '2023-02-25T00:00:00Z'
-    createdBy: 'admin'
-    updatedBy: 'admin'
+  - name: Prometheus
+    type: prometheus
+    # Access mode - proxy (server in the UI) or direct (browser in the UI).
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST
+      tlsSkipVerify: true
