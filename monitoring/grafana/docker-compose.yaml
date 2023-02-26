@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config/provisioning:/etc/grafana/provisioning
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=adminadmin123
+      - GF_SECURITY_ADMIN_USER=admin
+      # Could replace the datasource urls through variables
+      - INFLUX_SERVICE_NAME=influx
+      - INFLUX_SERVICE_PORT=8086
+volumes:
+  grafana-data:
