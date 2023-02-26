@@ -29,6 +29,24 @@ services:
     networks:
       - prometheus-net
 
+  my-app:
+    image: nginx:latest
+    container_name: my-app
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - prometheus-net
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.10.0
+    container_name: nginx-exporter
+    ports:
+      - "9113:9113"
+    command:
+      -nginx.scrape-uri=http://host.docker.internal:8080/metrics -web.telemetry-path=/metrics
+    depends_on:
+      - my-app
 volumes:
   grafana-data:
 
