@@ -47,6 +47,8 @@ services:
       -nginx.scrape-uri=http://host.docker.internal:8080/metrics -web.telemetry-path=/metrics
     depends_on:
       - my-app
+    networks:
+      - prometheus-net      
 volumes:
   grafana-data:
 
