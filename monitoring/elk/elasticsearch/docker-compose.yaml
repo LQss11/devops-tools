@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+    elasticsearch:
+      container_name: elasticsearch
+      image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+      environment:
+        ES_JAVA_OPTS: "-Xmx${ELASTICSEARCH_MEM_LIM} -Xms${ELASTICSEARCH_MEM_LIM}"
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      volumes:
+        - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        - elasticsearch:/usr/share/elasticsearch/data
+      networks:
+        - elk
+volumes:
+  elasticsearch:
+networks:
+  elk:
