@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+    apm-server:
+      container_name: apm-server
+      image: docker.elastic.co/apm/apm-server:${ELK_VERSION}
+      command: apm-server -c /usr/share/apm/config/apm-server.yml -e
+      ports:
+        - 8200:8200
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}      
+        APM_SECRET_KEY: ${APM_SECRET_KEY}  
+      volumes:
+        - ./config/apm-server.yml:/usr/share/apm/config/apm-server.yml:ro
+      networks:
+        - elk
+networks:
+  elk:

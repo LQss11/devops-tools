@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+     # Collecting and querying data with the powerful elk search engine 
+    elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+      volumes:
+        - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        - elasticsearch:/usr/share/elasticsearch/data
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      environment:
+        ES_JAVA_OPTS: "-Xmx${ELASTICSEARCH_MEM_LIM} -Xms${ELASTICSEARCH_MEM_LIM}"
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      networks:
+        - elastic
+
+    # create powerful visualizations with kibana
+    kibana:
+      image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+      volumes:
+        - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      ports:
+        - "5601:5601"
+      networks:
+        - elastic
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      depends_on:
+        - elasticsearch
+    apm-server:
+      container_name: apm-server
+      image: docker.elastic.co/apm/apm-server:${ELK_VERSION}
+      ports:
+        - 8200:8200
+      volumes:
+        - ./apm/config/apm-server.yml:/usr/share/apm/config/apm-server.yml:ro
+      command: apm-server -c /usr/share/apm/config/apm-server.yml -e
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}      
+        APM_SECRET_KEY: ${APM_SECRET_KEY}  
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearch
+    # shipping data into elasticsearch with logstash
+    logstash:
+      image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+      command: logstash -f /usr/share/logstash/logstash.conf
+      container_name: logstash
+      environment:
+      # Config can be added under logstash/config/logstash.yml
+      # https://www.elastic.co/guide/en/logstash/current/monitoring-internal-collection-legacy.html
+        XPACK_MONITORING_ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
+        XPACK_MONITORING_ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}   
+        XPACK_MONITORING_ENABLED: "true"
+        XPACK_MONITORING_ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      volumes:
+        - ./logstash/logstash.conf:/usr/share/logstash/logstash.conf
+      ports:
+       - "5043:5043"
+       - "5044:5044"
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearch
+volumes:
+  elasticsearch:
+networks:
+  elastic:
+    driver: bridge
