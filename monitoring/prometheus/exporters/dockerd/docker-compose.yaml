@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - prometheus-net      
+  dockerd-exporter:
+    image: prom/dockerd-exporter
+    container_name: dockerd-exporter
+    command:
+      - --metrics-bind-address=0.0.0.0:9323
+      - --docker.endpoint=unix:///var/run/docker.sock
+    ports:
+      - 9323:9323
+    networks:
+      - prometheus-net      
+networks:
+  prometheus-net:
