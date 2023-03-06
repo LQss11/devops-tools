@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+    # create powerful visualizations with kibana
+    kibana:
+      container_name: kibana
+      image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
+      ports:
+        - "5601:5601"
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      volumes:
+        - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+        - ./saved_objects:/usr/share/kibana/saved_objects:ro
+      networks:
+        - elk
+networks:
+  elk:
