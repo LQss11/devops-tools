@@ -1,0 +1,2 @@
+#!/bin/bash
+curl  -u ${ELASTIC_USERNAME}:${ELASTIC_PASSWORD} 'http://localhost:5601/api/saved_objects/_import?overwrite=true' -H "kbn-xsrf: true" --form file=@/usr/share/kibana/saved_objects/export.ndjson
