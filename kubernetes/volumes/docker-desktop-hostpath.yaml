@@ -27,3 +27,6 @@ spec:
         - name: workdir
           hostPath:
             path: /
+
+# kubectl apply -f .
+# kubectl exec -it deploy/alpine -- sh 
