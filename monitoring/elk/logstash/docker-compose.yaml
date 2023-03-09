@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+    logstash:
+      container_name: logstash
+      image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
+      command: logstash -f /usr/share/logstash/logstash.conf
+      ports:
+       - "5043:5043"
+       - "5044:5044"
+      environment:
+      # Config can be added under /usr/share/logstash/config/logstash.yml inside the container
+      # https://www.elastic.co/guide/en/logstash/current/monitoring-internal-collection-legacy.html
+        XPACK_MONITORING_ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
+        XPACK_MONITORING_ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}   
+        XPACK_MONITORING_ENABLED: "true"
+        XPACK_MONITORING_ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      volumes:
+        - ./config/logstash.conf:/usr/share/logstash/logstash.conf
+      networks:
+        - elk
+networks:
+  elk:
