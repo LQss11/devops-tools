@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Visit this url to generate your token https://platform.openai.com/docs/quickstart/add-your-api-key
 # API_KEY="YOURTOKEN" ./docker/images/data/openai/chatgpt/chatgpt.sh "hello"
 # API_KEY="YOURTOKEN" bash <(curl -s https://raw.githubusercontent.com/LQss11/devops-tools/main/docker/images/data/openai/chatgpt/chatgpt.sh)
 #!/bin/bash
