@@ -21,11 +21,13 @@ Now you can get logs of all pods from a specific pod:
 # Get the API Server location (from host)
 kubectl -n default get endpoints kubernetes
 # Execute commands inside pod
+kubectl create deployment nginx --image nginx:alpine
 kubectl exec -it deployment/nginx -- sh
 # Execute the following commands and make sure you pass the right apiserver url
 apk add jq && \
 APISERVER=https://192.168.65.4:6443 && \
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+kubectl delete deploy/nginx
 ```
 ```sh
 # Get all pods names
