@@ -29,7 +29,7 @@ traverse_dir() {
       fi
       # Remove the directory path prefix from the file path
       file_path="${file#"$dir_path"/}"
-      echo "$file_path" >> "$output_file"
+      echo "### $file_path ###" >> "$output_file"
       cat "$file" >> "$output_file"
       echo -e "\n" >> "$output_file"
     fi
