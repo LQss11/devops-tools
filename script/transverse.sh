@@ -27,7 +27,9 @@ traverse_dir() {
       if [[ " ${exclude_ext[@]} " =~ " $ext " ]]; then
         continue
       fi
-      echo "$file" >> "$output_file"
+      # Remove the directory path prefix from the file path
+      file_path="${file#"$dir_path"/}"
+      echo "$file_path" >> "$output_file"
       cat "$file" >> "$output_file"
       echo -e "\n" >> "$output_file"
     fi
