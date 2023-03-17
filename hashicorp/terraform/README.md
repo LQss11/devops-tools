@@ -72,3 +72,8 @@ export TF_LOG_PATH=""
 setx TF_LOG="TRACE"
 setx TF_LOG_PATH="terraform_log.txt"
 ```
+
+# MISC
+```sh
+terraform force-unlock f18eafa-ffz3-b390-a112-a374321qz4a5
+```
