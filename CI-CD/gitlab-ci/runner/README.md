@@ -12,7 +12,7 @@ In case of a docker container simply run:
 ```sh
 # Generate config
 docker-compose -f ./generate-config.yaml up -d
-docker exec -it gitlab-runner bash -c "rm -rf /etc/gitlab-runner/config.toml && gitlab-runner register && rm -rf /etc/gitlab-runner/.runner_system_id"
+docker exec -it gitlab-runner bash -c "rm -rf /etc/gitlab-runner/config.toml && gitlab-runner register"
 docker-compose -f ./generate-config.yaml down
 
 # Start runner
