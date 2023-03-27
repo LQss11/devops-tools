@@ -1,0 +1,3 @@
+include:
+  - project: 'group/project-name'
+    file: '/templates/.gitlab-ci-template.yml'
