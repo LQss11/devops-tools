@@ -7,5 +7,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/config.toml:/etc/gitlab-runner/config.toml
-      - ./certs:/etc/gitlab-runner/certs
+      - ./config/certs:/etc/gitlab-runner/certs
     restart: always
