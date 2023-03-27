@@ -1,0 +1,6 @@
+# Prefilled variables
+# https://about.gitlab.com/blog/2020/12/02/pre-filled-variables-feature/
+variables:
+ TEST:
+   value: "test" # this would be the default value
+   description: "This variable is for test" # makes this variable appear on the Run Pipeline form
