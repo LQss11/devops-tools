@@ -18,11 +18,16 @@ pipeline {
                 }
                 echo '### Building repo/image:' + env.TAG + ' Image ###'
                 sh 'docker build -t ${REGISTRY}repo/image:${TAG} .'
-                sh "echo This is another ${TAG} message double quote is ok." 
+                sh "echo This is another ${TAG} message double quote is ok."
                 sh '''
                 VARX=$(ls)
                 echo $VARX
                 '''
+                AAA_VARIABLE = sh(
+                    script: 'echo aaa',
+                    returnStdout: true
+                ).trim()
+                echo "Random command output variable: ${AAA_VARIABLE}"
             }
         }
     }
