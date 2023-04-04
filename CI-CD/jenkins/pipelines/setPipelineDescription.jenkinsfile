@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+    stages {
+        stage('Stage') {
+            steps {
+                sh 'test'
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                // Set last successful build id
+                LAST_SUCCESSFUL_BUILD_TEXT = ''
+                LAST_SUCCESSFUL_BUILD_ID = sh(
+                    script: "curl -s ${JENKINS_URL}/job/${JOB_NAME}/lastSuccessfulBuild/api/json?tree=id | jq -r .id",
+                    returnStdout: true
+                ).trim()
+                // Set EMOJI for build STATE
+                if (currentBuild.currentResult == 'SUCCESS') {
+                    env.STATE_EMOJI = '✔️'
+                } else {
+                    env.STATE_EMOJI = '❌'
+                    LAST_SUCCESSFUL_BUILD_TEXT = sh(
+                        script: "echo '✔️ last Successful Build:<a href='/job/${JOB_NAME}/${LAST_SUCCESSFUL_BUILD_ID}/console'><b>${LAST_SUCCESSFUL_BUILD_ID}</b></a><br/>'",
+                        returnStdout: true
+                    ).trim()
+                }
+                // Update Job Description
+                sh """
+                curl '${JENKINS_URL}/job/${JOB_NAME}/description' \
+                -u '${USERNAME}:${TOKEN}' \
+                -X POST \
+                --data-urlencode 'description=
+                <hr>
+                    <h1>
+                        ${STATE_EMOJI} Pipeline Build
+                        <a href='/job/${JOB_NAME}/${BUILD_NUMBER}/console'>
+                            <b>${BUILD_NUMBER}</b>
+                        </a>${currentBuild.currentResult}<br/>
+                        ${LAST_SUCCESSFUL_BUILD_TEXT}
+                    </h1>
+                <hr>
+
+                <h2>App Info:</h2>
+                <ul>
+                    <li><b>TEST=</b>${VAR1}</b></li>
+                </ul>
+                <h2>Git Configuration:</h2>
+                <ul>
+                    <li><b>Git URL=</b>${GIT_URL}</b></li>
+                    <li><b>Git Branch=</b>${GIT_BRANCH}</b></li>
+                    <li><b>Git Build Commit ID=</b>${GIT_COMMIT}</b></li>
+                </ul>
+
+                '
+                """
+            }
+        }
+    }
+}
