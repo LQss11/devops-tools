@@ -25,6 +25,14 @@ $env:KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
 KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
 ```
 For authentication you can use the following:
-```
+
+```sh
+# Open apiserver port
+kubectl patch service/kubernetes -p '{"spec": {"type": "NodePort"}}'
+kubectl get service/kubernetes -o jsonpath='{.spec.ports[0].nodePort}'
+# Update apiserver clusters.cluster.server with your ip and service/kubernetes apiserver nodeport in kubeconfig or run the following command:
+kubectl --server=<https://ip>:<service/kubernetes nodeport> get all --client-certificate=client.crt --client-key=client.key --insecure-skip-tls-verify=true
+# Using kubectl proxy 
+kubectl proxy --port=8888
 kubectl --server=localhost:8888 --certificate-authority=ca.crt --client-certificate=client.crt --client-key=client.key get all
 ```
