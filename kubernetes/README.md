@@ -24,3 +24,7 @@ $env:KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
 # Linux
 KUBE_EDITOR="code -w"; kubectl edit -n default service/kubernetes
 ```
+For authentication you can use the following:
+```
+kubectl --server=localhost:8888 --certificate-authority=ca.crt --client-certificate=client.crt --client-key=client.key get all
+```
