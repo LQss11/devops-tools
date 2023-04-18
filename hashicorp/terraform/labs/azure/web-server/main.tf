@@ -40,7 +40,28 @@ resource "azurerm_public_ip" "test" {
     environment = "test"
   }
 }
+# Allow ports using security group
+resource "azurerm_network_security_group" "example" {
+  name                = "acceptanceTestSecurityGroup1"
+  location            = azurerm_resource_group.test.location
+  resource_group_name = azurerm_resource_group.test.name
 
+  security_rule {
+    name                       = "ALLOWPORT"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9000"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+resource "azurerm_subnet_network_security_group_association" "example" {
+  subnet_id                 = azurerm_subnet.test.id
+  network_security_group_id = azurerm_network_security_group.example.id
+}
 # Create network interface
 resource "azurerm_network_interface" "test" {
   name                = "test-nic"
@@ -59,7 +80,7 @@ resource "azurerm_virtual_machine" "main" {
   name                = "test-vm"
   resource_group_name = azurerm_resource_group.test.name
   location            = "East US"
-  vm_size                = "Standard_B1ls"
+  vm_size             = "Standard_B1ls"
 
   network_interface_ids = [azurerm_network_interface.test.id]
 
@@ -95,3 +116,31 @@ resource "azurerm_virtual_machine" "main" {
     environment = "staging"
   }
 }
+# post Execute command
+resource "azurerm_virtual_machine_extension" "example" {
+  name                 = "hostname"
+  virtual_machine_id   = azurerm_virtual_machine.main.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+  settings             = <<SETTINGS
+ {
+  "commandToExecute": "sudo rm -rf /tmp && sudo git clone https://github.com/hashicorp/demo-terraform-101 /tmp && sudo sh /tmp/assets/setup-web.sh"
+ }
+SETTINGS  
+}
+
+
+
+# Create a DNS zone
+# resource "azurerm_dns_zone" "example" {
+#   name                = "mytestpip2023.com"
+#   resource_group_name = azurerm_resource_group.test.name
+# }
+# resource "azurerm_dns_a_record" "example" {
+#   name                = "example"
+#   zone_name           = azurerm_dns_zone.example.name
+#   resource_group_name = azurerm_resource_group.test.name
+#   ttl                 = 300
+#   records             = [azurerm_public_ip.test.ip_address]
+# }
