@@ -1,0 +1,19 @@
+
+pipeline {
+    agent any
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo "Check if param is set then check if it's true or false...."
+                if (env.VAR) {
+                    if (VAR == true) {
+                        echo "Variable VAR is true"
+                    } else {
+                        echo "Variable VAR is false"
+                    }
+                }
+            }
+        }
+    }
+}
+
