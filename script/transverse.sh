@@ -1,5 +1,11 @@
 #!/bin/bash
-
+## 
+# This file can be used to run through 
+# each directory and subdirectories of a project 
+# and print their content in a single file
+# This can be useful for small projects
+# that needs to be analyzed with chatgpt
+## 
 # Define the array of file extensions to exclude
 exclude_ext=( "png" "jpg" "mp3" "mp4" "md" )
 
