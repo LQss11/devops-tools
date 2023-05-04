@@ -2,4 +2,4 @@
 ##
 # This script print a directory tree of a project
 ##
-find . -print | sed -e 's;[^/]*/;|--;g;s;--|;  |;g
+find . -print | sed -e 's;[^/]*/;|--;g;s;--|;  |;g'
