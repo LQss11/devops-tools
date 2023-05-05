@@ -1,7 +1,7 @@
 #!/bin/sh
 # There are multiple alogorithms but the most used are
-# md5 and sha216 sha512
-ALGORITHM="md5sum"
+# md5sum and sha216sum sha512sum
+ALGORITHM="sha512sum"
 
 # In case you want to use sha (256/512) alogirthm
 # apt-get update && apt install -y hashalot # Linux
