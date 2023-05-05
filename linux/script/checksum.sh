@@ -1,11 +1,11 @@
 #!/bin/sh
 # There are multiple alogorithms but the most used are
 # md5sum and sha216sum sha512sum
-ALGORITHM="sha512sum"
-
 # In case you want to use sha (256/512) alogirthm
 # apt-get update && apt install -y hashalot # Linux
 # apk update && apk add coreutils # Alpine
+ALGORITHM="sha512sum"
+
 $ALGORITHM $1 | awk '{print $1}' > /tmp/temp1.sha512
 $ALGORITHM $2 | awk '{print $1}' > /tmp/temp2.sha512
 # You can either use cmp or diff to compare 2 files
