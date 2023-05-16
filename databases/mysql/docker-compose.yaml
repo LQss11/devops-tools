@@ -11,8 +11,8 @@ services:
       - MYSQL_DATABASE=mydb #Initial database
     networks:
       - mysql
-    # ports:
-    #   - '3306:3306'   
+    ports:
+      - '3306:3306'   
   # adminer:
   #   image: adminer
   #   restart: always
