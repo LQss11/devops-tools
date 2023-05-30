@@ -1,6 +1,4 @@
 version: '2'
-
-
 services:
     mongodb:
       image: mongo:latest
@@ -20,3 +18,5 @@ services:
         - mongodb_net
       ports:
         - 3300:3000
+networks:
+  mongodb_net:
