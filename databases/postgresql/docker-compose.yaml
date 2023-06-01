@@ -5,7 +5,9 @@ services:
     container_name: postgresql
     restart: always
     environment:
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+      POSTGRES_DB: initdatabase
     volumes:
       - postgresql-storage:/var/lib/postgresql/data
     networks:
