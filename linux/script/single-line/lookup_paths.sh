@@ -1,0 +1,1 @@
+find . -name "*something/path*" 2>/dev/null
