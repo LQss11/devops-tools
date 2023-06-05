@@ -1,0 +1,44 @@
+version: '3.8'
+volumes:
+  jenkins:
+services:
+  jenkins:
+    build: 
+      context: ../../
+      dockerfile: /infrastructure/docker/Dockerfile
+      args:
+# Kubeconfig      
+        - |
+          KUBECONFIG_FILE=apiVersion: v1
+          clusters:
+          - cluster:
+              certificate-authority-data: <cert>
+              server: https://kubernetes.docker.internal:6443
+            name: docker-desktop
+          contexts:
+          - context:
+              cluster: docker-desktop
+              user: docker-desktop
+            name: docker-desktop
+          current-context: docker-desktop
+          kind: Config
+          preferences: {}
+          users:
+          - name: docker-desktop
+            user:
+              client-certificate-data: <cert>
+              client-key-data: <key>
+
+# Private ssh key      
+        - |
+          SSH_PRIVATE_KEY=-----BEGIN OPENSSH PRIVATE KEY-----
+          yoursshkeyher
+          -----END OPENSSH PRIVATE KEY-----
+
+    container_name: jenkins
+    volumes:
+      - jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker       
+    ports:
+      - 8080:8080
