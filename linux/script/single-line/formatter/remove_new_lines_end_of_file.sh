@@ -1,0 +1,1 @@
+sed -i -e :a -e '/^\n*$/{$d;N;};/\n$/ba' file/path
