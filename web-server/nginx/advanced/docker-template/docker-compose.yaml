@@ -1,0 +1,16 @@
+version: "3.8"
+networks:
+  # This network can be used to allow connection between multiple containers
+  net:
+    name: net
+services:
+  nginx:
+    image: nginx:latest
+    container_name: web-server
+    # You can comment the next two lines since nginx container already has the same conf
+    volumes:
+      - "../configs/default.conf:/etc/nginx/nginx.conf"
+    ports:
+      - '3000:80' 
+    networks:
+      - net
