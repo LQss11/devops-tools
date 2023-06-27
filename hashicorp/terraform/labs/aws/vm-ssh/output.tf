@@ -1,3 +1,3 @@
-output "ssh_commands" {
-  value = module.instance.ssh_commands
+output "info" {
+  value = module.instance.info
 }

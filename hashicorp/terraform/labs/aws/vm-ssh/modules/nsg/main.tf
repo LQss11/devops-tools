@@ -1,6 +1,6 @@
 resource "aws_security_group" "root" {
   for_each    = var.ports
-  name        = "nsg-${each.key}"
+  name        = "nsg-${each.key}-${each.value}"
   description = "Allow ${each.key} access"
 
   ingress {
