@@ -1,0 +1,30 @@
+---
+- name: Install apache2 server
+  hosts: myawsinstance1  # Replace with the actual hostname or IP address of your target host
+  become: true
+  vars:
+    packages:
+      - apache2
+      - nano
+      - vim
+  tasks:
+    - name: Update all packages
+      package:
+        name: "*"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install packages
+      loop: "{{ packages }}"
+      apt:
+        name: "{{ item }}"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+   
+    - name: Remove packages
+      loop: "{{ packages }}"
+      apt:
+        name: "{{ item }}"
+        state: absent
+      when: ansible_distribution == 'Ubuntu'
+
