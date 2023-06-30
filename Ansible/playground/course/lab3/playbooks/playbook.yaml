@@ -1,0 +1,26 @@
+---
+- name: Install apache2 server
+  hosts: myawsinstance1  # Replace with the actual hostname or IP address of your target host
+  become: true
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu'  # Use 'yum' instead of 'apt' for CentOS or RHEL
+
+    - name: Install apache2 package
+      apt:
+        name: apache2
+        state: present
+      when: ansible_distribution == 'Ubuntu'  # Use 'name: apache2' instead of 'name: apache2' for CentOS or RHEL
+    - name: Restart apache2 package
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == 'Ubuntu'  # Use 'name: apache2' instead of 'name: apache2' for CentOS or RHEL      
+    - name: Remove apache2 package
+      apt:
+        name: apache2
+        state: absent
+      when: ansible_distribution == 'Ubuntu'  # Use 'name: apache2' instead of 'name: apache2' for CentOS or RHEL

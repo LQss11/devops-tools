@@ -1,0 +1,33 @@
+- name: Install apache2 server
+  hosts: myawsinstance1
+  become: true
+
+  tasks:
+    - name: Update package cache
+      package:
+        name: "*"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install apache2 package
+      package:
+        name: apache2
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+      notify:
+        - ResAp
+
+    - name: Install nano package
+      package:
+        name: nano
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+      notify:
+        - ResAp
+
+  handlers:
+    - name: ResAp
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == 'Ubuntu'
