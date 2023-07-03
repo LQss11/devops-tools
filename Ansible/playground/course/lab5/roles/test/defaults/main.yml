@@ -1,0 +1,4 @@
+---
+# defaults file for test
+http_port: 80
+server_name: some_names

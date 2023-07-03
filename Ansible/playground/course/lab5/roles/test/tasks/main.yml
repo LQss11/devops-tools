@@ -1,0 +1,8 @@
+---
+# tasks file for test
+- name: Display first Value
+  debug:
+    msg: "{{ http_port }}"
+- name: Display second Value
+  debug:
+    msg: "{{ server_name }}"

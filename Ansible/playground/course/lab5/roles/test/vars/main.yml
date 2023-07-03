@@ -1,0 +1,4 @@
+---
+# vars file for test
+http_port: 8022
+server_name: some_names2

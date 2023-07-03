@@ -1,0 +1,12 @@
+---
+# tasks file for cleaner
+- name: Uninstall apache2 package
+  apt:
+    name: apache2
+    state: absent
+  when: ansible_distribution == 'Ubuntu'
+- name: Remove file (delete file)
+  file:
+    path: /var/www/html/index.html
+    state: absent
+  when: ansible_distribution == 'Ubuntu'

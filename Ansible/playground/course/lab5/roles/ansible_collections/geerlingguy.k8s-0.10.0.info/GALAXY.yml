@@ -1,0 +1,8 @@
+download_url: https://galaxy.ansible.com/download/geerlingguy-k8s-0.10.0.tar.gz
+format_version: 1.0.0
+name: k8s
+namespace: geerlingguy
+server: https://galaxy.ansible.com/api/
+signatures: []
+version: 0.10.0
+version_url: https://galaxy.ansible.com/api/v2/collections/geerlingguy/k8s/versions/0.10.0/
