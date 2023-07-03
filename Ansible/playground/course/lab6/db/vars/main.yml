@@ -1,0 +1,4 @@
+---
+# vars file for db
+db_server: mysql-server
+db_server_service: mysql

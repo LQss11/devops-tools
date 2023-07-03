@@ -1,0 +1,4 @@
+---
+# defaults file for db
+db_server: mariadb-server
+db_server_service: mariadb

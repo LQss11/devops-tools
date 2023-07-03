@@ -1,0 +1,11 @@
+---
+# tasks file for web
+- name: Install DB
+  apt:
+    name: "{{ db_server }}"
+    state: present
+  notify: 
+    - Start DB
+- name: Display DB Installed
+  debug:
+    msg: "{{ db_server }}"
