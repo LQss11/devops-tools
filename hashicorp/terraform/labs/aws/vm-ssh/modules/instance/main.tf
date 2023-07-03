@@ -25,6 +25,8 @@ resource "aws_instance" "main" {
   EOF
   tags = {
     Name = "myawsinstance${count.index + 1}"
+    Terraform = true
+    Environment = "dev"
   }
 }
 
