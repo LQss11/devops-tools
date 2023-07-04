@@ -1,0 +1,26 @@
+# demo.aws_ec2.yml
+# Guide: https://docs.ansible.com/ansible/latest/collections/amazon/aws/docsite/aws_ec2_guide.html
+plugin: amazon.aws.aws_ec2
+
+filters:
+  # This selects only running instances with tag `Environment` tag set to `dev`.
+  tag:Environment: dev
+  tag:Terraform: true
+
+hostnames:
+  # You can also specify a list in order of precedence for hostname variables.
+  - ip-address
+  - dns-name
+  - tag:Name
+  - private-ip-address
+  - public-ip-address
+compose:
+  # This sets the `ansible_host` variable to connect with the private IP address without changing the hostname.
+  ansible_host: public-ip-address
+## Export AWS credentials
+# export AWS_ACCESS_KEY_ID='AK123'
+# export AWS_SECRET_ACCESS_KEY='abc123'
+# # The access key for your AWS account.
+# aws_access_key: <YOUR-AWS-ACCESS-KEY-HERE>
+# # The secret access key for your AWS account.
+# aws_secret_key: <YOUR-AWS-SECRET-KEY-HERE>

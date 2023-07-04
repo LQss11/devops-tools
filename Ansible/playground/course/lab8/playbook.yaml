@@ -1,0 +1,51 @@
+---
+- name: Ansible Test Playbook
+  become: true
+  # Must exist in the listed instances
+  hosts: aws_ec2
+  vars:
+    my_variable: "Hello, Ansible!"
+    ansible_port: 22
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: /root/MyAWSKey.pem
+  serial:
+  # Run on one instance then 2
+    - 1
+    - 2  
+  tasks:
+    - name: Install apache2
+      apt:
+        name: apache2
+        state: present
+      notify:
+        - Start Web
+    - name: Execute command
+      shell: |
+        echo "Hello From The Ansible Challenge <br>" > /var/www/html/index.html
+        echo "Line2 <br>" >> /var/www/html/index.html
+        echo "This is a shell example" >> /var/www/html/index.html
+        
+    - name: Create The HTML File
+      shell: echo "This is a one line example" >> /var/www/html/index.html
+      args:
+        chdir: /home/ubuntu/
+        executable: /bin/bash
+      notify:
+        - Start Web
+
+    - name: Get Public Ip
+      shell: curl ifconfig.me
+      args:
+        chdir: /home/ubuntu/
+        executable: /bin/bash
+      when: ansible_distribution == 'Ubuntu'
+      register: public_ip
+
+    - name: Print Ip Address
+      debug:
+        var: public_ip.stdout_lines    
+  handlers:
+    - name: Start Web
+      service:
+        name: apache2
+        state: started    
