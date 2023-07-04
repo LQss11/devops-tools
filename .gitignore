@@ -4,3 +4,4 @@
 *.log
 response.json
 conversationHistory.txt
+.vscode
