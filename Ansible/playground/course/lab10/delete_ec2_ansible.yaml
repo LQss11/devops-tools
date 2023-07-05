@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Terminate EC2 instance
+      ec2_instance:
+        state: "absent"
+        region: "us-east-2"
+        name: "MyAWSInstance"
+        filters:
+          tag:Ansible: true
