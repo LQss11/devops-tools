@@ -37,8 +37,12 @@ ansible-playbook -i inventory/aws.yaml -v playbook/playbook.yaml
 ```sh
 ansible-playbook playbook.yml --extra-vars "@vars.yml"
 ansible-playbook playbook.yml -e "http_port=8080 server_name=myserver"
-
 ```
+#### OTHER
+```sh
+export ANSIBLE_HOST_KEY_CHECKING=False
+```
+
 
 ## Best practice
 - When working with different environment you better work with seperate host files
