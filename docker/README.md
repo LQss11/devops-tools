@@ -13,16 +13,18 @@ wsl --set-default-version 2
 # Get list of available online distributions
 wsl -l -o 
 # install a distribution
-wsl --install -d Ubuntu-20
+wsl --install -d Ubuntu-18.04
 
 # Get info about installed distributions
 wsl --list --verbose
-# Select one of the distributions
+# Change the wsl version of distribution
 wsl --set-version Ubuntu-18.04 2
-
+# Select one of the distributions
+wsl -d Ubuntu-18.04
 # This will shut them all down
 wsl --shutdown
-
+# To delete a distribution
+wsl --unregister Ubuntu-18.04
 ```
 If it's requiring an update you can run `wsl --update` or visit this [link](https://www.catalog.update.microsoft.com/Search.aspx?q=wsl) download the msi install it then run `wsl`
 ## Hyper-V
