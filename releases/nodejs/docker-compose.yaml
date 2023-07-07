@@ -5,5 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: node_app
+    volumes:
+      - ./index.js:/app/index.js
+      - ./package.json:/app/package.json
     ports:
       - 3000:3000
