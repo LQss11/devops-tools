@@ -1,1 +1,1 @@
-npm 
+npm version major
