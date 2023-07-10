@@ -1,7 +1,9 @@
 FROM alpine:latest
 
+ENV ANSIBLE_HOST_KEY_CHECKING=False
+
 # Install necessary packages
-RUN apk update && apk add curl net-tools openssh openrc ansible
+RUN apk update && apk add curl net-tools openssh openrc ansible sshpass
 
 
 # Setup SSH Service
