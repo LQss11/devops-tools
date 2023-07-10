@@ -1,21 +1,27 @@
+# Ansible
+# Containerization
 ```sh
-ansible-playbook -i 192.168.96.2, -u ansible -k -e ansible_network_os=vyos.vyos.vyos first_playbook.yml
+cd demo
+docker-compose build --parallel
+docker-compose -p cac up -d --build
+docker-compose -p cac scale ansible_worker=3
+docker exec -it ansible_controller sh
+## SSH Inside docker container 
+ssh -o "StrictHostKeyChecking=no" cac_ansible_worker_1
+exit
+# To stop and delete containers
+docker-compose -p cac down -v
+```
+# Inventory
+```sh
+# Get all inventory instances
+ansible-inventory -i inventory/default.yaml  --graph
+# Run ping module on prod group
+ansible prod -i inventory/default.yaml -m ping
 ```
 
+# Playbook
 ```sh
-apt install software-properties-common
-apt-add-repository --yes --update ppa:ansible/ansible
-apt install ansible
-```
-
-```sh
-ansible all -i tests -m ping
-```
-```sh
-ansible-playbook  -i hosts second-playbook.yml --check
-```
-# Docker
-```sh
-docker-compose -f Ansible/docker-compose.yaml up -d 
-docker exec -it ansible sh
+# Run playbook on prod group
+ansible-playbook -i prod -i inventory/default.yaml playbook/cmd.yaml
 ```
