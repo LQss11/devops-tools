@@ -5,3 +5,5 @@
 response.json
 conversationHistory.txt
 .vscode
+known_hosts
+known_hosts.old
