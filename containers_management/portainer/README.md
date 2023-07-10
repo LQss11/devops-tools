@@ -27,14 +27,22 @@ For a kubernetes agent we need:
 # Deploy portainer agent
 ## Node Port (make sure to use localhost:<exposed port>)
 kubectl apply -f https://downloads.portainer.io/ce2-16/portainer-agent-k8s-nodeport.yaml
-## LoadBalancer (make sure to use <service clusterip>:9001)
-kubectl apply -f https://downloads.portainer.io/ce2-18/portainer-agent-k8s-lb.yaml
 # Get Ip and port of portainer agent to add
 kubectl get svc -n portainer
 
 NAME                               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
 service/portainer-agent            NodePort    10.109.254.7   <none>        9001:30778/TCP   67m
 service/portainer-agent-headless   ClusterIP   None           <none>        <none>           67m
+
+
+## LoadBalancer (make sure to use <service clusterip>:9001)
+kubectl apply -f https://downloads.portainer.io/ce2-18/portainer-agent-k8s-lb.yaml
+
+# Get Ip and port of portainer agent to add
+kubectl get svc -n portainer
+NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+portainer-agent            LoadBalancer   10.111.230.246   localhost     9001:30778/TCP   6m26s
+portainer-agent-headless   ClusterIP      None             <none>        <none>           6m26s
 ```
 If With load 
 You can now add the new kubernetes agent into portainer in this example the endpoint should be **10.109.254.7:9001**
