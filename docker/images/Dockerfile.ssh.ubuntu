@@ -1,0 +1,26 @@
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y curl net-tools openssh-server
+
+# Create privilege separation directory
+RUN mkdir /run/sshd
+
+# Expose port for SSH
+EXPOSE 22
+
+# Update root password
+RUN echo 'root:root' | chpasswd
+
+# Allow root login with SSH
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+RUN ssh-keygen -A
+
+# Remove cache
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Start SSH service
+CMD ["/usr/sbin/sshd", "-D", "-e"]
