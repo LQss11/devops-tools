@@ -1,0 +1,6 @@
+---
+- name: Install apache2 server
+  hosts: myawsinstance1  # Replace with the actual hostname or IP address of your target host
+  become: true
+  roles:
+    - test
