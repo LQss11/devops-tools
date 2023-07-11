@@ -23,5 +23,5 @@ ansible prod -i inventory/default.yaml -m ping
 # Playbook
 ```sh
 # Run playbook on prod group
-ansible-playbook -i prod -i inventory/default.yaml playbook/cmd.yaml
+ansible-playbook -i inventory/default.yaml playbook/cmd.yaml
 ```
