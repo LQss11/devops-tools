@@ -1,28 +1,25 @@
 version: "3.8"
 services:
-  ansible:
-    container_name: ansible
+  ansible_controller:
+    container_name: ansible_controller
     build: 
       context: ..
       dockerfile: "docker/images/Dockerfile.ansible.alpine"
     volumes:
-      - ./playground:/playground
+      - ../:/playground
+      - ./.ssh:/root/.ssh
     working_dir: /playground
     networks:
       - ansible      
-  ssh1:
-    container_name: ssh1
+  ansible_worker:
     build: 
       context: ..
-      dockerfile: "docker/images/Dockerfile.ssh.alpine"
+      dockerfile: "docker/images/Dockerfile.ssh.ubuntu"
+    volumes:
+      - ../:/playground
+      - ./.ssh/id_rsa.pub:/root/.ssh/authorized_keys
+    working_dir: /playground
     networks:
       - ansible      
-  ssh2:
-    container_name: ssh2
-    build: 
-      context: ..
-      dockerfile: "docker/images/Dockerfile.ssh.alpine"
-    networks:
-      - ansible
 networks:
   ansible:
