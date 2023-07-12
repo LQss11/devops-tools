@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  python:
+    build: .
+    image: python_release_example
+    container_name: python_release_example
+    command: tail -f /dev/null
+    tty: true
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      - GIT_COMMITTER_NAME="Your Name"
+      - GIT_COMMITTER_EMAIL="your.email@example.com"
