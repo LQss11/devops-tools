@@ -1,0 +1,27 @@
+---
+- name: Create EC2 instance
+  hosts: localhost
+  gather_facts: False
+  vars:
+    region: "us-east-2"
+    instance_name: "MyAWSInstance"
+    instance_type: "t2.micro"
+    security_group: "nsg-http-80"
+    subnet_id: "subnet-0af7f47fe637964a3"
+    keypair: "MyAWSKey"
+  tasks:
+    - name: Create EC2 instance
+      ec2_instance:
+        region: "{{ region }}"
+        name: "{{ instance_name }}"
+        instance_type: "{{ instance_type }}"
+        security_groups: "{{ security_group }}"
+        subnet_id: "{{ subnet_id }}"
+        key_name: "{{ keypair }}"
+        image_id: "ami-0c55b159cbfafe1f0"
+        tags:
+          Environment: uat
+          Ansible: true
+        wait: yes
+        count: 1
+        state: present
