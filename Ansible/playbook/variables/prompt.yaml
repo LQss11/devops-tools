@@ -1,0 +1,15 @@
+- name: One file ref
+  hosts: all
+  become: true
+  vars_prompt:
+    - name: http_port
+      prompt: "Enter the HTTP port"
+    - name: server_name
+      prompt: "Enter the server name"
+  tasks:
+    - name: Display first Value
+      debug:
+        msg: "{{ http_port }}"
+    - name: Display second Value
+      debug:
+        msg: "{{ server_name }}"

@@ -1,0 +1,9 @@
+- name: Default example
+  hosts: all
+  become: true
+  vars:
+    basic_var: My First Variable
+  tasks:
+  - name: Display Value
+    debug:
+      msg: "{{ basic_var }}"

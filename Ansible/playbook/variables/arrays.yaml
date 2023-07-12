@@ -1,0 +1,12 @@
+- name: Working with arrays
+  hosts: all
+  become: true
+  vars:
+    courses:
+      - ansible
+      - terraform
+      - docker
+  tasks:
+  - name: Display Value
+    debug:
+      msg: "{{ courses [1] }}"
