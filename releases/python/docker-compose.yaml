@@ -8,6 +8,3 @@ services:
     tty: true
     volumes:
       - ./app:/usr/src/app
-    environment:
-      - GIT_COMMITTER_NAME="Your Name"
-      - GIT_COMMITTER_EMAIL="your.email@example.com"
