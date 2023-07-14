@@ -1,0 +1,20 @@
+- name: Throw exception example
+  hosts: all 
+  become: true
+  tasks:
+  - name: Error Handling
+    block:
+      - name: Going to Fail
+        debug:
+          msg: "Running the module"
+      - name: Spanner
+        command: /bin/aaaaa
+      # Think of this as the code after the error was caught in try catch
+      - name: Never Runs
+        debug: 
+          msg: "This Never Runs!"
+    rescue:
+      # think of this as catch in try catch
+      - name: "Something went wrong..."
+        debug:
+          msg: "The error was caught"

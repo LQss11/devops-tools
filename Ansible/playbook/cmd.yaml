@@ -1,0 +1,11 @@
+- name: CMD curl request
+  hosts: all
+  become: true
+  tasks:
+    - name: Curl AWS
+      shell: curl -s -o /dev/null -I -w "%{http_code}" google.com
+      register: curl
+    - name: Print "status code!"
+      debug:
+        # changed | cmd | delta | end | msg | rc | start | stderr | stderr_lines | stdout | stdout_lines
+        var: curl.stdout

@@ -1,0 +1,9 @@
+- name: CMD curl request
+  hosts: all
+  become: true
+  gather_facts: true  
+  tasks:
+    - name: Print "status code!"
+      debug:
+        # changed | cmd | delta | end | msg | rc | start | stderr | stderr_lines | stdout | stdout_lines
+        var: nodename

@@ -1,0 +1,16 @@
+---
+- name: Install packages
+  hosts: all
+  become: true
+  vars:
+    packages:
+      - apache2
+      - nano
+      - vim
+  tasks:
+    - name: Install packages
+      loop: "{{ packages }}"
+      apt:
+        name: "{{ item }}"
+        state: present
+      when: ansible_distribution == 'Ubuntu'

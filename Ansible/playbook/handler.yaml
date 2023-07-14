@@ -1,0 +1,24 @@
+- name: Install apache2 server and use handler
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update package cache
+      package:
+        name: "*"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install apache2 package
+      package:
+        name: apache2
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+      notify:
+        - ResAp
+  handlers:
+    - name: ResAp
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == 'Ubuntu'

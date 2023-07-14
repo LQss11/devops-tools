@@ -1,0 +1,14 @@
+---
+- name: Restart Services
+  hosts: all
+  become: true
+  vars:
+    packages:
+      - apache2
+  tasks:
+    - name: Reload Service
+      loop: "{{ packages }}"
+      service:
+        name: "{{ item }}"
+        state: started
+      when: ansible_distribution == 'Ubuntu'

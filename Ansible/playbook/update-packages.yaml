@@ -1,0 +1,11 @@
+---
+- name: Update all packages
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update all packages
+      package:
+        name: "*"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
