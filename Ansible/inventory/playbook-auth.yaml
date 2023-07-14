@@ -1,0 +1,17 @@
+---
+- name: auth example 
+  hosts: all
+  become: true
+  vars:
+    ansible_user: root
+    ansible_password: root
+    ansible_port: 22
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+  tasks:
+    - name: Curl AWS
+      shell: curl -s -o /dev/null -I -w "%{http_code}" google.com
+      register: curl
+    - name: Print "status code!"
+      debug:
+        # changed | cmd | delta | end | msg | rc | start | stderr | stderr_lines | stdout | stdout_lines
+        var: curl.stdout
