@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flask-app
+    restart: always
+    ports:
+      - 5555:5000
+    volumes:
+      - ./:/usr/src/app

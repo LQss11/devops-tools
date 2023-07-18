@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.projects {
+    padding: 20px;
+}
+
+.projects h2 {
+    margin-bottom: 10px;
+}
+
+.projects li {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #333;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
