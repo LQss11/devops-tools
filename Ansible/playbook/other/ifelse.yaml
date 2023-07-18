@@ -1,0 +1,15 @@
+- hosts: all
+  become: true
+  vars:
+    my_var: 8
+  tasks:
+    - name: Display message based on condition
+      debug:
+        msg: >
+          {% if my_var > 10 %}
+            The variable is greater than 10.
+          {% elif my_var == 10 %}
+            The variable is equal to 10.
+          {% else %}
+            The variable is less than 10.
+          {% endif %}
