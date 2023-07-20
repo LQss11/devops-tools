@@ -38,3 +38,31 @@ If you chose to enable WSL in the installation you can disable it by updating
   "wslEngineEnabled": false // false instead of true
 }
 ```
+
+# Add insecure registry
+go to `%USERPROFILE%/.docker/daemon.json` then add this line
+```json
+{
+  "insecure-registries": ["regsitryip:port"],
+  //...
+}
+```
+# Additional Info & Documentation
+1. Run docker command and mount socket (Docker in Docker)
+```sh
+# Mount docker host
+docker run -d --name dind -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -v ${pwd}:/app -w /app ubuntu bash -c "tail -f /dev/null" 
+# Get into the docker container
+docker exec -it dind bash
+# Mount docker without docker bin
+docker run -d --name dind -v /var/run/docker.sock:/var/run/docker.sock -v ${pwd}:/app -w /app ubuntu bash -c "tail -f /dev/null" 
+docker exec -it dind bash
+apt-get update && apt-get install curl -y && curl -fsSL https://get.docker.com | sudo sh
+```
+1. Run docker command and mount socket
+```sh
+# Docer on Docker
+docker run --privileged -d --name docker -v ${pwd}:/app -w /app docker:dind
+# Get into the docker container
+docker exec -it docker sh
+```
