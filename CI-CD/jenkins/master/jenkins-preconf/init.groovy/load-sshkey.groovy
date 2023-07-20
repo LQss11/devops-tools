@@ -20,7 +20,7 @@ def jenkinsMasterKeyParameters = [
   description:  'Jenkins Master SSH Key',
   id:           'jenkins-master-key',
   secret:       '',
-  userName:     'saffes@spark-it.fr',
+  userName:     'admin',
   key:          new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource(fileContents)  
   //key: new BasicSSHUserPrivateKey.FileOnMasterPrivateKeySource(keyfile)
 //   key:          new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource('''-----BEGIN OPENSSH PRIVATE KEY-----
