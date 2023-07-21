@@ -1,0 +1,80 @@
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+
+variables:
+  TERRAFORM_PROJECT_PATH:
+    value: "path/to/tfproject" # this would be the default value
+    description: "Path for the terraform project" # makes this variable appear on the Run Pipeline form
+  TF_STATE_NAME:
+    value: "tfproject"
+    description: "State name for the project" 
+  # State variables
+  TF_HTTP_ADDRESS: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
+  TF_HTTP_USERNAME: gitlab
+  TF_HTTP_PASSWORD: XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  TF_HTTP_LOCK_METHOD: POST
+  TF_HTTP_LOCK_ADDRESS: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}/lock
+  TF_HTTP_UNLOCK_METHOD: DELETE
+  TF_HTTP_UNLOCK_ADDRESS: https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}/lock
+  # Aws variable
+  AWS_ACCESS_KEY_ID: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  AWS_SECRET_ACCESS_KEY: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  AWS_REGION:
+    value: "us-west-2"
+    description: "AWS region to be used for the deployment"
+  # Azure variables
+  ARM_CLIENT_ID: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  ARM_CLIENT_SECRET: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  ARM_TENANT_ID: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"  
+  ARM_SUBSCRIPTION_ID:
+    value: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    description: "Azure subscription to be used for the deployment"  
+stages:
+  - tree
+  - plan
+  - apply
+  - destroy
+  - output
+
+image:
+  name: hashicorp/terraform:latest
+  entrypoint: [""]
+
+tree:
+  image:
+    name: alpine
+  stage: tree
+  script:
+    - echo ${TF_STATE_NAME}
+    - echo ${TF_HTTP_USERNAME}
+    - echo ${TF_HTTP_ADDRESS}
+    - echo ${TF_HTTP_LOCK_METHOD}
+    - echo ${TF_HTTP_LOCK_ADDRESS}
+    - echo ${TF_HTTP_UNLOCK_METHOD}
+    - echo ${TF_HTTP_UNLOCK_ADDRESS}
+    - find ${TERRAFORM_PROJECT_PATH} -print | sed -e 's;[^/]*/;|--;g;s;--|;  |;g'
+plan:
+  stage: plan
+  script:
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} init
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} plan
+apply:
+  stage: apply
+  when: manual
+  script:
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} init
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} apply -auto-approve
+destroy:
+  stage: destroy
+  when: manual
+  script:
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} init
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} destroy -auto-approve
+output:
+  stage: output
+  when: manual
+  script:
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} init
+    - terraform -chdir=${TERRAFORM_PROJECT_PATH} output
