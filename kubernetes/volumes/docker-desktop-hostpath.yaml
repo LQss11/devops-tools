@@ -30,3 +30,5 @@ spec:
 
 # kubectl apply -f .
 # kubectl exec -it deploy/alpine -- sh 
+# cd /tmp/data
+# ls
