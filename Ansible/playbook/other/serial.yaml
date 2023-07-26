@@ -1,0 +1,26 @@
+---
+- name: serial example 
+  hosts: all
+  become: true
+  ## Example 1
+  # Run on 2 by 2 instances untill finished and don't complete if there is error
+  serial: 2 
+  ## Example 2
+  # serial:
+  # # Run on one instance then 4 at a time then 2 at a time
+  #   - 1
+  #   - 4
+  #   - 2
+  ## Example 3
+  # serial:
+  # # Run on 50% of the instances
+  #   - "50%"
+  tasks:
+    - name: Curl AWS
+      shell: curl -I google.com
+      register: curl
+    - name: Print "Hello World!"
+      debug:
+        # msg: "Hello World!"
+        # changed | cmd | delta | end | msg | rc | start | stderr | stderr_lines | stdout | stdout_lines
+        var: curl.stdout        
