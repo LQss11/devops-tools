@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ldap:
+    # image: osixia/openldap:1.5.0
+    image: osixia/openldap:latest
+    container_name: ldap
+    environment:
+      LDAP_DOMAIN: example.myorg.com # Login: cn=admin,dc=example,dc=myorg,dc=com
+      LDAP_ADMIN_PASSWORD: mypw
+      LDAP_ORGANIZATION: myorg 
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: ldap
+      PHPLDAPADMIN_HTTPS: 'false' # Set to 'true' if you want to use HTTPS
+    ports:
+      - "9998:80"
+    depends_on:
+      - ldap
+
+volumes:
+  ldap_data:
+  ldap_config:
