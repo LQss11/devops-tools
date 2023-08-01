@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   vault-server:
-    image: vault:latest
+    image: vault:1.13.3
     container_name: vault-server
     ports:
       - "8200:8200"
@@ -10,3 +10,7 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: "token"
     cap_add:
       - IPC_LOCK
+    volumes:
+      - hashicorp-vault:/vault
+volumes:
+  hashicorp-vault:
