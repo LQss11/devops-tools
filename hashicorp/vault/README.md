@@ -5,6 +5,10 @@ You can start a vault server using docker compose, to do so make sure to run:
 docker-compose up
 ```
 
+# Get vault cli
+```sh
+docker run -it -e VAULT_SKIP_VERIFY="1" -e VAULT_ADDR='http://localhost:8200' -e VAULT_TOKEN="token" --rm -v ${pwd}:/app -w /app --entrypoint="" vault:1.13.3 sh
+```
 
 # Info
 The container has a Vault configuration directory set up at **/vault/config** and the server will load any **HCL** or **JSON** configuration files placed
