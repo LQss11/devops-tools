@@ -19,3 +19,19 @@ This provides some syntax to create better markdown files
 ![alt](path)
 # Passwords
 <details><summary>Hidden password</summary>MyPass here</details>
+
+
+> **Helpful Hint!**
+>
+> TEST
+>
+>> **Note**
+>>
+>> TESTTEST
+>
+> TEST
+>
+> ```sh
+> example
+> example2
+>```
