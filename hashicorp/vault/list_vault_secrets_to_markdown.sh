@@ -5,8 +5,8 @@ title=$(echo "# $group" | tr '[:lower:]' '[:upper:]')
 # Fetch the vault data once
 vault_data=$(vault kv list -format=json secret/$group)
 
-# Extract keys from the vault data
-keys=($(echo "$vault_data" | jq -r '.[]'))
+# Extract keys from the vault data, excluding directories
+keys=($(echo "$vault_data" | jq -r 'map(select(test("^.*[^/]$"))) | .[]'))
 
 # Initialize the fields array
 declare -A fields
