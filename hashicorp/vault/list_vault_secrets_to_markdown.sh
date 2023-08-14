@@ -49,6 +49,7 @@ table_header+="|"
 # Initialize a variable to store Markdown table rows
 table_rows=""
 
+shopt -s nocasematch
 # Loop through the keys again and retrieve JSON data from the array
 for key in "${keys[@]}"; do
     modified_data="${modified_data_array[$key]}"
