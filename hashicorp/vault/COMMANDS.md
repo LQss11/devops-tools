@@ -19,12 +19,28 @@ vault kv get -field bar -format=table secret/mykv
 ```
 
 # Policies
-
+```sh
 vault policy write prometheus-metrics - << EOF
 path "/sys/metrics" {
   capabilities = ["read"]
 }
 EOF
+```
+# Users
+```sh
+# Enable userpass authentication method
+vault auth enable -path="userpass" userpass
+# Define username, create user/entity/alias and assign policies and assign entity to alias
+USER="test"
+vault write auth/userpass/users/${USER} password="mystrongpass" policies="default"
+vault write identity/entity name=${USER}
+entity_id=$(vault read -format=json identity/entity/name/${USER} | jq -r '.data.id')
+userpass_accessor=$(vault auth list -format=json | jq -r '.["userpass/"].accessor')
+vault write identity/entity-alias name=${USER} canonical_id=${entity_id} mount_accessor=${userpass_accessor}
+vault write identity/entity/id/${entity_id} policies="test"
+# Login using the new identity
+vault login -method=userpass -path=userpass username=${USER} password=mystrongpass
+```
 
 # Token
 ```sh
@@ -35,4 +51,6 @@ vault token create \
 
 vault login
 vault token lookup | grep policies
+
+vault token create -policy="default" -no-default-policy -ttl=0
 ```
