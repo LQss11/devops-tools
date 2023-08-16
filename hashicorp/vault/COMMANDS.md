@@ -41,7 +41,18 @@ vault write identity/entity/id/${entity_id} policies="test"
 # Login using the new identity
 vault login -method=userpass -path=userpass username=${USER} password=mystrongpass
 ```
-
+# Approle
+```sh
+vault write auth/approle/role/example-role \
+    secret_id_ttl=0 \
+    token_ttl=0 \
+    token_policies=stark-b2b-dev-ro
+# Get role id
+VAULT_ROLE_ID=$(vault read -field=role_id auth/approle/role/example-role/role-id)
+# Generate Secret ID (for GitLab pipeline)
+VAULT_SECRET_ID=$(vault write -field=secret_id -f auth/approle/role/example-role/secret-id)
+vault write -field=token auth/approle/login role_id=$VAULT_ROLE_ID secret_id=$VAULT_SECRET_ID
+```
 # Token
 ```sh
 vault token create \
