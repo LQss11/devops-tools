@@ -30,13 +30,6 @@ for key in "${keys[@]}"; do
 
         # Store the modified data in an associative array
         modified_data_array["$key"]=$modified_data
-    else
-        error_message=$(echo "$data" | jq -r '.errors[0]')
-        if [[ "$error_message" == *"permission denied"* ]]; then
-            echo "Skipping '$key' due to permission denied error."
-        else
-            echo "Error retrieving data for '$key': $error_message"
-        fi
     fi
 done
 
@@ -57,23 +50,26 @@ shopt -s nocasematch
 for key in "${keys[@]}"; do
     modified_data="${modified_data_array[$key]}"
 
-    table_row=""
-    for field in "${!fields[@]}"; do
-        value=$(echo "$modified_data" | jq -r --arg field "$field" '.[$field] // "N/A"')
+    # Check if data was successfully retrieved for this key
+    if [[ -n "$modified_data" ]]; then
+        table_row=""
+        for field in "${!fields[@]}"; do
+            value=$(echo "$modified_data" | jq -r --arg field "$field" '.[$field] // "N/A"')
 
-        # Replace values while ignoring case
-        if [[ "$value" == "n/a" ]]; then
-            value="🚫"
-        elif [[ "$value" == "false" ]]; then
-            value="❌"
-        elif [[ "$value" == "true" ]]; then
-            value="✅"
-        fi
+            # Replace values while ignoring case
+            if [[ "$value" == "n/a" ]]; then
+                value="🚫"
+            elif [[ "$value" == "false" ]]; then
+                value="❌"
+            elif [[ "$value" == "true" ]]; then
+                value="✅"
+            fi
 
-        table_row+="| $value "
-    done
-    table_row+="|"
-    table_rows+="\n$table_row"
+            table_row+="| $value "
+        done
+        table_row+="|"
+        table_rows+="\n$table_row"
+    fi
 done
 
 # Disable nocasematch
