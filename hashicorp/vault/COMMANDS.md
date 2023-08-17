@@ -16,6 +16,9 @@ vault kv get -format=table secret/mykv
 vault kv put -mount=secret mykv bar=baz
 # Get data from a kv
 vault kv get -field bar -format=table secret/mykv
+
+# To rename a secret engine
+vault secrets move kv mysecretengine
 ```
 
 # Policies
