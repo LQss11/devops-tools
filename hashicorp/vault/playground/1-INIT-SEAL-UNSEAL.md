@@ -32,6 +32,10 @@ seal "awskms" {
 region     = "us-west-2"
 kms_key_id = "df68263c-d9ee-44e3-afca-83cfa370c605"
 }
+# You will need to export the following params:
+# AWS_ACCESS_KEY_ID='XXXXXXXXXXXXXXX'
+# AWS_SECRET_ACCESS_KEY='XXXXXXXXXXXXXXX'
+# AWS_REGION='us-east-1'
 ``` 
 - Transit auto unseal
 transit auto unseal allow us to auto unseal a vault cluster usgin another vault. so we have a vault dependant on another vault
