@@ -49,7 +49,7 @@ vault login -method=userpass -path=userpass username=${USER} password=mystrongpa
 vault write auth/approle/role/example-role \
     secret_id_ttl=0 \
     token_ttl=0 \
-    token_policies=stark-b2b-dev-ro
+    token_policies=admin,someotherpolicy
 # Get role id
 VAULT_ROLE_ID=$(vault read -field=role_id auth/approle/role/example-role/role-id)
 # Generate Secret ID (for GitLab pipeline)
