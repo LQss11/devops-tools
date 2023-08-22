@@ -7,7 +7,7 @@ docker-compose up
 
 # Get vault cli
 ```sh
-docker run -it -e VAULT_SKIP_VERIFY="1" -e VAULT_ADDR='http://localhost:8200' -e VAULT_TOKEN="token" --rm -v ${pwd}:/app -w /app --entrypoint="" vault:1.13.3 sh
+docker run -it -e VAULT_SKIP_VERIFY="1" -e VAULT_ADDR="http://localhost:8200" -e VAULT_TOKEN="token" --rm -v ${pwd}:/app -w /app --entrypoint="" vault:1.13.3 sh
 apk add jq bash
 ```
 
