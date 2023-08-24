@@ -1,0 +1,17 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: vault
+    metrics_path: /v1/sys/metrics
+    params:
+      format: ['prometheus']
+    scheme: http
+    # In case you want to skip ssl validation on https
+    # tls_config:
+    #   insecure_skip_verify: true    
+    authorization:
+      credentials_file: /etc/prometheus/prometheus-token
+    static_configs:
+    - targets: ['vault-server:8200']
