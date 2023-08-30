@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  prometheus:
+    build: ./prometheus
+    image: vault-prometheus
+    container_name: prometheus
+    restart: always    
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+  grafana:
+    build: ./grafana
+    image: vault-grafana
+    container_name: grafana
+    restart: always    
+    ports:
+      - 3000:3000
+    volumes:
+      # - ./grafana:/etc/grafana/provisioning
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-adminadmin123}
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    depends_on:
+      - prometheus
+volumes:
+  grafana-data:
