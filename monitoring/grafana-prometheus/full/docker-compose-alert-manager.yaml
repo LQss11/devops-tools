@@ -1,0 +1,23 @@
+version: '3'
+
+services:  
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    container_name: alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: always
+  karma:
+    image: lmierzwa/karma:v0.115
+    container_name: karma
+    ports:
+      - 9900:8080
+    environment:
+      - "ALERTMANAGER_URI=http://alertmanager:9093"
+    depends_on:
+      - alertmanager
