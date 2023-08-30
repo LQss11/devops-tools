@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  git-ssh:
+    build: 
+      context: .
+      # Use SSH_PRIVATE_KEY if you want to build through docker-compose env build
+      args:
+        - |
+          SSH_PRIVATE_KEY=-----BEGIN OPENSSH PRIVATE KEY-----
+          c8g6t5...
+          d8a5g9a...
+          ...
+          -----END OPENSSH PRIVATE KEY-----
