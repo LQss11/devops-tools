@@ -10,3 +10,6 @@ datasources:
     jsonData:
       httpMethod: POST
       tlsSkipVerify: true
+    # basicAuth: true
+    # basicAuthUser: admin
+    # basicAuthPassword: $2a$12$pLvlyRM3QJlItYF1oSLF5ei28.kbpT5Isnvr8VIdoQmstZfeK667W
