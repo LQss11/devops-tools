@@ -9,9 +9,13 @@ services:
     ports:
       - 9090:9090
     volumes:
+      - prometheus-data:/prometheus
       - ./prometheus:/etc/prometheus/
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=5d
+      - --storage.tsdb.retention.size=1KB
+      # - --web.config.file=/etc/prometheus/web.yml
   grafana:
     build: ./grafana
     image: vault-grafana
@@ -30,3 +34,4 @@ services:
       - prometheus
 volumes:
   grafana-data:
+  prometheus-data:
