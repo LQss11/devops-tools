@@ -12,5 +12,5 @@ modules:
       fail_if_matches_regexp:
         - "Could not connect to database"
       tls_config:
-        insecure_skip_verify: false
+        insecure_skip_verify: true
       preferred_ip_protocol: "ip4" # defaults to "ip6"
