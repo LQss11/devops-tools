@@ -66,3 +66,11 @@ docker run --privileged -d --name docker -v ${pwd}:/app -w /app docker:dind
 # Get into the docker container
 docker exec -it docker sh
 ```
+
+# host.docker.internal on linux
+On Linux, add `--add-host=host.docker.internal:host-gateway` to your Docker command to enable this feature. 
+Docker Compose on Linux:
+```yaml
+extra_hosts:
+    - "host.docker.internal:host-gateway"
+```
