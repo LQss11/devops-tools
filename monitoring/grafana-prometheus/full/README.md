@@ -9,10 +9,22 @@ docker-compose -f docker-compose-node-exporter.yaml up -d
 docker-compose -f docker-compose-cadvisor.yaml up -d
 # Import alert manager to monitor metrics alerts through rules
 docker-compose -f docker-compose-alert-manager.yaml up -d
+# Import nginx exporter to monitor a specific nginx server
+# Make sure to include stub path to do this 
+docker-compose -f docker-compose-nginx-exporter.yaml up -d
+# collect http(s) and tls server info 
+docker-compose -f docker-compose-blackbox-exporter.yaml up -d
 ```
 ## Dashboards id
 - Node exporter full: 1860
 - Docker Container & Host Metrics : 10619
+- Nginx Exporter : 12708
+- Prometheus Blackbox Exporter : 7587
 
+# INFO
+Generate htpasswd users
+```sh
+docker run --rm -ti xmartlabs/htpasswd root aaaa
+```
 # TODO
 - [] blackbox_exporter
