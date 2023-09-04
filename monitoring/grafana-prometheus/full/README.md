@@ -25,6 +25,7 @@ docker-compose -f docker-compose-blackbox-exporter.yaml up -d
 Generate htpasswd users
 ```sh
 docker run --rm -ti xmartlabs/htpasswd root aaaa
+docker run --rm httpd:alpine htpasswd -Bbn username password
 ```
 # TODO
 - [] blackbox_exporter
