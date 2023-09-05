@@ -1,5 +1,12 @@
 # MARKDOWN
 This provides some syntax to create better markdown files
+## Table of Contents
+Just put [NAME of first title] () it will auto-complete itself.
+- [MARKDOWN](#markdown)
+  - [Table of Contents](#table-of-contents)
+- [Image Ref](#image-ref)
+- [URL reference](#url-reference)
+- [Passwords](#passwords)
 # Image Ref
 **JSON Extractor configuration:**
 [![JSON Extractor][1]][1]
