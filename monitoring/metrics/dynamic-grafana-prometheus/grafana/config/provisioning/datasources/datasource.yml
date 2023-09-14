@@ -1,0 +1,29 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    # Access mode - proxy (server in the UI) or direct (browser in the UI).
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    jsonData:
+      httpMethod: POST
+      tlsSkipVerify: true
+    editable: true      
+    # basicAuth: true
+    # basicAuthUser: admin
+    # basicAuthPassword: $2a$12$pLvlyRM3QJlItYF1oSLF5ei28.kbpT5Isnvr8VIdoQmstZfeK667W
+
+  - name: Alertmanager
+    type: camptocamp-prometheus-alertmanager-datasource
+    access: server
+    org_id: 1
+    url: http://alertmanager:9093
+    version: 1
+    jsonData:
+      severity_critical: "4"
+      severity_high: "3"
+      severity_warning: "2"
+      severity_info: "1" 
+    

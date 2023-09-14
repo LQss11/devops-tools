@@ -1,0 +1,30 @@
+apiVersion: 1
+providers:
+- name: General
+  folder: ''
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards
+- name: systems_and_apps
+  folder: 'systems_and_apps'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards/systems_and_apps
+- name: misc
+  folder: 'misc'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards/misc
+- name: additional
+  folder: 'additional'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards/additional

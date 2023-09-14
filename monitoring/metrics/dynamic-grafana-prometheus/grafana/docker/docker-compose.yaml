@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  grafana:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    image: local/grafana
+    container_name: grafana
+    restart: always    
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD:-default}
+      - GF_AUTH_LDAP_ENABLED=${GF_AUTH_LDAP_ENABLED:-false}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-adminadmin123}
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,camptocamp-prometheus-alertmanager-datasource
+    networks:
+      - monitoring
+networks:
+  monitoring:      
+volumes:
+  grafana-data:
