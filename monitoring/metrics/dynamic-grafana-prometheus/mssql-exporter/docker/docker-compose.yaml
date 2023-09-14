@@ -1,0 +1,19 @@
+version: '3'
+
+services:  
+  mssql-exporter:
+    image: awaragi/prometheus-mssql-exporter:v1.3.0
+    container_name: mssql-exporter
+    # ports:
+    #   - 4000:4000
+    restart: always
+    environment:
+      - SERVER=HOS_IP
+      - USERNAME=sa
+      - PASSWORD=P@SSWORDs
+      # app,metrics,db,queries
+      - DEBUG=app
+    networks:
+      - monitoring
+networks:
+  monitoring:        
