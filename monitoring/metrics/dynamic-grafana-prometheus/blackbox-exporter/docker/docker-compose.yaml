@@ -1,0 +1,18 @@
+version: '3'
+
+services:  
+  blackbox-exporter:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile    
+    image: local/blackbox-exporter
+    container_name: blackbox-exporter
+    # ports:
+    #   - 6004:9115
+    command:
+      - '--config.file=/etc/blackboxexporter/config.yml'
+    restart: always
+    networks:
+      - monitoring
+networks:
+  monitoring:       
