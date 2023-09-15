@@ -1,0 +1,17 @@
+version: '3'
+
+services:  
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.11.0
+    container_name: nginx-exporter
+    restart: always
+    # ports:
+    #   - "6005:9113"
+    command:
+      -nginx.scrape-uri=http://nginx:80/metrics -web.telemetry-path=/metrics
+    networks:
+      - monitoring
+      - nginx
+networks:
+  monitoring:        
+  nginx:        
