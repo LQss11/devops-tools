@@ -1,0 +1,31 @@
+version: '3'
+
+services:  
+  alertmanager:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    image: local/alertmanager
+    container_name: alertmanager
+    ports:
+      - 6002:9093
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: always
+    networks:
+      - monitoring
+  karma:
+    image: lmierzwa/karma:v0.115
+    container_name: karma
+    restart: always
+    ports:
+      - 6003:8080
+    environment:
+      - "ALERTMANAGER_URI=http://alertmanager:9093"
+    depends_on:
+      - alertmanager
+    networks:
+      - monitoring
+networks:
+  monitoring:        
