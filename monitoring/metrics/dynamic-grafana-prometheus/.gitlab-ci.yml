@@ -1,0 +1,114 @@
+stages:
+  - package
+  - make-docker
+  - exporters
+  - utils
+  
+variables:
+ USER:
+   value: "root" 
+   description: "The username to be used for ssh" 
+ HOST:
+   value: "192.168.1.221" 
+   description: "The host ip/dns to ssh to" 
+
+# Define the common script
+.common_script: &common_script
+  - echo "################################################"
+  - echo ACTION WILL BE PERFORMED ON ${USER}@${HOST} 
+  - echo "################################################"
+  - apk update && apk add openssh-client bash
+  - eval $(ssh-agent -s)
+  - ssh-add <(cat "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  - scp ${CI_PROJECT_NAME}.zip ${USER}@${HOST}:./
+  - ssh -t ${USER}@${HOST} "unzip ${CI_PROJECT_NAME}.zip -d ${CI_PROJECT_NAME}"
+
+package:
+  stage: package
+  image: alpine
+  script:
+    - echo "################################################"
+    - echo ACTION WILL BE PERFORMED ON ${USER}@${HOST} 
+    - echo "################################################"
+    - apk add zip
+    - zip -r ${CI_PROJECT_NAME}.zip . -x "*.git*"
+  artifacts:
+    paths:
+      - ${CI_PROJECT_NAME}.zip
+
+init-stack:
+  stage: make-docker
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-init"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+clean-stack:
+  stage: make-docker
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-clean"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+# SERVICE_NAME should be defined
+run:
+  stage: make-docker
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-run ${SERVICE_NAME}"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+# SERVICE_NAME should be defined
+stop:
+  stage: make-docker
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-stop ${SERVICE_NAME}"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+node-exporter:
+  stage: exporters
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-run node-exporter"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+cadvisor:
+  stage: exporters
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-run cadvisor"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
+
+docker-grafana-enable-ldap:
+  stage: utils
+  image: alpine
+  before_script:
+    - *common_script  # Use the common_script anchor
+  script:
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD=$(echo ${ADMIN_PASSWORD} | base64 -d)"
+    - ssh -t ${USER}@${HOST} "find ${CI_PROJECT_NAME}/grafana"
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-run grafana"
+    - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
+  when: manual
