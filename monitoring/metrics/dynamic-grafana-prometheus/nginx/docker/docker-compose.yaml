@@ -1,0 +1,16 @@
+version: '3'
+
+services:  
+  nginx:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile  
+    image: local/nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - 7080:80
+    networks:
+      - nginx
+networks:
+  nginx:        
