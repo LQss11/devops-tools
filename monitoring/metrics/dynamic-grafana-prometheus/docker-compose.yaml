@@ -1,0 +1,8 @@
+version: '3'
+networks:
+  monitoring:
+  nginx:        
+volumes:
+  prometheus-data:
+  grafana-data:
+  
