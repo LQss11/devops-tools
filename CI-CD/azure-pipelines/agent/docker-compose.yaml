@@ -1,0 +1,8 @@
+version: '3'
+services:
+  dockeragent:
+    build: .
+    container_name: azuredevops_agent
+    image: azuredevops:agent
+    env_file:
+      - .env
