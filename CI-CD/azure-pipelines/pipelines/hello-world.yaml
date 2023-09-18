@@ -1,0 +1,18 @@
+trigger:
+  # Only on master branch commit
+  branches:
+    include:
+      - master
+  # Only when detected changes in path
+  paths:
+    include:
+      - path/* 
+# Select default pool     
+pool: "Default"
+
+steps:
+  - task: Bash@3
+    displayName: "Hello world"  
+    inputs:
+      targetType: 'inline'
+      script: 'uname -a'    
