@@ -1,0 +1,16 @@
+version: '3'
+
+services:  
+  nginx-secure:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile  
+    image: local/nginx:secure
+    container_name: nginx-secure
+    restart: always
+    ports:
+      - 6006:9100
+    networks:
+      - monitoring
+networks:
+  monitoring:        
