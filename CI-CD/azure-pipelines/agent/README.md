@@ -2,6 +2,8 @@
 # Quick start
 Make sure to update .env file containing the azure devops pipeline access using the persoanl access token (pat)
 ```sh
+# Make sure to use AGENT_VARIANT environment variable in .env file 
+# to specify the docker image to use whether it's dind or simple agent
 # Build docker image 
 docker compose up --build -d
 ``` 
