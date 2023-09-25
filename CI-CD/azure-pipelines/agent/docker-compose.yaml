@@ -1,8 +1,11 @@
 version: '3'
 services:
   dockeragent:
-    build: .
-    container_name: azuredevops_agent
-    image: azuredevops:agent
+    build: 
+      dockerfile: Dockerfile.${AGENT_VARIANT:-dind}
+      context: .
+    privileged: true
+    container_name: azuredevops_agent_${AGENT_VARIANT:-dind}
+    image: azuredevopsagent:${AGENT_VARIANT:-dind}
     env_file:
       - .env
