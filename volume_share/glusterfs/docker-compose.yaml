@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  glusterfs:
+    image: ghcr.io/gluster/gluster-containers:centos
+    container_name: glusterfs
+    privileged: true
+    volumes:
+      - /etc/glusterfs:/etc/glusterfs:z
+      # Check this https://wenhan.blog/post/glusterfs-failed-to-probe-a-cloned-peer/
+      # - /var/lib/glusterd:/var/lib/glusterd:z
+      - /var/log/glusterfs:/var/log/glusterfs:z
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /dev/:/dev
+    networks:
+      - glusterfs
+  glusterfs2:
+    image: ghcr.io/gluster/gluster-containers:centos
+    container_name: glusterfs2
+    privileged: true
+    volumes:
+      - /etc/glusterfs:/etc/glusterfs:z
+      # - /var/lib/glusterd:/var/lib/glusterd:z
+      - /var/log/glusterfs:/var/log/glusterfs:z
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /dev/:/dev
+    networks:
+      - glusterfs
+  # glusterfs-client:
+  #   image: gluster/glusterfs-client
+  #   container_name: glusterfs-client
+  #   privileged: true
+  #   # network_mode: "host"
+  #   tty: true
+  #   networks:
+  #     - glusterfs
+  dind:
+    image: docker:dind
+    container_name: dind
+    privileged: true
+    networks:
+      - glusterfs
+
+networks:
+  glusterfs:
+
