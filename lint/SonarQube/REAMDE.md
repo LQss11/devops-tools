@@ -3,6 +3,9 @@ Run server:
 ```sh
 docker run -it --rm -p 9002:9000 -e USER_LOGIN="admin" -e USER_NAME="admin" -e USER_PASSWORD="admin" sonarqube:lts-community
 ```
+For ldap config you can check [this](https://docs.sonarsource.com/sonarqube/9.9/instance-administration/authentication/ldap/#:~:text=You%20can%20configure%20SonarQube%20authentication,against%20the%20external%20authentication%20engine.) 
+# Scanning
+Each application has its own scanning method you can find out more [here](https://docs.sonarsource.com/sonarqube/9.9/analyzing-source-code/scanners/sonarscanner/)
 ## Maven
 ```sh
 docker run -it --rm sonarsource/sonar-scanner-cli sonar-scanner "-Dsonar.projectKey=${YOUR_PROJECT_KEY} -Dsonar.login=${YOUR_TOKEN} -Dsonar.host.url=$SONAR_URL"
