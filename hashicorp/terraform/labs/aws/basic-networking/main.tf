@@ -126,6 +126,7 @@ resource "aws_instance" "private_instances" {
 resource "aws_security_group" "main-sg" {
   name        = "demo-security-group"
   description = "Web Traffic"
+  vpc_id = aws_vpc.vpc.id
   ingress {
     description = "Allow Port 80"
     from_port   = 80
