@@ -1,0 +1,23 @@
+version: '3'
+
+services:  
+  awaragi-mssql-exporter-local:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile  
+    image: local/awaragi-mssql-exporter  
+    container_name: awaragi-mssql-exporter-local
+    hostname: awaragi-mssql-exporter-local
+    # ports:
+    #   - 4000:4000
+    restart: always
+    environment:
+      - SERVER=${MSSQL_HOST_LOCAL}
+      - USERNAME=${MSSQL_USER_LOCAL}
+      - PASSWORD=${MSSQL_PASS_LOCAL}
+      # app,metrics,db,queries
+      - DEBUG=app
+    networks:
+      - monitoring
+networks:
+  monitoring:        
