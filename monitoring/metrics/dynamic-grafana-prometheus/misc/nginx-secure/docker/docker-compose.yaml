@@ -1,12 +1,13 @@
 version: '3'
 
 services:  
-  nginx-secure:
+  secure-exporter:
     build:
       context: ..
       dockerfile: ./docker/Dockerfile  
-    image: local/nginx:secure
-    container_name: nginx-secure
+    image: local/secure-exporter
+    container_name: secure-exporter
+    hostname: secure-exporter
     restart: always
     ports:
       - 6006:9100

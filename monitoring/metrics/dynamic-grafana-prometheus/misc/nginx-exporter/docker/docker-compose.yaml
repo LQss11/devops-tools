@@ -4,6 +4,7 @@ services:
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:0.11.0
     container_name: nginx-exporter
+    hostname: nginx-exporter
     restart: always
     # ports:
     #   - "6005:9113"

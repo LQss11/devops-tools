@@ -7,6 +7,7 @@ services:
       dockerfile: ./docker/Dockerfile  
     image: local/nginx
     container_name: nginx
+    hostname: nginx
     restart: always
     ports:
       - 7080:80
