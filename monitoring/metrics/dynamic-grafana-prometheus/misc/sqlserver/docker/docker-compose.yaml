@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  sqlserver:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    image: local/sqlserver
+    container_name: sqlserver
+    hostname: sqlserver
+    restart: on-failure:15
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: "P@ssword"    
+    networks:
+      - monitoring
+networks:
+  monitoring:
