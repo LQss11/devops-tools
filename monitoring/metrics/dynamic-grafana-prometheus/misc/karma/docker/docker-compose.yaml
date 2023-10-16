@@ -1,0 +1,18 @@
+version: '3'
+
+services:  
+  karma:
+    image: lmierzwa/karma:v0.115
+    container_name: karma
+    hostname: karma
+    restart: always
+    ports:
+      - 6003:8080
+    environment:
+      - "ALERTMANAGER_URI=http://alertmanager:9093"
+    depends_on:
+      - alertmanager
+    networks:
+      - monitoring
+networks:
+  monitoring:        
