@@ -7,6 +7,7 @@ services:
       dockerfile: ./docker/Dockerfile    
     image: local/blackbox-exporter
     container_name: blackbox-exporter
+    hostname: blackbox-exporter
     # ports:
     #   - 6004:9115
     command:

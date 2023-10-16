@@ -7,18 +7,16 @@ services:
       dockerfile: ./docker/Dockerfile
     image: local/prometheus
     container_name: prometheus
+    hostname: prometheus
     restart: always    
     ports:
       - 6008:9090
     volumes:
       - prometheus-data:/prometheus
     command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --storage.tsdb.retention.time=5d
-      - --storage.tsdb.retention.size=2GB
-      # curl --request POST http://host.docker.internal:9090/-/reload
-      # - --web-enable-lifecycle
-      # - --web.config.file=/etc/prometheus/web.yml
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=72h'
+      # - --storage.tsdb.retention.size=2GB
     networks:
       - monitoring
     extra_hosts:
