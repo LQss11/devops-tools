@@ -1,0 +1,115 @@
+collector_name: mssql_lock
+
+# Specifies the minimum interval for data collection (applies to this collector only).
+min_interval: 5s
+
+metrics:
+  - metric_name: mssql_deadlock_counter
+    type: counter
+    help: "Count of Deadlocks and Locks in WAIT Status"
+    value_label: operation
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_deadlock_counter)
+      SELECT COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      WHERE request_status = 'WAIT'
+
+  - metric_name: mssql_locks_by_resource_type
+    type: gauge
+    help: "Count of Locks by Resource Type"
+    key_labels: [resource_type]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_resource_type)
+      SELECT resource_type, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY resource_type;
+
+  - metric_name: mssql_locks_by_resource_database
+    type: gauge
+    help: "Count of Locks by Resource Database"
+    key_labels: [database_name]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_resource_database)
+      SELECT DB_NAME(resource_database_id) AS database_name, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY DB_NAME(resource_database_id);
+
+  - metric_name: mssql_locks_by_request_mode
+    type: gauge
+    help: "Count of Locks by Request Mode"
+    key_labels: [request_mode]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_request_mode)
+      SELECT request_mode, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY request_mode;
+
+  - metric_name: mssql_locks_by_request_type
+    type: gauge
+    help: "Count of Locks by Request Type"
+    key_labels: [request_type]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_request_type)
+      SELECT request_type, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY request_type;
+
+  - metric_name: mssql_locks_by_request_status
+    type: gauge
+    help: "Count of Locks by Request Status"
+    key_labels: [request_status]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_request_status)
+      SELECT request_status, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY request_status;
+
+  - metric_name: mssql_locks_by_request_owner_type
+    type: gauge
+    help: "Count of Locks by Request Owner Type"
+    key_labels: [request_owner_type]
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_locks_by_request_owner_type)
+      SELECT request_owner_type, COUNT(*) AS count
+      FROM sys.dm_tran_locks
+      GROUP BY request_owner_type;
+
+  - metric_name: mssql_deadlock_details
+    type: counter
+    help: "Details of MSSQL Deadlocks"
+    values: [count]
+    key_labels:
+      - database_name
+      - request_owner_type
+      - resource_type
+      - wait_type
+      - host_name
+      - command
+    query: |
+      -- MONITORING sql-exporter (mssql_deadlock_details)
+      SELECT
+          DB_NAME(TL.resource_database_id) AS database_name,
+          TL.request_owner_type,
+          TL.resource_type,
+          ER.wait_type,
+          ER.command,
+          s.host_name,
+          COUNT(*) AS count
+      FROM sys.dm_tran_locks TL
+      INNER JOIN sys.dm_exec_requests ER ON TL.request_session_id = ER.session_id
+      INNER JOIN sys.dm_exec_sessions s ON ER.session_id = s.session_id
+      WHERE TL.request_status = 'WAIT'
+      GROUP BY
+          DB_NAME(TL.resource_database_id),
+          TL.request_owner_type,
+          TL.resource_type,
+          ER.wait_type,
+          ER.command,
+          s.host_name;

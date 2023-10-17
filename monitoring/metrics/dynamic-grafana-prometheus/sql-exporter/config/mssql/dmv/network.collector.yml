@@ -1,0 +1,39 @@
+collector_name: mssql_network
+
+# Specifies the minimum interval for collecting metrics (in seconds).
+min_interval: 5s
+
+metrics:
+  - metric_name: mssql_network_bytes
+    type: counter
+    help: "Network I/O in bytes by interface."
+    value_label: operation
+    key_labels:
+      - interface
+    values:
+      - input_bytes
+      - output_bytes
+    query_ref: mssql_network
+
+  - metric_name: mssql_network_packets
+    type: counter
+    help: "Network I/O packets counter by interface."
+    value_label: operation
+    key_labels:
+      - interface
+    values:
+      - input_count
+      - output_count
+    query_ref: mssql_network
+
+queries:
+  - query_name: mssql_network
+    query: |
+      -- MONITORING sql-exporter (mssql_network)
+      SELECT
+        interface,
+        recv_bytes AS input_bytes,
+        recv_packets AS input_count,
+        tx_bytes AS output_bytes,
+        tx_packets AS output_count
+      FROM sys.dm_pal_net_stats

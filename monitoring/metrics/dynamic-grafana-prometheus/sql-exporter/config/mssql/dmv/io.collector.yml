@@ -1,0 +1,50 @@
+collector_name: mssql_io
+
+# The minimum interval for collecting data, applies to this collector only.
+min_interval: 10s
+
+metrics:
+  - metric_name: mssql_dbs_io_stall
+    type: counter
+    help: "IO stall time in milliseconds per operation."
+    value_label: operation
+    key_labels:
+      - database
+      - file_type
+    values:
+      - read_stall_ms
+      - write_stall_ms
+      - total_stall_ms
+    query_ref: mssql_dbs_io
+
+  - metric_name: mssql_dbs_io_size
+    type: counter
+    help: "Size of IO in bytes per database."
+    value_label: operation
+    key_labels:
+      - database
+      - file_type
+    values:
+      - read_size_bytes
+      - write_size_bytes
+      - total_size_bytes
+    query_ref: mssql_dbs_io
+
+queries:
+  - query_name: mssql_dbs_io
+    query: |
+      -- MONITORING sql-exporter (mssql_dbs_io)
+      SELECT
+          CAST(DB_Name(a.database_id) AS VARCHAR) AS [database],
+          b.type_desc AS [file_type],
+          SUM(io_stall_read_ms) AS [read_stall_ms], -- Stall time in milliseconds for read operations
+          SUM(io_stall_write_ms) AS [write_stall_ms], -- Stall time in milliseconds for write operations
+          SUM(io_stall) AS [total_stall_ms], -- Total stall time in milliseconds
+          SUM(num_of_bytes_read) AS [read_size_bytes], -- Total bytes read from file
+          SUM(num_of_bytes_written) AS [write_size_bytes], -- Total bytes written to file
+          SUM(b.size) AS [total_size_bytes] -- Total file size in bytes
+      FROM
+          sys.dm_io_virtual_file_stats(NULL, NULL) a
+      INNER JOIN sys.master_files b ON a.database_id = b.database_id AND a.file_id = b.file_id
+      WHERE b.type_desc IN ('ROWS', 'LOG') -- Filter for rows and log files
+      GROUP BY a.database_id, b.type_desc;

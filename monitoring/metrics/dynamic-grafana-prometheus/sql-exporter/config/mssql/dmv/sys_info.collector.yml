@@ -1,0 +1,82 @@
+collector_name: mssql_sys_config
+# The minimum interval for data collection, applicable to this collector only.
+min_interval: 30m
+metrics:
+  - metric_name: mssql_sys_config_defaults
+    type: gauge
+    help: "Information about the base configuration of the MSSQL instance."
+    key_labels:
+      - name
+    value_label: operation
+    values:
+      - value
+      - minimum
+      - maximum
+      - value_in_use
+    query_ref: mssql_sys_config
+
+  - metric_name: mssql_function_counter
+    type: counter
+    help: "Number of functions in the MSSQL instance."
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_function_counter)
+      SELECT COUNT(*) AS count
+      FROM sys.dm_exec_function_stats
+
+  - metric_name: mssql_procedure_counter
+    type: counter
+    help: "Number of procedures in the MSSQL instance."
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_procedure_counter)
+      SELECT COUNT(*) AS count
+      FROM sys.dm_exec_procedure_stats
+
+  - metric_name: mssql_schema_counter
+    type: counter
+    help: "Number of schemas in the MSSQL instance."
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_schema_counter)
+      SELECT COUNT(*) AS count
+      FROM sys.schemas
+
+  - metric_name: mssql_session_counter
+    type: counter
+    help: "Number of sessions in the MSSQL instance."
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_session_counter)
+      SELECT 
+          COUNT(*) AS count
+      FROM
+          sys.dm_exec_sessions
+
+  - metric_name: mssql_database_counter
+    type: counter
+    help: "Number of databases in the MSSQL instance."
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_database_counter)
+      SELECT COUNT(*) AS count
+      FROM sys.databases;
+
+queries:
+  - query_name: mssql_sys_config
+    query: |
+      -- MONITORING sql-exporter (mssql_sys_config)
+      SELECT *
+      FROM sys.configurations
+      WHERE configuration_id IN (1547, 1544, 1543, 1540, 1539, 505, 102, 103, 106)
+
+  - query_name: mssql_os_info
+    query: |
+      -- MONITORING sql-exporter (mssql_os_info)
+      SELECT
+          [host_platform],
+          [host_distribution],
+          [host_release],
+          [host_architecture],
+          1 AS count
+      FROM [master].[sys].[dm_os_host_info]
