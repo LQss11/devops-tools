@@ -1,0 +1,19 @@
+version: '3'
+
+services:  
+  sql-exporter-local:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile  
+    image: local/sql-exporter
+    container_name: sql-exporter-local
+    hostname: sql-exporter-local
+    restart: always
+    # ports:
+    #   - 9399:9399
+    command:
+      - "-config.data-source-name=sqlserver://${MSSQL_USER_LOCAL}:${MSSQL_PASS_LOCAL}@${MSSQL_HOST_LOCAL}:${MSSQL_PORT_LOCAL}" 
+    networks:
+      - monitoring
+networks:
+  monitoring:        
