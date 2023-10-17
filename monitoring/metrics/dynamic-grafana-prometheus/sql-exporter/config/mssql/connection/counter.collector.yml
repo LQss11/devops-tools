@@ -1,0 +1,43 @@
+collector_name: mssql_connection_counters
+
+# The minimum interval for collecting data, applies to this collector only.
+min_interval: 10s
+
+metrics:
+  - metric_name: mssql_connection_by_db_counter
+    type: counter
+    help: "Sum of connections by database in the MSSQL."
+    key_labels:
+      - database_name
+    value_label: operation
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_connection_by_db_counter)
+      SELECT 
+          COUNT(*) AS count, DB_NAME(database_id) AS database_name
+      FROM
+          sys.dm_exec_sessions
+      WHERE 
+          database_id > 0
+      GROUP BY database_id
+  - metric_name: mssql_connection_by_db_by_session_counter
+    type: counter
+    help: "Sum of connections by database by session in the MSSQL."
+    key_labels:
+      - database_name
+      - hostname
+    value_label: operation
+    values: [count]
+    query: |
+      -- MONITORING sql-exporter (mssql_connection_by_db_by_session_counter)
+      SELECT 
+          host_name AS hostname,
+          DB_NAME(database_id) AS database_name,
+          COUNT(*) AS count
+      FROM
+          sys.dm_exec_sessions
+      WHERE 
+          database_id > 0
+      GROUP BY host_name, database_id;
+
+queries: []
