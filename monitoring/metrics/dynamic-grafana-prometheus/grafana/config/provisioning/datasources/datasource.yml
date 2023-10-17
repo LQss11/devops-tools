@@ -11,9 +11,6 @@ datasources:
       httpMethod: POST
       tlsSkipVerify: true
     editable: true      
-    # basicAuth: true
-    # basicAuthUser: admin
-    # basicAuthPassword: $2a$12$pLvlyRM3QJlItYF1oSLF5ei28.kbpT5Isnvr8VIdoQmstZfeK667W
 
   - name: Alertmanager
     type: camptocamp-prometheus-alertmanager-datasource
@@ -26,4 +23,20 @@ datasources:
       severity_high: "3"
       severity_warning: "2"
       severity_info: "1" 
-    
+    # basicAuth: true
+    # basicAuthUser: admin
+    # basicAuthPassword: $2a$12$pLvlyRM3QJlItYF1oSLF5ei28.kbpT5Isnvr8VIdoQmstZfeK667W
+  - name: ${MSSQL_HOST_LOCAL}
+    type: mssql
+    url: ${MSSQL_HOST_LOCAL}:${MSSQL_PORT_LOCAL}
+    user: ${MSSQL_USER_LOCAL}
+    jsonData:
+      database: master
+      maxOpenConns: 100 # Grafana v5.4+
+      maxIdleConns: 100 # Grafana v5.4+
+      maxIdleConnsAuto: true # Grafana v9.5.1+
+      connMaxLifetime: 14400 # Grafana v5.4+
+      connectionTimeout: 0 # Grafana v9.3+
+      encrypt: 'false'
+    secureJsonData:
+      password: ${MSSQL_PASS_LOCAL}   
