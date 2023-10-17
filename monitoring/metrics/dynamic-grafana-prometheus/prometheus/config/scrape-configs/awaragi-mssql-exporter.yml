@@ -1,0 +1,6 @@
+scrape_configs:
+  - job_name: "awaragi-mssql-exporter-local"
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - awaragi-mssql-exporter-local:4000
