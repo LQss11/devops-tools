@@ -78,18 +78,19 @@ make docker-clean
 ```
 
 ## Stack
-| Service Name      | Host:Docker Ports | Utility                                                                  | Configuration                           | Image Version |
-| ----------------- | ----------------- | ------------------------------------------------------------------------ | --------------------------------------- | ------------- |
-| alertmanager      | 6002:9093         | Manages and sends alerts for system monitoring.                          | [Alertmanager](#alertmanager)           | v0.26.0       |
-| karma             | 6003:8080         | Provides a user interface for alert management and visualization.        | N/A                                     | v0.115        |
-| blackbox-exporter | N/A               | Probes external services and checks their availability and responses.    | [Blackbox Exporter](#blackbox-exporter) | v0.10.0       |
-| cadvisor          | 6001:8080         | Collects container metrics for resource usage analysis.                  | N/A                                     | v0.47.0       |
-| grafana           | 3000:3000         | Offers a visualization and monitoring platform for various data sources. | [Grafana](#grafana)                     | 10.0.4        |
-| node-exporter     | 6007:9100         | Collects system-level metrics from hosts for monitoring.                 | N/A                                     | v1.6.1        |
-| mssql exporter    | N/A               | Exports metrics from Microsoft SQL Server for monitoring.                | [MSSQL Exporter](#mssql-exporter)       | v1.3.0        |
-| nginx             | 7080:80           | Serves as a web server and reverse proxy for web applications.           | [Nginx](#nginx)                         | alpine        |
-| nginx-secure      | 6006:9100         | Secures the Nginx server with basic authentication.                      | [Nginx Secure](#nginx-secure)           | alpine        |
-| prometheus        | 6008:9090         | Collects and stores time-series data for monitoring and alerting.        | [Prometheus](#prometheus)               | v2.46.0       |
+| Service Name           | Host:Docker Ports | Utility                                                                  | Configuration                                     | Image Version |
+| ---------------------- | ----------------- | ------------------------------------------------------------------------ | ------------------------------------------------- | ------------- |
+| alertmanager           | 6002:9093         | Manages and sends alerts for system monitoring.                          | [Alertmanager](#alertmanager)                     | v0.26.0       |
+| karma                  | 6003:8080         | Provides a user interface for alert management and visualization.        | N/A                                               | v0.115        |
+| blackbox-exporter      | N/A               | Probes external services and checks their availability and responses.    | [Blackbox Exporter](#blackbox-exporter)           | v0.10.0       |
+| cadvisor               | 6001:8080         | Collects container metrics for resource usage analysis.                  | N/A                                               | v0.47.0       |
+| grafana                | 3000:3000         | Offers a visualization and monitoring platform for various data sources. | [Grafana](#grafana)                               | 10.0.4        |
+| node-exporter          | 6007:9100         | Collects system-level metrics from hosts for monitoring.                 | N/A                                               | v1.6.1        |
+| awaragi mssql exporter | N/A               | Exports metrics from Microsoft SQL Server for monitoring.                | [AWARAGI MSSQL Exporter](#awaragi-mssql-exporter) | v1.3.0        |
+| sql exporter           | N/A               | Build and Exports metrics from Microsoft SQL Server for monitoring.      | [SQL Exporter](#sql-exporter)                     | v1.3.0        |
+| nginx                  | 7080:80           | Serves as a web server and reverse proxy for web applications.           | [Nginx](#nginx)                                   | alpine        |
+| nginx-secure           | 6006:9100         | Secures the Nginx server with basic authentication.                      | [Nginx Secure](#nginx-secure)                     | alpine        |
+| prometheus             | 6008:9090         | Collects and stores time-series data for monitoring and alerting.        | [Prometheus](#prometheus)                         | v2.46.0       |
 
 
 
@@ -165,8 +166,29 @@ make pwgen >./grafana/docker/.env KEY=GRAFANA_ADMIN_PASSWORD
 # Enable LDAP and pass ldap admin password through env vars
 make docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
 ```
-## **MSSQL Exporter**
-This exporter is used to export few sqlserver metrics that can help us monitor our sqlserver instances. You can find more in the [official mssql documentation](https://github.com/awaragi/prometheus-mssql-exporter).
+## **SQL Exporter**
+This exporter is used to help us create custom sqlserver metrics and export them to prometheus to better monitor our instances. You can find more in the [official mssql documentation](https://github.com/burningalchemist/sql_exporter#readme).
+### Configuration Files
+1. [sql-exporter/docker/docker-compose.yaml](sql-exporter/docker/docker-compose.yaml)
+To configure an exporter you simply need to add this block with the right database credentials:
+```yaml
+  SERVER_INSTANCE_NAME:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile  
+    image: local/sql-exporter
+    container_name: SERVER_INSTANCE_NAME
+    # ports:
+    #   - 9399:9399
+    restart: always
+    command:
+      - "-config.data-source-name=sqlserver://${MSSQL_USER}:${MSSQL_PASS}@${MSSQL_HOST}:${MSSQL_PORT}" 
+    networks:
+      - monitoring
+```
+2. [sql-exporter/config/sql_exporter.yml](sql-exporter/config/sql_exporter.yml) this is the main config file and the most important part of it is `collector_files`, `collectors` which allow us to configure metrics that will be collected from our sqlserver. 
+## **AWARAGI MSSQL Exporter**
+This exporter is used to export few sqlserver metrics that can help us monitor our sqlserver instances. You can find more in the [official awaragi mssql documentation](https://github.com/awaragi/prometheus-mssql-exporter).
 ### Configuration Files
 1. [mssql-exporter/docker/docker-compose.yaml](mssql-exporter/docker/docker-compose.yaml)
 To configure an exporter you simply need to add this block with the right database credentials:
@@ -215,7 +237,7 @@ this is the file that will be used containing the basic user and to generate it 
 ```sh
 make httpd password=your_admin_password >nginx-secure/config/.htpasswd
 ```
-2. [nginx-secure/config/default.conf](nginx-secure/config/default.conf)
+1. [nginx-secure/config/default.conf](nginx-secure/config/default.conf)
 This is the nginx config that will be implemented to use the htpasswd generated on step **1.** :
 ```conf
 server {
@@ -310,6 +332,19 @@ This CI/CD pipeline automates deployment by allowing gitlab agent to clone this 
 make docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
 ```
 If you have special characters make sure to escape them for example pa$$sword -> pa$sword
+
+- You can include or ignore running dotenv on a specific module like this :
+```sh
+# Disable dotenv
+make DISABLE_DOTENV docker-run grafana
+# Enable dotenv
+make docker-run grafana
+```
+# Miscellaneous
+- You can Run misc apps like this:
+```sh
+make docker-run misc/sqlserver
+```
 
 - cadvisor not starting [Failed to start manager: inotify_add_watch /sys/fs/cgroup/perf_event: no space left on device](https://github.com/google/cadvisor/issues/1581#issuecomment-367616070)
 You can fix by running this command:
