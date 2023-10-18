@@ -1,0 +1,9 @@
+scrape_configs:
+  - job_name: "node-exporter-secure"
+    static_configs:
+      - targets: ["host.docker.internal:7081"]
+        labels:
+          instance: "nginx-secure"
+    basic_auth:
+      username: "admin"
+      password_file: /etc/prometheus/passwd
