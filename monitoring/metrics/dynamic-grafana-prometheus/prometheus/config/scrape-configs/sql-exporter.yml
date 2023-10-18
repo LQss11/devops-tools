@@ -1,0 +1,7 @@
+scrape_configs:
+  - job_name: "sql-exporter"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["sql-exporter-local:9399"]
+        labels:
+          instance: "localhost"
