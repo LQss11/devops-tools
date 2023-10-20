@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: "kubernetes-pods"
+    scheme: https
+    metrics_path: /metrics
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      insecure_skip_verify: true
+    authorization:
+      credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)

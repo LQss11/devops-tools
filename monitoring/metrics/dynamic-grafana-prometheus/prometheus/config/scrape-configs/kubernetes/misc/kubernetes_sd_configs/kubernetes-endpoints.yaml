@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: "kubernetes-endpoints"
+    kubernetes_sd_configs:
+      - role: endpoints
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
+      - source_labels: [__meta_kubernetes_service_name]
+        action: replace
+        target_label: service
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: pod
