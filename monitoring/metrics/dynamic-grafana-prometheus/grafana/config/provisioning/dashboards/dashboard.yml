@@ -28,3 +28,10 @@ providers:
   editable: true
   options:
     path: /etc/grafana/provisioning/dashboards/additional
+- name: kubernetes
+  folder: 'kubernetes'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards/kubernetes
