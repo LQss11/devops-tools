@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 5s
+# https://www.civo.com/learn/kubernetes-node-monitoring-with-prometheus-and-grafana
+# https://devopscube.com/node-exporter-kubernetes/
+# https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus-kubernetes.yml
+# https://docs.victoriametrics.com/sd_configs.html
+scrape_config_files:
+  - scrape-configs/kubernetes/coredns.yaml
+  - scrape-configs/kubernetes/cadvisor-from-cluster.yaml
+  - scrape-configs/kubernetes/prometheus.yml
+  - scrape-configs/kubernetes/kube-state-metrics.yaml
+  - scrape-configs/kubernetes/apiserver.yaml
+  - scrape-configs/kubernetes/node-exporter.yml
+  
+
+# # scrape_configs:
+# rule_files:
+#   - "alert-rules.yml"
