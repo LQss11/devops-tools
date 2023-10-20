@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      # Attache service account to this pod
+      serviceAccountName: prometheus-sa
+      restartPolicy: Always
+      containers:
+        - name: prometheus
+          image: local/prometheus
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+              name: prometheus
+          resources: {}
+          command:
+            - /bin/prometheus
+          args:
+            - "--config.file=/etc/prometheus/kubernetes-prometheus.yml"
+            - "--storage.tsdb.retention.time=72h"
+          envFrom:
+            - configMapRef:
+                name: prometheus
