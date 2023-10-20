@@ -14,7 +14,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/docker-prometheus.yml'
       - '--storage.tsdb.retention.time=72h'
       # - --storage.tsdb.retention.size=2GB
     networks:
