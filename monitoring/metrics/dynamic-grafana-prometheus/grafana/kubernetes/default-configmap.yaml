@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  GF_SECURITY_ADMIN_PASSWORD: adminadmin1234
+  GF_AUTH_LDAP_ENABLED: "false"
+  LDAP_ADMIN_PASSWORD: default
+kind: ConfigMap
+metadata:
+  name: grafana-default

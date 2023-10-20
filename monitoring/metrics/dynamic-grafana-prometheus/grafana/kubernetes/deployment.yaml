@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: grafana
+          image: local/grafana
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: grafana
+          resources: {}
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_INSTALL_PLUGINS
+              value: grafana-piechart-panel,camptocamp-prometheus-alertmanager-datasource,grafana-clock-panel
+          envFrom:
+            - configMapRef:
+                name: grafana-default
+            - configMapRef:
+                name: grafana
