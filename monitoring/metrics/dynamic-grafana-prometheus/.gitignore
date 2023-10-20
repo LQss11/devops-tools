@@ -2,3 +2,6 @@
 .vs
 .vscode
 .idea
+configmap.yaml
+rbacbinding.yaml
+token
