@@ -1,6 +1,73 @@
 # Default app variables
 PROJECT_NAME=myorg
+NAMESPACE=$(PROJECT_NAME)-monitoring
 DOTENV=dotenv
+
+# Make 'help' the default target when running 'make' without arguments
+.DEFAULT_GOAL := help
+
+# List of files/directories to ignore
+IGNORE = misc Makefile .gitignore docker-compose.yaml README.md .gitlab-ci.yml .global.env
+
+# Find all directories (excluding ignored files/directories)
+DIRECTORIES := $(filter-out $(IGNORE), $(wildcard *))
+
+COMMANDS_WITH_ARGS=docker-run docker-build docker-stop k8s-run k8s-stop k8s-get k8s-ksm
+ifeq (1, $(words $(filter $(firstword $(MAKECMDGOALS)), $(COMMANDS_WITH_ARGS))))
+  ARG := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+  $(eval $(ARG):;@:)
+endif
+
+ifeq ($(DISABLE_DOTENV),true)
+    DOTENV := 
+endif
+
+# Declare phony targets (targets without file dependencies)
+.PHONY: docker-run docker-build docker-stop docker-init docker-clean httpd pwgen help dotenv
+
+##############################################################################################################################
+#                                        																					 #
+#                                              🐳 Essential Kubernetes Commands 🐳   	                                    #
+#                                        																					 #
+##############################################################################################################################
+
+##########################################
+#    🌟 Basic Kubernetes Commands 🌟    #
+##########################################
+
+k8s-clean:
+	@echo "🚀 Applying manifests for $(ARG)..."
+	@kubectl delete namespace $(NAMESPACE)
+
+k8s-get: 
+	@echo "🚀 Getting $(ARG) from $(NAMESPACE) Namespace..."
+	kubectl -n $(NAMESPACE) get $(ARG)
+
+k8s-crb: 
+	@echo "🚀 Creating prometheus clusterrolebinding on $(NAMESPACE) Namespace..."
+	@kubectl create clusterrolebinding prometheus --clusterrole=prometheus-rbac --serviceaccount=$(NAMESPACE):prometheus-sa --dry-run=client -o yaml >./prometheus/kubernetes/rbacbinding.yaml
+
+k8s-ksm: $(ARG)
+# kubectl port-forward -n kube-system service/kube-state-metrics 8080:8080
+	@echo "🚀 Running $(ARG) on Kube State Metrics resources..."
+	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/cluster-role-binding.yaml
+	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/cluster-role.yaml
+	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/deployment.yaml
+	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/service-account.yaml
+	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/service.yaml
+
+k8s-run: dotenv
+	@$(MAKE) docker-build $(ARG)
+	@echo "🚀 Applying manifests for $(ARG)..."
+	@kubectl create namespace $(NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
+	@kubectl -n $(NAMESPACE) create configmap $(ARG) --from-env-file="./$(ARG)/docker/.env" --dry-run="client" -o="yaml" >./$(ARG)/kubernetes/configmap.yaml
+	kubectl -n $(NAMESPACE) apply -f "$(ARG)/kubernetes"
+
+k8s-stop: dotenv
+	@echo "🚀 Deleting resources for $(ARG)..."
+	@kubectl -n $(NAMESPACE) delete -f "$(ARG)/kubernetes"
+
+
 ##############################################################################################################################
 #                                        																					 #
 #                                              🐳 Essential Docker Commands 🐳   	                                        #
@@ -10,16 +77,6 @@ DOTENV=dotenv
 ##########################################
 #      🌟 Basic Docker Commands 🌟      #
 ##########################################
-
-DOCKER_COMMANDS_WITH_ARGS=docker-run docker-build docker-stop
-ifeq (1, $(words $(filter $(firstword $(MAKECMDGOALS)), $(DOCKER_COMMANDS_WITH_ARGS))))
-  ARG := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
-  $(eval $(ARG):;@:)
-endif
-
-ifeq ($(DISABLE_DOTENV),true)
-    DOTENV := 
-endif
 
 # Define a rule to build a specific service
 docker-build: dotenv
@@ -40,12 +97,6 @@ docker-stop: dotenv
 ##########################################
 #    🌟 Dynamic docker init/clean 🌟    #
 ##########################################
-
-# List of files/directories to ignore
-IGNORE = misc Makefile .gitignore docker-compose.yaml README.md .gitlab-ci.yml .global.env
-
-# Find all directories (excluding ignored files/directories)
-DIRECTORIES := $(filter-out $(IGNORE), $(wildcard *))
 
 # Define a rule to run the 'docker' rule for each directory
 docker_%: %
@@ -97,8 +148,6 @@ dotenv:
 #                                        																					 #
 ##############################################################################################################################
 
-# Declare phony targets (targets without file dependencies)
-.PHONY: docker-run docker-build docker-stop docker-init docker-clean httpd pwgen help dotenv
 
 # Define the 'help' command to list available targets with descriptions
 help:
@@ -114,5 +163,4 @@ help:
 	@echo "  dotenv     					- Generating dotenv files in all directories."
 	@echo "  help                           - Show this help message."
 
-# Make 'help' the default target when running 'make' without arguments
-.DEFAULT_GOAL := help
+
