@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: "kube-state-metrics"
+    static_configs:
+      - targets: ["kube-state-metrics.kube-system.svc.cluster.local:8080"]
+    relabel_configs:
+      - source_labels: [system_uuid]
+        action: replace
+        target_label: cluster

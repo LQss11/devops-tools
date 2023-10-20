@@ -1,0 +1,17 @@
+scrape_configs:
+  - job_name: "kubernetes-cadvisor"
+    scheme: https
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    kubernetes_sd_configs:
+      - role: endpoints
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "cadvisor"
+        action: keep
+      # - source_labels: [name]  # The label containing the metric name
+      #   regex: "(^k8s_.*)"     # Regular expression to match names starting with "k8s_" and capture the rest of the name
+      #   replacement: "$1"      # Replace the name with the captured group (removing "k8s_")
+      #   target_label: name     # Specify the target label where the replacement should be applied
+      #   action: replace
