@@ -1,4 +1,0 @@
-# Bcrypt generator https://bcrypt-generator.com/
-basic_auth_users:
-    # value: azerty123
-    admin: $2a$12$pLvlyRM3QJlItYF1oSLF5ei28.kbpT5Isnvr8VIdoQmstZfeK667W
