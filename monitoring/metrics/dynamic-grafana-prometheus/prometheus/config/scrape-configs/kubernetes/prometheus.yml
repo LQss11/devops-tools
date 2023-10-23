@@ -1,0 +1,15 @@
+scrape_configs:
+  - job_name: "kubernetes-prometheus"
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    kubernetes_sd_configs:
+      - role: endpoints
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "prometheus"
+        action: keep
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "go.*"
+        action: drop

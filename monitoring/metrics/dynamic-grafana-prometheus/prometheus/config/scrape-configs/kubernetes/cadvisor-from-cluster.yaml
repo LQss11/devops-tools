@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: "kubernetes-cadvisor-from-cluster"
+    scheme: https
+    metrics_path: /metrics/cadvisor
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      insecure_skip_verify: true
+    authorization:
+      credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    kubernetes_sd_configs:
+      - role: node
+    metric_relabel_configs:
+      - source_labels: [pod]
+        target_label: name
