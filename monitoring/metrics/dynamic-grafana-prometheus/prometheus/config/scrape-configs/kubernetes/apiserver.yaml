@@ -15,5 +15,5 @@ scrape_configs:
           - __meta_kubernetes_endpoint_port_name
     metric_relabel_configs:
       - source_labels: [__name__]
-        regex: "apiserver.*|workqueue.*|process.*"
+        regex: "apiserver.*|workqueue.*|process.*|etcd.*"
         action: keep
