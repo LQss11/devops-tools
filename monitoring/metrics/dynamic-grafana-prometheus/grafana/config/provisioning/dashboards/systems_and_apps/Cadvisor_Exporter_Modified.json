@@ -20,6 +20,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 14282,
   "graphTooltip": 0,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -1505,7 +1506,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1602,7 +1604,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -1860,7 +1863,7 @@
             "h": 6,
             "w": 24,
             "x": 0,
-            "y": 44
+            "y": 20
           },
           "id": 45,
           "links": [],
@@ -1887,30 +1890,11 @@
             {
               "datasource": "PBFA97CFB590B2093",
               "editorMode": "code",
-              "expr": "sum(container_spec_memory_limit_bytes{name=~\".+\"} - container_memory_usage_bytes{name=~\".+\"}) by (name) ",
-              "hide": true,
-              "intervalFactor": 2,
-              "legendFormat": "{{name}}",
-              "metric": "",
-              "range": true,
-              "refId": "A",
-              "step": 240
-            },
-            {
-              "datasource": "PBFA97CFB590B2093",
-              "expr": "sum(container_spec_memory_limit_bytes{name=~\".+\"}) by (name) ",
-              "hide": true,
-              "intervalFactor": 2,
-              "legendFormat": "{{name}}",
-              "refId": "B",
-              "step": 240
-            },
-            {
-              "datasource": "PBFA97CFB590B2093",
-              "expr": "container_memory_usage_bytes{name=~\".+\"}",
+              "expr": "container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"}",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{name}}",
+              "range": true,
               "refId": "C",
               "step": 240
             }
@@ -1991,7 +1975,7 @@
             "h": 6,
             "w": 12,
             "x": 0,
-            "y": 50
+            "y": 26
           },
           "id": 46,
           "options": {
@@ -2087,7 +2071,7 @@
             "h": 6,
             "w": 12,
             "x": 12,
-            "y": 50
+            "y": 26
           },
           "id": 47,
           "options": {
@@ -2136,7 +2120,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 56
+            "y": 32
           },
           "hiddenSeries": false,
           "id": 48,
@@ -2230,7 +2214,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 56
+            "y": 32
           },
           "hiddenSeries": false,
           "id": 49,
@@ -2349,7 +2333,7 @@
             "h": 5,
             "w": 12,
             "x": 0,
-            "y": 19
+            "y": 21
           },
           "hiddenSeries": false,
           "id": 40,
@@ -2443,7 +2427,7 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 19
+            "y": 21
           },
           "hiddenSeries": false,
           "id": 41,
@@ -2537,7 +2521,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 24
+            "y": 26
           },
           "hiddenSeries": false,
           "id": 4,
@@ -2629,7 +2613,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 24
+            "y": 26
           },
           "hiddenSeries": false,
           "id": 6,
@@ -2752,7 +2736,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2809,7 +2794,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 29
+            "y": 55
           },
           "id": 17,
           "options": {
@@ -2989,6 +2974,6 @@
   "timezone": "",
   "title": "Docker Monitoring",
   "uid": "d1c98999-c811-4914-bb41-320f195e213a",
-  "version": 31,
+  "version": 2,
   "weekStart": ""
 }
