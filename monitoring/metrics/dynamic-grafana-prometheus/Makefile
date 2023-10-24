@@ -27,13 +27,21 @@ endif
 
 ##############################################################################################################################
 #                                        																					 #
-#                                              🐳 Essential Kubernetes Commands 🐳   	                                    #
+#                                              ☸️ Essential Kubernetes Commands ☸️   	                                    #
 #                                        																					 #
 ##############################################################################################################################
 
 ##########################################
 #    🌟 Basic Kubernetes Commands 🌟    #
 ##########################################
+
+k8s-init:
+	@echo "🚀 Applying manifests for $(ARG)..."
+	@kubectl create namespace $(NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
+	@$(MAKE) k8s-crb
+	@$(MAKE) k8s-ksm apply
+	@$(MAKE) k8s-run grafana
+	@$(MAKE) k8s-run prometheus
 
 k8s-clean:
 	@echo "🚀 Applying manifests for $(ARG)..."
@@ -128,7 +136,7 @@ pwgen:
 	@docker run -it --rm alpine sh -c "echo $(KEY)=$$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 12)"
 
 # TODO include here make pwgen KEY=GRAFANA_ADMIN_PASSWORD and send it to vault
-docker-grafana-enable-ldap: dotenv
+grafana-enable-ldap: dotenv
 	@echo "⚙️ Creating .env ..."
 	@echo "" >>grafana/docker/.env
 	@echo GF_AUTH_LDAP_ENABLED=true >>grafana/docker/.env
@@ -151,16 +159,30 @@ dotenv:
 
 # Define the 'help' command to list available targets with descriptions
 help:
-	@echo "Available targets:"
-	@echo "  docker-build <service>         - Build a specific service."
-	@echo "  docker-run <service>           - Start and build a specific service."
-	@echo "  docker-stop <service>          - Stop a specific service."
-	@echo "  docker-init                    - Initialize all Docker services."
-	@echo "  docker-clean                   - Clean up the entire Docker stack."
-	@echo "  httpd                          - Create an HTTPD user with a password."
-	@echo "  pwgen                          - Generate a password."
-	@echo "  docker-grafana-enable-ldap     - Generate grafana LDAP environment vars."
-	@echo "  dotenv     					- Generating dotenv files in all directories."
-	@echo "  help                           - Show this help message."
-
+	@echo "🌟 Available targets: 🌟"
+	@echo ""
+	@echo "☸️ Essential Kubernetes Commands ☸️"
+	@echo "  k8s-init                   - Initialize Kubernetes resources."
+	@echo "  k8s-clean                  - Delete Kubernetes resources."
+	@echo "  k8s-get <ARG>              - Get Kubernetes resources."
+	@echo "  k8s-crb                    - Create Prometheus ClusterRoleBinding."
+	@echo "  k8s-ksm <ARG>              - (apply/delete) to Manage Kube State Metrics resources."
+	@echo "  k8s-run <service>          - Build and deploy a specific Kubernetes resource."
+	@echo "  k8s-stop <service>         - Delete Kubernetes resources for a specific resource."
+	@echo ""
+	@echo "🐳 Essential Docker Commands 🐳"
+	@echo "  docker-build <service>      - Build a specific service."
+	@echo "  docker-run <service>        - Start and build a specific service."
+	@echo "  docker-stop <service>       - Stop a specific service."
+	@echo "  docker-init                 - Initialize all Docker services."
+	@echo "  docker-clean                - Clean up the entire Docker stack."
+	@echo ""
+	@echo "🌀 Miscellaneous 🌀"
+	@echo "  httpd                      - Create an HTTPD user with a password."
+	@echo "  pwgen                      - Generate a password."
+	@echo "  grafana-enable-ldap        - Generate Grafana LDAP environment vars."
+	@echo "  dotenv                     - Generating dotenv files in all directories."
+	@echo ""
+	@echo "Additional Commands:"
+	@echo "  help                       - Show this help message."
 

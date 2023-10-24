@@ -101,14 +101,14 @@ cadvisor:
     - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"
   when: manual
 
-docker-grafana-enable-ldap:
+grafana-enable-ldap:
   stage: utils
   image: alpine
   before_script:
     - *common_script  # Use the common_script anchor
   script:
     - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} dotenv"
-    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD=$(echo ${ADMIN_PASSWORD} | base64 -d)"
+    - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} grafana-enable-ldap LDAP_ADMIN_PASSWORD=$(echo ${ADMIN_PASSWORD} | base64 -d)"
     - ssh -t ${USER}@${HOST} "find ${CI_PROJECT_NAME}/grafana"
     - ssh -t ${USER}@${HOST} "make -C ${CI_PROJECT_NAME} docker-run DISABLE_DOTENV=true grafana"
     - ssh -t ${USER}@${HOST} "rm -rf ${CI_PROJECT_NAME} ${CI_PROJECT_NAME}.zip"

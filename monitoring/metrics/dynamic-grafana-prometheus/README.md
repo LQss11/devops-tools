@@ -164,7 +164,7 @@ this file is used to pass environment variables to [docker-compose.yaml file](gr
 # Generate Default admin password
 make pwgen >./grafana/docker/.env KEY=GRAFANA_ADMIN_PASSWORD
 # Enable LDAP and pass ldap admin password through env vars
-make docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
+make grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
 ```
 ## **SQL Exporter**
 This exporter is used to help us create custom sqlserver metrics and export them to prometheus to better monitor our instances. You can find more in the [official mssql documentation](https://github.com/burningalchemist/sql_exporter#readme).
@@ -327,9 +327,9 @@ This CI/CD pipeline automates deployment by allowing gitlab agent to clone this 
   - `SSH_PUBLIC_KEY`: Copy past it into the target vm for the right users' .ssh/authorized_keys for passwordless auth.
  
 # Additional Information
-- Special characters on make docker-grafana-enable-ldap:
+- Special characters on make grafana-enable-ldap:
 ```sh
-make docker-grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
+make grafana-enable-ldap LDAP_ADMIN_PASSWORD='pa$sword'
 ```
 If you have special characters make sure to escape them for example pa$$sword -> pa$sword
 
