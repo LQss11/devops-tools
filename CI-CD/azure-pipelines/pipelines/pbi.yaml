@@ -1,0 +1,32 @@
+# Power bi pipeline using power bi actions extension
+# To allow service principle to do those actions you must follow these steps:
+## 1. Create SP (Create secret for it) in azure ad
+## 2. Create Group
+## 3. Add SP to group
+## 4. In pbi ui go to tenant settings and enable Allow service princials to use power bi apis
+## 5. Select specify sec groups and add the created group then apply
+
+trigger: none
+
+# Select default pool     
+pool: "Default"
+
+steps:
+  - task: PowerBIActions@5
+    inputs:
+      PowerBIServiceEndpoint: 'pbi'
+      Action: 'Publish'
+      WorkspaceName: 'Powerbi_service'
+      PowerBIPath: '*.pbix'
+  - task: PowerBIActions@5
+    inputs:
+      PowerBIServiceEndpoint: 'pbi'
+      Action: 'Workspace'
+      WorkspaceName: 'SPTESTWS'
+  - task: PowerBIActions@5
+    inputs:
+      PowerBIServiceEndpoint: 'pbi'
+      Action: 'AddUsers'
+      WorkspaceName: 'SPTESTWS'
+      Users: 'affessalem@hotmail.fr'
+      Permission: 'Admin'
