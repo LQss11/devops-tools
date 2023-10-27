@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  ubuntu:
+    container_name: ubuntu
+    hostname: ubuntu
+    build: 
+      dockerfile: Dockerfile.full 
+      context: .
+    image: ubuntu-gui
+    privileged: true
