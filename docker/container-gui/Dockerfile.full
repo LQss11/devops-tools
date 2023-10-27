@@ -1,0 +1,29 @@
+# https://github.com/quickbooks2018/docker/blob/master/Desktop-Ubuntu-Dockerfile.ubuntu
+FROM ubuntu:latest
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update 
+RUN apt install -y ubuntu-desktop lightdm
+
+RUN rm /run/reboot-required*
+
+# RUN apt-get install -y consolekit
+
+RUN echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
+RUN echo "\
+[LightDM]\n\
+[Seat:*]\n\
+type=xremote\n\
+xserver-hostname=host.docker.internal\n\
+xserver-display-number=0\n\
+autologin-user=root\n\
+autologin-user-timeout=0\n\
+autologin-session=ubuntu\n\
+" >/etc/lightdm/lightdm.conf.d/lightdm.conf
+
+ENV DISPLAY=host.docker.internal:0.0
+# RUN rm -r /var/cache/lightdm
+USER root
+RUN apt install software-properties-common && add-apt-repository ppa:deadsnakes/ppa &&  apt install python3.8 -y
+RUN apt-get install pip -y 
+RUN pip install consolekit
+CMD service dbus start ; /usr/lib/systemd/systemd-logind & service lightdm start
