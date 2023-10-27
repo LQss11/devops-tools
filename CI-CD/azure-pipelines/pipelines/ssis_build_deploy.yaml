@@ -1,0 +1,100 @@
+trigger: none
+# trigger:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     include:
+#       - "SSIS SAMPLE/*"
+
+pool: "Default"
+resources:
+  repositories:
+  - repository: SSIS
+    type: git
+    name: SSIS
+
+
+
+parameters:
+  - name: target_env
+    displayName: Target Environment
+    type: string
+    default: dev
+    values:
+      - dev
+      - uat
+variables:
+  - group: ${{parameters.target_env}}
+stages:
+  - stage: Build
+    displayName: Build SSIS from target environment ${{parameters.target_env}}
+    jobs:
+      - deployment: build
+        displayName: Build SSIS
+        environment: ${{parameters.target_env}}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: SSIS
+                - task: SSISBuild@1
+                  inputs:
+                    projectPath: "$(Build.SourcesDirectory)/SSIS SAMPLE/"
+                    stripSensitive: false
+                    outputPath: "$(System.ArtifactsDirectory)"
+                - task: PublishBuildArtifacts@1
+                  displayName: "Publish package"
+                  inputs:
+                    PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+                    ArtifactName: "drop"
+                    publishLocation: "Container"
+
+      - job: manual_plan_review
+        displayName: "Plan Manual Review"
+        dependsOn: build
+        pool: server
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440
+            inputs:
+              notifyUsers: "developper"
+              instructions: "Are you sure you want to deploy the artifact?"
+              onTimeout: reject
+      - deployment: deploy
+        displayName: Deploy SSIS on ${{parameters.target_env}}
+        dependsOn: manual_plan_review
+        environment: ${{parameters.target_env}}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@1
+                  inputs:
+                    buildType: "specific"
+                    project: $(System.TeamProject)
+                    # Make sure this is the azure devops pipeline name for packaging
+                    pipeline: "SSIS-CI"
+                    buildVersionToDownload: "latestFromBranch"
+                    branchName: "$(Build.SourceBranch)"
+                    downloadType: "specific"
+                    downloadPath: "$(System.ArtifactsDirectory)"
+                # Verify data
+                - task: Bash@3
+                  displayName: "List files in drop"
+                  inputs:
+                    targetType: "inline"
+                    workingDirectory: "$(System.ArtifactsDirectory)/drop"
+                    script: "pwd && ls -laht"
+
+                - task: SSISDeploy@1
+                  inputs:
+                    sourcePath: "$(System.ArtifactsDirectory)/drop"
+                    destinationType: "ssisdb"
+                    destinationServer: $(SERVER)
+                    destinationPath: "/SSISDB/INIT"
+                    authType: "sql"
+                    username: "myuser"
+                    password: $(PASSWORD)
+                    whetherOverwrite: "yes"
+                    whetherContinue: "no"
