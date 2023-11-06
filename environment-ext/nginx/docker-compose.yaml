@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  nginx-env:
+    container_name: nginx-env
+    hostname: nginx-env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # args:
+      #   - ENV=${ENV}
+    image: nginx-env
+    restart: always
+    ports:
+      - 9999:80
+    # Using templates files allow us to pass environment variables on startup
+    # If updated on runtime you can run docker exec -it nginx-env sh -c "nginx -s reload"
+    # volumes:
+    #   - default.conf:/etc/nginx/templates/default.conf.template
+    #   - nginx.conf:/etc/nginx/nginx.conf
+    env_file:
+      - .env
