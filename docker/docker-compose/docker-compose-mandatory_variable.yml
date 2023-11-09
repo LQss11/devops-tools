@@ -1,0 +1,7 @@
+services:
+  test:
+    image: alpine:latest
+    # The container will only start if variable NAME is set
+    environment:
+      - MY_ENV_VAR=${NAME?Variable NAME not set}
+    command: sh -c "echo Hello my name is $$MY_ENV_VAR"
