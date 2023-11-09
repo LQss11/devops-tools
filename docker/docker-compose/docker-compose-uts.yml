@@ -1,0 +1,8 @@
+services:
+  test:
+    image: alpine:latest
+    container_name: hostname-tester
+    # allow the container to take the same host hostname
+    uts: host
+    command:
+      - hostname
