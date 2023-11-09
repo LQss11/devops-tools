@@ -1,0 +1,7 @@
+services:
+  test:
+    image: alpine:latest
+    # The env var Name by default will get mydefaultvalure if not set
+    environment:
+      - MY_ENV_VAR=${NAME:-mydefaultvalure}
+    command: sh -c "echo Hello my name is $$MY_ENV_VAR"
