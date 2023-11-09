@@ -9,4 +9,4 @@ COPY --from=builder /myapp /myapp
 ENTRYPOINT ["/myapp"]
 
 # docker build -t cat .
-# docker run -it --rm -v ${pwd}:/app cat /app
+# docker run -it --rm -v ${pwd}:/app cat /app/main.c
