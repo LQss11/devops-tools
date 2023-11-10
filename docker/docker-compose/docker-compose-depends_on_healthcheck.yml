@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  main-nginx:
+    image: nginx:alpine
+    container_name: main-nginx
+    restart: always
+    ports:
+      - 9922:80
+    # Container will only start if nginx container is in healthy state
+    depends_on:
+      nginx:
+        condition: service_healthy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    healthcheck:
+      test: ["CMD", "nginx", "-v"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
