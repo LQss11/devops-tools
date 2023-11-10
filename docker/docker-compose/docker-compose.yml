@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  test:
+    labels:
+      com.docker.compose.project: app-name    
+    image: alpine:latest
+    container_name: test
+    hostname: test
+    restart: always
+    ports:
+      - 8088:8080
+    tty: true
+    entrypoint: ""
+    command: ""
+    mem_limit: 32MB
+    mem_reservation: 32MB
+    user: root
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "test.mydockerapp.com:127.0.0.1"
+    volumes:
+      - my-vol:/my-volxxx
+      # - recreate-if-not-exist:/my-volxxx
+    networks:
+      - test
+volumes:
+  recreate-if-not-exist:
+    name: test
+  my-vol:
+    external: true
+    # Real volume name
+    name: test
+networks:
+  test:
+    name: mynet
