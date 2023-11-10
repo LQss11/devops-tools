@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    healthcheck:
+      # Interval + timeout Defaults are 30s
+      # start period 0
+      # retries 3
+      test:  nginx -v || exit 1
