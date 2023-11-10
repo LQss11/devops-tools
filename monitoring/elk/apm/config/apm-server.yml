@@ -1,6 +1,9 @@
+# https://github.com/elastic/apm-server/blob/main/apm-server.yml
 apm-server:
   host: "0.0.0.0:8200"
-  secret_token: ${APM_SECRET_KEY}
+  # secret_token: ${APM_SECRET_KEY}
+  rum:
+    enabled: true
 output.elasticsearch:
     hosts: ["elasticsearch:9200"]
     username: ${ELASTIC_USERNAME}
