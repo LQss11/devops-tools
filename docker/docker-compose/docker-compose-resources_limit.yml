@@ -1,0 +1,7 @@
+services:
+  test:
+    image: alpine:latest
+    # Limit the memory usage
+    mem_limit: 32MB
+    mem_reservation: 32MB
+    command: sh -c "while true; do echo running...; sleep 1; done"
