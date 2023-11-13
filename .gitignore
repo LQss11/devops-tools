@@ -5,5 +5,9 @@
 response.json
 conversationHistory.txt
 .vscode
+.idea
+id_rsa
+id_rsa.pub
 known_hosts
 known_hosts.old
+node_modules
