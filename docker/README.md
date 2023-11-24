@@ -74,3 +74,13 @@ Docker Compose on Linux:
 extra_hosts:
     - "host.docker.internal:host-gateway"
 ```
+
+# Remote build 
+Find more in [here](https://docs.docker.com/build/building/context/#url-fragments).
+Here is an example 
+```sh
+docker build -t ls https://github.com/LQss11/devops-tools.git#main:docker/images/distroless/ls
+docker run -it --rm -v ${pwd}:/app ls /app
+```
+This is the syntax
+`docker build https://<username>:<password>@github.com/user/myrepo.git#<branch>:<path_to_dockerfile>`
