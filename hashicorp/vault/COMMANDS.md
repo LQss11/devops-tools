@@ -68,3 +68,33 @@ vault token lookup | grep policies
 
 vault token create -policy="default" -no-default-policy -ttl=0
 ```
+
+# aws
+```sh
+vault secrets enable aws
+# Config vault for aws to manage useres
+vault write aws/config/root \
+access_key=<ACCESS_KEY> \
+secret_key=<SECRET_KEY> \
+region=us-east-1
+# Read the config user info
+vault read aws/config/root
+# Rotate the root keys (in case you want ot regenrate a new root config)
+vault write -f aws/config/rotate-root
+
+## Manage Users
+# Create user with type arn
+vault write aws/roles/readonlyuser \
+policy_arns=arn:aws:iam:aws:policy/ReadOnlyAccess \
+credentials_type=iam_user
+# Read user info
+vault read aws/roles/readonlyuser
+
+# Generate credentials
+vault read aws/creds/readonlyuser
+# Revoke single user
+vault lease revoke aws/roles/readonlyuser/<lease_id>
+# Revoke a set of users by prefix
+vault lease revoke -prefix aws/roles/readonlyuser
+```
+
