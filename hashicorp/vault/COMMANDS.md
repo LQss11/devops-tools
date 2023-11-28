@@ -98,3 +98,30 @@ vault lease revoke aws/roles/readonlyuser/<lease_id>
 vault lease revoke -prefix aws/roles/readonlyuser
 ```
 
+# Database
+```sh
+vault secrets enable -path=mysql database
+# Create mysql config example
+# Follow this url https://developer.hashicorp.com/vault/docs/secrets/databases/mysql-maria
+vault write mysql/config/mysql-database-dev \
+plugin_name=mysql-rds-database-plugin \
+connection_url="{{username}}:{{password}}@tcp(localhost:3306)/" \
+allowed_roles="advanced" \
+username="admin" \
+password="mypassword"
+
+# Create role
+vault write database/roles/my-role \
+    db_name=mysql-database-dev \
+    creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';" \
+    default_ttl="1h" \
+    max_ttl="24h"
+# Get role info
+vault read database/roles/my-role
+# Edit role 
+vault write database/roles/my-role revocation_statements="..."
+# Create a new user in our mysql database
+vault read mysql/creds/my-role
+# Revoke leases
+vault lease revoke -prefix mysql/creds/my-role
+```
