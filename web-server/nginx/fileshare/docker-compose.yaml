@@ -1,0 +1,38 @@
+# volumes:
+#   vol:
+#     external: true
+#     name: "my_volume"
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    working_dir: /usr/share/nginx/html
+    ports:
+      - 9999:80
+    volumes:
+      - '.:/usr/share/nginx/html/files'
+      # - 'vol:/usr/share/nginx/html/volume'
+    entrypoint: 
+      - /bin/sh
+      - -c
+      - >
+        echo '
+          server {
+              listen       80;
+              listen  [::]:80;
+              server_name  localhost;
+          
+              location / {
+                  root   /usr/share/nginx/html;
+                  index  index.html index.htm;
+                  autoindex on;
+              }
+              error_page   500 502 503 504  /50x.html;
+              location = /50x.html {
+                  root   /usr/share/nginx/html;
+              }
+          
+          }
+        ' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+      
