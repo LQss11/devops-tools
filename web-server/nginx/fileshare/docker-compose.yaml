@@ -1,7 +1,7 @@
-# volumes:
-#   vol:
-#     external: true
-#     name: "my_volume"
+volumes:
+  vol:
+    external: true
+    name: "my_volume"
 
 services:
   nginx:
@@ -12,7 +12,7 @@ services:
       - 9999:80
     volumes:
       - '.:/usr/share/nginx/html/files'
-      # - 'vol:/usr/share/nginx/html/volume'
+      - 'vol:/usr/share/nginx/html/volume'
     entrypoint: 
       - /bin/sh
       - -c
