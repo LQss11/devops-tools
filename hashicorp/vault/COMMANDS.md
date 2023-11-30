@@ -125,3 +125,33 @@ vault read mysql/creds/my-role
 # Revoke leases
 vault lease revoke -prefix mysql/creds/my-role
 ```
+
+# pki
+```sh
+vault secrets enable pki
+vault secrets tune -max-lease-ttl=87600h pki
+vault write -field=certificate pki/root/generate/internal \
+common_name="vaultadvanced.com" \
+ttl=87600h > ca_cert.crt
+
+vault write pki/config/urls \
+issuing_certificates="https://127.0.0.1:8200/v1/pki/ca" \
+crl_distribution_points="https://127.0.0.1:8200/v1/pki/crl"
+
+vault secrets enable -path=pki_int -description="intermediate pki" pki
+vault secrets list
+vault secrets tune -max-lease-ttl=43800h pki_int
+vault write -format=json pki_int/intermediate/generate/internal \
+common_name="vaultadvanced.com Intermediate Authority" | jq -r '.data.csr' >pki_intermediate.csr
+
+vault write -format=json pki/root/sign-intermediate csr=@pki_intermediate.csr \
+format=pem_bundle ttl="43800h" | jq -r '.data.certificate' >intermediate.cert.pem
+
+vault write pki_int/intermediate/set-signed certificate=@intermediate.cert.pem
+
+vault write pki_int/roles/vaultadvanced \
+allowed_domains="vaultadvanced.com" allow_subdomains=true max_ttl="720"
+vault read pki_int/roles/vaultadvanced
+
+vault write pki_int/issue/vaultadvanced common_name="learn.vault  advanced.com" ttl="24h"
+```
