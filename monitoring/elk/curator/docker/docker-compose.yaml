@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+    curator:
+      restart: always
+      container_name: curator
+      hostname: curator
+      build:
+        context: ..
+        dockerfile: ./docker/Dockerfile
+      image: local/curator
+      command: ["--config", "/config/config.yml", "/config/action.yml"]
+      # command: "sh"
+      # entrypoint: ""
+      # tty: true
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}      
+      networks:
+        - logs-monitoring
+networks:
+  logs-monitoring:
