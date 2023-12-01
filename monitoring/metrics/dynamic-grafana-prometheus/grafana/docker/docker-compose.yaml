@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   grafana:
@@ -8,7 +8,7 @@ services:
     image: local/grafana
     container_name: grafana
     hostname: grafana
-    restart: always    
+    restart: always
     ports:
       - 3000:3000
     volumes:
@@ -20,11 +20,26 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-adminadmin123}
       - GF_SECURITY_ADMIN_USER=admin
       - GF_INSTALL_PLUGINS=grafana-piechart-panel,camptocamp-prometheus-alertmanager-datasource,grafana-clock-panel
+      # grafana-image-renderer related params
+      - GF_RENDERING_SERVER_URL=http://grafana-image-renderer:8081/render
+      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
+      - GF_LOG_FILTERS=rendering:debug
     networks:
       - monitoring
     env_file:
       - ../../.global.env
+  grafana-image-renderer:
+    container_name: grafana-image-renderer
+    hostname: grafana-image-renderer
+    restart: always
+    image: grafana/grafana-image-renderer:3.8.4
+    environment:
+      - RENDERING_ARGS=--no-sandbox,--disable-gpu,--window-size=1280x758
+    # ports:
+    #   - 8081:8081
+    networks:
+      - monitoring
 networks:
-  monitoring:      
+  monitoring:
 volumes:
   grafana-data:
