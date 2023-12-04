@@ -1,0 +1,32 @@
+---
+# Remember, leave a key empty if there is no value.  None will be a string,
+# not a Python "NoneType"
+elasticsearch:
+  client:
+    hosts: http://host.docker.internal:9200
+    cloud_id:
+    bearer_auth:
+    opaque_id:
+    request_timeout: 60
+    http_compress:
+    verify_certs:
+    ca_certs:
+    client_cert:
+    client_key:
+    ssl_assert_hostname:
+    ssl_assert_fingerprint:
+    ssl_version:
+  other_settings:
+    master_only:
+    skip_version_test:
+    username:
+    password:
+    api_key:
+      id:
+      api_key:
+
+logging:
+  loglevel: INFO
+  logfile: 
+  logformat: default
+  blacklist: ['elastic_transport', 'urllib3']

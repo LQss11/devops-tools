@@ -8,6 +8,7 @@ client:
   client_cert:
   client_key:
   ssl_no_validate: False
+  # http_auth: "XXXXX:XXXXXXXX"
   http_auth:
   timeout: 30
   master_only: False
