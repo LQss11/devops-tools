@@ -1,0 +1,71 @@
+version: "3.8"
+services:
+  salem-affes:
+    container_name: salem-affes
+    hostname: salem-affes
+    image: nginx:alpine
+    ports:
+      - 80:80
+    entrypoint: 
+      - "sh"
+      - "-c"
+      - |
+        echo '
+          <!DOCTYPE html>
+          <html lang="en">
+
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>LQss11</title>
+              <style>
+                  body {
+                      background-color: #ffecf2;
+                      font-family: Arial, sans-serif;
+                      text-align: center;
+                      margin: 0;
+                      padding: 0;
+                  }
+
+                  header {
+                      background-color: #ff5c77;
+                      color: white;
+                      padding: 20px;
+                  }
+
+                  h1 {
+                      font-size: 2.5rem;
+                      margin: 0;
+                  }
+
+                  img {
+                      max-width: 100%;
+                      border-radius: 50%;
+                      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                  }
+
+                  section {
+                      padding: 20px;
+                  }
+
+                  p {
+                      font-size: 1.2rem;
+                      margin: 20px 0;
+                  }
+              </style>
+          </head>
+
+          <body>
+              <header>
+                  <h1>Welcome!</h1>
+              </header>
+              <section>
+                  <img
+                      src="https://scontent.ftun20-1.fna.fbcdn.net/v/t39.30808-1/318299183_10222705099392102_5076556503133846528_n.jpg?stp=c2.0.200.200a_dst-jpg_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=10gidqDgSRAAX-QqXCh&_nc_ht=scontent.ftun20-1.fna&oh=00_AfBKRbpAQgjw4CzDVFKJxo_cMgUlwOojc3jyl58dS1bnzg&oe=65517C5F">
+              </section>
+          </body>
+
+          </html>
+
+        ' > /usr/share/nginx/html/index.html
+        exec nginx -g 'daemon off;'
