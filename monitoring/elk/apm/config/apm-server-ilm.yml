@@ -8,33 +8,61 @@ apm-server:
       overwrite: true
       require_policy: true
       mapping:
+        - event_type: "profile"
+          policy_name: "apm-default-policy"
+          index_suffix: ""
         - event_type: "error"
-          policy_name: "apm-rollover-policy"
-          index_suffix: ""
-        - event_type: "span"
-          policy_name: "apm-rollover-policy"
-          index_suffix: ""
-        - event_type: "transaction"
-          policy_name: "apm-rollover-policy"
+          policy_name: "apm-default-policy"
           index_suffix: ""
         - event_type: "metric"
-          policy_name: "apm-rollover-policy"
+          policy_name: "apm-metrics-policy"
           index_suffix: ""
-        - event_type: "profile"
-          policy_name: "apm-rollover-policy"
+        - event_type: "span"
+          policy_name: "apm-span-transaction-policy"
+          index_suffix: ""
+        - event_type: "transaction"
+          policy_name: "apm-span-transaction-policy"
           index_suffix: ""
       policies:
-        - name: "apm-rollover-policy"
+          # will persist 7 - 22 days of metrics data
+        - name: "apm-default-policy"
+          policy:
+            phases:
+              hot:
+                actions:
+                  rollover:
+                    max_size: "50mb"
+                    max_age: "15d"
+              delete:
+                min_age: "7d"
+                actions:
+                  delete: {}
+        - name: "apm-metrics-policy"
+          # will persist 2 - 4 days of metrics data
           policy:
             phases:
               hot:
                 actions:
                   rollover:
                     max_size: "1gb"
-                    max_age: "6h"
+                    max_age: "2d"
               delete:
-                min_age: "2h"
-                actions: {}
+                min_age: "2d"
+                actions:
+                  delete: {}
+        - name: "apm-span-transaction-policy"
+          # will persist 30 days of transaction data
+          policy:
+            phases:
+              hot:
+                actions:
+                  rollover:
+                    max_size: "100mb"
+                    max_age: "1d"
+              delete:
+                min_age: "15d"
+                actions:
+                  delete: {}
           # policy:
           #   phases:
           #     hot:
