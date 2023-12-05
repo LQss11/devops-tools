@@ -1,0 +1,14 @@
+FROM ubuntu:22.04
+
+# Create required users
+RUN adduser --disabled-password --gecos "Dockerfile defined user" superuser
+
+# Update users passwords
+RUN echo "superuser:pass123" | chpasswd 
+# Admin user can execute any command without entering a password
+RUN echo "superuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+
+
+RUN apt-get update
+RUN apt-get install -y sudo
