@@ -152,7 +152,7 @@
               "refId": "Used"
             }
           ],
-          "title": "Mem Usage",
+          "title": "Mem Free",
           "type": "timeseries"
         },
         {
@@ -218,6 +218,104 @@
             "w": 24,
             "x": 0,
             "y": 6
+          },
+          "id": 484,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "node_memory_MemTotal_bytes{instance=~\"$node\", job=~\"$job\"} - node_memory_MemAvailable_bytes{instance=~\"$node\", job=~\"$job\"}",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{instance}}",
+              "range": true,
+              "refId": "Used"
+            }
+          ],
+          "title": "Mem Usage",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 11
           },
           "id": 338,
           "options": {
@@ -1168,7 +1266,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -1294,6 +1392,6 @@
   "timezone": "browser",
   "title": "Live Server Resources Monitoring",
   "uid": "bbb5d1c1-2d47-4d5d-9b33-aba51a2c4a23",
-  "version": 11,
+  "version": 13,
   "weekStart": ""
 }
