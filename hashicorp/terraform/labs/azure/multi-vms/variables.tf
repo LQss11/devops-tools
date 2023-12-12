@@ -7,6 +7,9 @@ variable "subnets" {
   default = {
     "subnet" = {
       inbound_ports = ["22", "3389", "1433"]
+    },
+    "subnet2" = {
+      inbound_ports = ["1433"]
     }
   }
 }

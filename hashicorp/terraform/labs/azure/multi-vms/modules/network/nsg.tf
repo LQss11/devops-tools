@@ -3,90 +3,55 @@ resource "azurerm_network_security_group" "main" {
   name                = "${var.prefix}-nsg-${each.key}"
   location            = var.location
   resource_group_name = var.resource_group
-  tags                = var.tags
+  security_rule {
+    name                       = "AllowAllOutbound"
+    priority                   = 1000
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  tags = var.tags
 }
 
+# Assign security group to the subnet
+resource "azurerm_subnet_network_security_group_association" "main" {
+  for_each                  = var.subnets
+  subnet_id                 = azurerm_subnet.main[each.key].id
+  network_security_group_id = azurerm_network_security_group.main[each.key].id
+}
 
-resource "azurerm_network_security_rule" "example" {
-  for_each = {
-    for subnet_name, subnet_config in var.subnets : subnet_name => subnet_config.inbound_ports
-  }
+locals {
+  expanded_subnets = flatten([
+    for subnet, details in var.subnets : [
+      for port in details.inbound_ports : {
+        subnet = subnet
+        port   = port
+      }
+    ]
+  ])
+}
 
-  name                        = "nsr-${each.key}-${each.value[0]}"
-  priority                    = 100
+resource "azurerm_network_security_rule" "inbound" {
+  for_each = { for idx, item in local.expanded_subnets : idx => item }
+
+  name                        = "Inbound-${each.value.subnet}-${each.value.port}"
+  priority                    = 100 + tonumber(each.key)  # Convert each.key to a number for numeric operations
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "*"
+  destination_port_range      = each.value.port
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group
-  network_security_group_name = azurerm_network_security_group.main[each.key].name
+  network_security_group_name = azurerm_network_security_group.main[each.value.subnet].name
 }
 
 
 
 
 
-# This works with range
-# resource "azurerm_network_security_rule" "main_inbound" {
-#   for_each = {
-#     for subnet_key, subnet in var.subnets : subnet_key => subnet.security_rules
-#   }
-
-#   name                        = "${each.key}-nsr"
-#   priority                    = 100
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = join(",", each.value)
-#   source_address_prefix       = "*"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = var.resource_group
-#   network_security_group_name = azurerm_network_security_group.main[each.key].name
-# }
-
-# resource "azurerm_network_security_rule" "example" {
-#   for_each                    = var.subnets
-#   name                        = "rule-${each.key}"
-#   priority                    = 100
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = var.subnets[each.key].security_rules
-#   destination_port_range      = "*"
-#   source_address_prefix       = "*"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = var.resource_group
-#   network_security_group_name = azurerm_network_security_group.main[each.key].name
-# }
-
-
-
-# resource "azurerm_network_security_rule" "main_inbound" {
-#   for_each = {
-#     for subnet_key, subnet in var.subnets : subnet_key => flatten([for i, rule in subnet.security_rules : { rule = rule, index = i }])
-#   }
-
-#   name                        = "${each.key}-nsr-${each.value.index}"
-#   priority                    = 100 + each.value.index * 10
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "Tcp"
-#   source_port_range           = "*"
-#   destination_port_range      = each.value.rule
-#   source_address_prefix       = "*"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = var.resource_group
-#   network_security_group_name = azurerm_network_security_group.main[each.key].name
-# }
-
-
-# # Assign security group to the subnet
-# resource "azurerm_subnet_network_security_group_association" "main" {
-#   for_each                  = var.subnets
-#   subnet_id                 = azurerm_subnet.main[each.key].id
-#   network_security_group_id = azurerm_network_security_group.main[each.key].id
-# }
