@@ -25,7 +25,7 @@ module "network" {
 
 }
 
-# module "ssh" {
-#   source = "./modules/ssh"
-
-# }
+module "ssh" {
+  source = "./modules/ssh"
+  prefix = var.prefix
+}
