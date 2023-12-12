@@ -20,13 +20,13 @@ resource "azurerm_linux_virtual_machine" "main" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = 64
   }
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    # offer   = "UbuntuServer"
-    sku     = "22_04-lts"
-    version = "latest"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
+    version   = "latest"
   }
 }

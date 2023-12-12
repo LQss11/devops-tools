@@ -30,5 +30,5 @@ module "vm" {
   subnet_details = module.network.subnets
   tags           = var.tags
   public_key_pem = module.ssh.public_key_pem
-  depends_on = [ module.ssh ]
+  depends_on     = [module.ssh]
 }

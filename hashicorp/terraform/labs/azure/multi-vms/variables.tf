@@ -7,28 +7,22 @@ variable "subnets" {
     "subnet" = {
       inbound_ports = ["22", "1433"]
       vms = {
-        test = {
-          name     = "examplevm1",
-          size     = "Standard_B1ls",
-          username = "adminuser"
-        },
-        test2 = {
-          name     = "examplevm2",
-          size     = "Standard_B1ls",
+        openstack = {
+          name     = "openstack-controller",
+          size     = "Standard_D4s_v3",
           username = "adminuser"
         }
-      }
-    },
-    "subnet2" = {
-      inbound_ports = ["22", "80", "443"]
-      vms = {
-        test3 = {
-          name     = "examplevm3",
-          size     = "Standard_B1ls",
-          username = "adminuser"
-        }
+        # test2 = {
+        #   name     = "examplevm2",
+        #   size     = "Standard_B1ls",
+        #   username = "adminuser"
+        # }
       }
     }
+    # "subnet2" = {
+    #   inbound_ports = []
+    #   vms           = {}
+    # }
   }
 }
 
