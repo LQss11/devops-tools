@@ -5,12 +5,29 @@ variable "prefix" {
 variable "subnets" {
   default = {
     "subnet" = {
-      inbound_ports = ["22", "3389", "1433"]
-      vms           = { example1 = { name = "myfirstvm"}}
+      inbound_ports = ["22", "1433"]
+      vms = {
+        test = {
+          name     = "examplevm1",
+          size     = "Standard_B1ls",
+          username = "adminuser"
+        },
+        test2 = {
+          name     = "examplevm2",
+          size     = "Standard_B1ls",
+          username = "adminuser"
+        }
+      }
     },
     "subnet2" = {
-      inbound_ports = ["1433"]
-      vms           = {}
+      inbound_ports = ["22", "80", "443"]
+      vms = {
+        test3 = {
+          name     = "examplevm3",
+          size     = "Standard_B1ls",
+          username = "adminuser"
+        }
+      }
     }
   }
 }
