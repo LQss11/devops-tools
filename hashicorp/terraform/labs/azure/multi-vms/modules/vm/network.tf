@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "main" {
-  for_each            = { for idx, item in local.flattened_subnets : idx => item }
+  for_each            = { for idx, item in local.expanded_subnets : item.name => item }
   name                = "${var.prefix}-${each.value.name}-pip"
   resource_group_name = var.resource_group
   location            = var.location
@@ -7,7 +7,7 @@ resource "azurerm_public_ip" "main" {
 }
 
 resource "azurerm_network_interface" "main" {
-  for_each            = { for idx, item in local.flattened_subnets : idx => item }
+  for_each            = { for idx, item in local.expanded_subnets : item.name => item }
   name                = "${var.prefix}-${each.value.name}-nic"
   resource_group_name = var.resource_group
   location            = var.location

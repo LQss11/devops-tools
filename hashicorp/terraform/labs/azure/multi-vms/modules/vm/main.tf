@@ -1,5 +1,5 @@
 resource "azurerm_linux_virtual_machine" "main" {
-  for_each            = { for idx, item in local.flattened_subnets : idx => item }
+  for_each            = { for idx, item in local.expanded_subnets : item.name => item }
   name                = "${var.prefix}-${each.value.name}"
   resource_group_name = var.resource_group
   location            = var.location
@@ -9,8 +9,9 @@ resource "azurerm_linux_virtual_machine" "main" {
   ]
 
   admin_ssh_key {
-    username   = each.value.username
-    public_key = file("${path.root}/${var.prefix}-id_rsa.pub")
+    username = each.value.username
+    # public_key = file("${path.root}/${var.prefix}-id_rsa.pub")
+    public_key = var.public_key_pem
   }
   # disable_password_authentication= false
   admin_username = each.value.username

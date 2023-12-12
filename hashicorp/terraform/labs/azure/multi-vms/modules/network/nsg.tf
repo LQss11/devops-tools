@@ -14,10 +14,9 @@ resource "azurerm_subnet_network_security_group_association" "main" {
 }
 
 resource "azurerm_network_security_rule" "inbound" {
-  for_each = { for idx, item in local.expanded_subnets : idx => item }
-
+  for_each                    = { for idx, item in local.expanded_subnets : "${item.subnet}-${item.port}" => item }
   name                        = "${var.prefix}-Inbound-${each.value.subnet}-${each.value.port}"
-  priority                    = 100 + tonumber(each.key) # Convert each.key to a number for numeric operations
+  priority                    = 100 + index(local.expanded_subnets, each.value) # Convert each.key to a number for numeric operations
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"

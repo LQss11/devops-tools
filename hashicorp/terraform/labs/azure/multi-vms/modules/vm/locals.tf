@@ -1,5 +1,5 @@
 locals {
-  flattened_subnets = flatten([
+  expanded_subnets = flatten([
     for subnet, details in var.subnets : [
       for vm, vm_details in details.vms : {
         subnet   = subnet
