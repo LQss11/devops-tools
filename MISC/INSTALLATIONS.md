@@ -6,12 +6,12 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 A set of tools to install on a new PC:
 ```sh
 # Install windows tools
-choco install -y --force firefox vlc winrar obs-studio screentogif notion messenger googlechrome  discord qbittorrent spotify
+choco install -y --force firefox vlc winrar obs-studio screentogif notion messenger googlechrome  discord qbittorrent spotify microsoft-teams
 # Install dev tools
-choco install -y --force git go redis-64 javaruntime jdk8 postman vscode mobaxterm notepadplusplus
+choco install -y --force git go redis-64 javaruntime jdk8 postman vscode mobaxterm notepadplusplus make
 choco install -y --force python --version 3.12.1
 # Install devops tools
-choco install -y --force terraform vault kubernetes-helm argocd-cli flux
+choco install -y --force terraform vault kubernetes-helm argocd-cli flux kubectx
 # Install cloud cli tools
 choco install -y --force azure-cli awscli
 # Intall linux and misc tools
