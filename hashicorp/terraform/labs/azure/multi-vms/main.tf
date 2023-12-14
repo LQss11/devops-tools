@@ -12,8 +12,6 @@ module "network" {
   address_space  = "172.16.0.0/16"
   subnets        = var.subnets
   tags           = var.tags
-  # depends_on     = [module.key_vault]
-
 }
 
 module "ssh" {

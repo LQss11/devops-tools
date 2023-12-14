@@ -1,10 +1,6 @@
-# output "ssh_command" {
-#   value = "ssh -o StrictHostKeyChecking=no -i ${var.prefix}-id_rsa adminuser@${values(module.vm.pub_ips)}"
-# }
 output "ssh_command" {
-  value = { for k, v in module.vm.pub_ips : k => "ssh -o StrictHostKeyChecking=no -i multivms-id_rsa adminuser@${v}" }
+  value = { for k, v in module.vm.virtual_machines : k => "ssh -o StrictHostKeyChecking=no -i multivms-id_rsa ${v.admin_username}@${v.public_ip_address}" }
 }
-
 output "private_ips" {
-  value = { for k, v in module.vm.private_ips : k => v }
+  value = { for k, v in module.vm.virtual_machines : k => v.private_ip_address }
 }

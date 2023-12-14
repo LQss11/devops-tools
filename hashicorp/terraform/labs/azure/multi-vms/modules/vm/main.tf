@@ -13,9 +13,9 @@ resource "azurerm_linux_virtual_machine" "main" {
     # public_key = file("${path.root}/${var.prefix}-id_rsa.pub")
     public_key = var.public_key_pem
   }
-  # disable_password_authentication= false
   admin_username = each.value.username
-  #   admin_password = "Admin123"
+  # disable_password_authentication= false
+  # admin_password = "Admin123"
 
   os_disk {
     caching              = "ReadWrite"
