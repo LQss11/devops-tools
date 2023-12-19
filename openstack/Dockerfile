@@ -41,7 +41,7 @@ WORKDIR /opt/stack/devstack
 RUN chmod 777 -R /opt/stack && chown superuser:root -R /opt/stack && \
     cp samples/local.conf . && \
     echo "LIBS_FROM_GIT=python-keystoneclient" >>local.conf && \
-    echo "HOST_IP=192.168.1.27" >>local.conf
+    echo "HOST_IP=$(hostname -i)" >>local.conf
 # docker run -it --rm --user superuser openstack
 
 RUN ln -s /bin/true /sbin/systemctl
