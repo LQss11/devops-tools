@@ -9,7 +9,7 @@ module "network" {
   resource_group = azurerm_resource_group.main.name
   location       = azurerm_resource_group.main.location
   vnet_name      = "${var.prefix}-vnet"
-  address_space  = "172.16.0.0/16"
+  address_space  = var.address_space
   subnets        = var.subnets
   tags           = var.tags
 }

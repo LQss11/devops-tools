@@ -2,6 +2,10 @@ variable "prefix" {
   default = "multivms"
 }
 
+variable "address_space" {
+  default = "10.50.0.0/16"
+}
+
 variable "subnets" {
   default = {
     "subnet" = {
