@@ -12,6 +12,6 @@ resource "azurerm_subnet" "main" {
   name                 = "${var.prefix}-subnet-${each.key}"
   resource_group_name  = var.resource_group
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = [cidrsubnet(var.address_space, 16, index(keys(var.subnets), each.key))]
+  address_prefixes     = [cidrsubnet(var.address_space, 8, index(keys(var.subnets), each.key))]
 }
 
