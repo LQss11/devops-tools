@@ -6,6 +6,10 @@ import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+}
+
 def format_size(size_in_bytes):
     # Convert file size to human-readable format
     for unit in ['B', 'KB', 'MB', 'GB']:
@@ -39,7 +43,7 @@ def categorize_files_by_creation_time(files):
 
 def get_file_details(url):
     try:
-        with requests.get(url, stream=True) as file_response:
+        with requests.get(url, stream=True, headers=HEADERS) as file_response:
             file_response.raise_for_status()
 
             # Get file details
@@ -65,7 +69,7 @@ def get_file_details(url):
 
 def get_file_formats(url, target_formats):
     try:
-        with requests.get(url) as response:
+        with requests.get(url, headers=HEADERS) as response:
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
