@@ -10,31 +10,33 @@ options = webdriver.ChromeOptions()
 options.add_argument("--ignore-ssl-errors=yes")
 options.add_argument("--ignore-certificate-errors")
 driver = webdriver.Remote(
-    command_executor="http://host.docker.internal:4444/wd/hub", options=options
+    command_executor="http://host.docker.internal:4444", options=options
 )
 
 # Open Google
 driver.get("https://www.google.com")
 
-# Find the search bar, input "github," and submit the search
+# Find the search bar, input "lqss11 github," and submit the search
 search_bar = driver.find_element(By.NAME, "q")
-search_bar.send_keys("github")
+search_bar.send_keys("lqss11 github")
 search_bar.send_keys(Keys.RETURN)
 
 # Wait for the search results to load
-wait = WebDriverWait(driver, 1)
+wait = WebDriverWait(driver, 10)
 wait.until(EC.presence_of_element_located((By.ID, "search")))
 
-# Find the search bar again, input "lqss11 devops-tools," and submit the search
-search_bar = driver.find_element(By.NAME, "q")
-search_bar.clear()
-search_bar.send_keys("lqss11 devops-tools")
-search_bar.send_keys(Keys.RETURN)
+# Find and click on the first search result link
+first_result = driver.find_element(By.CSS_SELECTOR, "div#search a")
+first_result.click()
 
-# Wait for the search results to load
-wait.until(EC.presence_of_element_located((By.ID, "search")))
-print("Exiting in 10 seconds...")
-time.sleep(10)
+# Wait for the page to load after clicking the first link
+time.sleep(5)
+
+# Find an element containing "repositories" (case-insensitive)
+repositories_element = driver.find_element(By.XPATH, "//*[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'repositories')]")
+print("Element containing 'repositories' found:", repositories_element.text)
+
 print("Test Execution Finished!")
+
 # Quit the WebDriver session
 driver.quit()
