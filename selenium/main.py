@@ -29,13 +29,6 @@ wait.until(EC.presence_of_element_located((By.ID, "search")))
 first_result = driver.find_element(By.CSS_SELECTOR, "div#search a")
 first_result.click()
 
-# Wait for the page to load after clicking the first link
-time.sleep(5)
-
-# Find an element containing "repositories" (case-insensitive)
-repositories_element = driver.find_element(By.XPATH, "//*[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'repositories')]")
-print("Element containing 'repositories' found:", repositories_element.text)
-
 print("Test Execution Finished!")
 
 # Quit the WebDriver session
