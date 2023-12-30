@@ -12,7 +12,7 @@ If you want to test ldap using linux commands we first need to install ldapsearc
 ```sh
 ## Install ldapsearch
 # Alpine: apk add openldap-clients
-# Ubuntu: apt-get install -y utils-ldap
+# Ubuntu: apt-get install -y ldap-utils libpam-ldap libnss-ldap
 
 # -W to get asked for password (to not put in plain text)
 ldapsearch -x -b "dc=example,dc=myorg,dc=com" -H ldap://host.docker.internal -D "cn=admin,dc=example,dc=myorg,dc=com" -w mypw
@@ -76,6 +76,7 @@ userpassword: {MD5}GkuBc+pCHEBktBp7uVK2tA==
 EOF
 # Run the creation of ldap objects
 ldapadd -cxD "cn=admin,${LDAP_DOMAIN}" -H ldap://host.docker.internal -w mypw -f ldap-object.ldif
+ldapsearch -x -b "ou=users,dc=example,dc=myorg,dc=com" -H ldap://host.docker.internal -D "cn=admin,dc=example,dc=myorg,dc=com" -w mypw "(uid=saffes)"
 ```
 
 # Docs
