@@ -33,6 +33,8 @@ search_bar.send_keys(Keys.RETURN)
 
 # Wait for the search results to load
 wait.until(EC.presence_of_element_located((By.ID, "search")))
-
+print("Exiting in 10 seconds...")
+time.sleep(10)
+print("Test Execution Finished!")
 # Quit the WebDriver session
 driver.quit()
