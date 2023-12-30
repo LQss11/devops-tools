@@ -1,1 +1,1 @@
-sed $'s/\r$//' filename
+sed -i $'s/\r$//' filename
