@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  pyapp:
+    container_name: pyapp
+    hostname: pyapp
+    build: .
+    tty: true
+    entrypoint: bash
+    volumes:
+      - .:/usr/src/app
+  selenium:
+    # /etc/supervisord.conf
+    container_name: selenium
+    hostname: selenium
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
+      - "7900:7900" 
+      - "5900:7900" 
+    environment:
+      - VNC_NO_PASSWORD=1
+      - SE_NODE_MAX_SESSIONS=10
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=false
+    volumes:
+      - /dev/shm:/dev/shm
+    
