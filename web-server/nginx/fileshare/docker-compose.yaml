@@ -11,8 +11,7 @@ services:
     ports:
       - 9999:80
     volumes:
-      - '.:/usr/share/nginx/html/files'
-      - 'vol:/usr/share/nginx/html/volume'
+      - './folder:/usr/share/nginx/html/files'
     entrypoint: 
       - /bin/sh
       - -c
