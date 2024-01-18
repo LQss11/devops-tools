@@ -292,7 +292,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(process_cpu_seconds_total{instance=~\"$host\", job=\"cadvisor\", job=~\"$job\"}[5m]) * 100",
+          "expr": "rate(process_cpu_seconds_total{instance=~\"$host\", job=~\"$job\"}[5m]) * 100",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -1873,7 +1873,7 @@
             "h": 6,
             "w": 24,
             "x": 0,
-            "y": 20
+            "y": 31
           },
           "id": 45,
           "links": [],
@@ -1985,7 +1985,7 @@
             "h": 6,
             "w": 12,
             "x": 0,
-            "y": 26
+            "y": 37
           },
           "id": 46,
           "options": {
@@ -2081,7 +2081,7 @@
             "h": 6,
             "w": 12,
             "x": 12,
-            "y": 26
+            "y": 37
           },
           "id": 47,
           "options": {
@@ -2177,7 +2177,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 32
+            "y": 43
           },
           "id": 48,
           "options": {
@@ -2278,7 +2278,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 32
+            "y": 43
           },
           "id": 49,
           "options": {
@@ -2406,7 +2406,7 @@
             "h": 5,
             "w": 12,
             "x": 0,
-            "y": 21
+            "y": 52
           },
           "id": 40,
           "options": {
@@ -2507,7 +2507,7 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 21
+            "y": 52
           },
           "id": 41,
           "options": {
@@ -2608,7 +2608,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 26
+            "y": 57
           },
           "id": 4,
           "options": {
@@ -2709,7 +2709,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 26
+            "y": 57
           },
           "id": 6,
           "options": {
@@ -2852,7 +2852,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 22
+            "y": 66
           },
           "id": 17,
           "options": {
@@ -2945,11 +2945,15 @@
         "current": {
           "selected": true,
           "text": [
-            "cadvisor"
+            "All"
           ],
           "value": [
-            "cadvisor"
+            "$__all"
           ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(cadvisor_version_info,job)",
         "description": "Job name used to seperate between a set of exporters",
@@ -3060,6 +3064,6 @@
   "timezone": "",
   "title": "Docker Monitoring",
   "uid": "d1c98999-c811-4914-bb41-320f195e213a",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }
