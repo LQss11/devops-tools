@@ -20,7 +20,6 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 14282,
   "graphTooltip": 0,
-  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -76,7 +75,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "count by(instance) (rate(container_last_seen{name=~\".+\", instance=~\"$host\"}[5m]))",
+          "expr": "count by(instance) (rate(container_last_seen{name=~\".+\", instance=~\"$host\", job=~\"$job\"}[5m]))",
           "instant": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -138,9 +137,9 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by(instance) (container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
+          "expr": "sum by(instance) (container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -204,8 +203,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "sum by(instance) (rate(container_network_receive_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[5m]))",
+          "editorMode": "code",
+          "expr": "sum by(instance) (rate(container_network_receive_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[5m]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -292,8 +291,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
-          "expr": "rate(process_cpu_seconds_total{instance=~\"$host\", job=\"cadvisor\"}[5m]) * 100",
+          "editorMode": "code",
+          "expr": "rate(process_cpu_seconds_total{instance=~\"$host\", job=\"cadvisor\", job=~\"$job\"}[5m]) * 100",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -361,7 +360,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (instance)(\r\n  container_memory_cache{instance=~\"$host\", name=~\"$container\", name=~\".+\"}\r\n)\r\n",
+          "expr": "sum by (instance)(\r\n  container_memory_cache{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}\r\n)\r\n",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -426,7 +425,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum by (instance) (rate(container_network_transmit_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[5m]))\r\n",
+          "expr": "sum by (instance) (rate(container_network_transmit_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[5m]))\r\n",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -521,7 +520,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by(instance) (rate(container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
+          "expr": "sum by(instance) (rate(container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}} IO",
@@ -612,9 +611,9 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by(instance) (rate(container_fs_writes_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
+          "expr": "sum by(instance) (rate(container_fs_writes_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
           "instant": false,
           "interval": "",
           "legendFormat": "{{instance}} Write",
@@ -706,7 +705,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (rate(container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
+          "expr": "sum by(instance) (rate(container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
           "hide": false,
           "instant": false,
           "legendFormat": "{{instance}} Read",
@@ -728,60 +727,98 @@
       "id": 53,
       "panels": [
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 6,
             "w": 12,
             "x": 0,
             "y": 18
           },
-          "hiddenSeries": false,
           "id": 52,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "max",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "editorMode": "builder",
-              "expr": "sum by(name) (rate(container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
+              "editorMode": "code",
+              "expr": "sum by(name) (rate(container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
               "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
@@ -789,37 +826,8 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "IO Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "bytes",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         },
         {
           "datasource": {
@@ -936,30 +944,7 @@
             {
               "datasource": "PBFA97CFB590B2093",
               "editorMode": "code",
-              "expr": "sum by(name) (container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
-              "hide": true,
-              "intervalFactor": 2,
-              "legendFormat": "{{name}}",
-              "metric": "",
-              "range": true,
-              "refId": "A",
-              "step": 240
-            },
-            {
-              "datasource": "PBFA97CFB590B2093",
-              "editorMode": "code",
-              "expr": "sum by(name) (container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
-              "hide": true,
-              "intervalFactor": 2,
-              "legendFormat": "{{name}}",
-              "range": true,
-              "refId": "B",
-              "step": 240
-            },
-            {
-              "datasource": "PBFA97CFB590B2093",
-              "editorMode": "code",
-              "expr": "sum by(name) (container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
+              "expr": "sum by(name) (container_fs_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"})",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{name}}",
@@ -1097,7 +1082,7 @@
             {
               "datasource": "PBFA97CFB590B2093",
               "editorMode": "code",
-              "expr": "sum by(name) (container_fs_writes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
+              "expr": "sum by(name) (container_fs_writes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"})",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{name}}",
@@ -1231,7 +1216,7 @@
             {
               "datasource": "PBFA97CFB590B2093",
               "editorMode": "code",
-              "expr": "sum by(name) (container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
+              "expr": "sum by(name) (container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"})",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{name}}",
@@ -1255,146 +1240,90 @@
           "type": "table"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 6,
             "w": 24,
             "x": 0,
             "y": 30
           },
-          "hiddenSeries": false,
           "id": 60,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "max",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
           "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "editorMode": "builder",
-              "expr": "sum by(name) (rate(container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "{{name}}",
-              "range": true,
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeRegions": [],
-          "title": "Total Read Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "bytes",
-              "logBase": 1,
-              "show": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Mean",
+              "sortDesc": true
             },
-            {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
             }
-          ],
-          "yaxis": {
-            "align": false
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 6,
-            "w": 24,
-            "x": 0,
-            "y": 36
-          },
-          "hiddenSeries": false,
-          "id": 55,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "max",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -1402,7 +1331,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum by(name) (rate(container_fs_writes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[15m]))",
+              "expr": "sum by(name) (rate(container_fs_reads_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
               "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
@@ -1410,37 +1339,111 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
-          "title": "Total Write Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
+          "title": "Total Read Usage",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "bytes",
-              "logBase": 1,
-              "show": true
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
             },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 36
+          },
+          "id": 55,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.0.4",
+          "targets": [
             {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "sum by(name) (rate(container_fs_writes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[15m]))",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{name}}",
+              "range": true,
+              "refId": "A"
             }
           ],
-          "yaxis": {
-            "align": false
-          }
+          "title": "Total Write Usage",
+          "type": "timeseries"
         }
       ],
       "title": "IO $host",
@@ -1574,8 +1577,8 @@
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "editorMode": "builder",
-              "expr": "sum(rate(process_cpu_seconds_total{instance=~\"$host\", job=\"cadvisor\"}[5m])) * 100",
+              "editorMode": "code",
+              "expr": "sum(rate(process_cpu_seconds_total{instance=~\"$host\", job=~\"$job\"}[5m])) * 100",
               "hide": false,
               "interval": "",
               "intervalFactor": 2,
@@ -1641,9 +1644,9 @@
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "editorMode": "builder",
+              "editorMode": "code",
               "exemplar": false,
-              "expr": "sum(sum(rate(container_cpu_usage_seconds_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[5m])) by (name)) * 100",
+              "expr": "sum(sum(rate(container_cpu_usage_seconds_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[5m])) by (name)) * 100",
               "instant": false,
               "interval": "",
               "legendFormat": "__auto",
@@ -1655,52 +1658,88 @@
           "type": "stat"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 7,
             "w": 24,
             "x": 0,
             "y": 23
           },
-          "hiddenSeries": false,
           "id": 15,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "max",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -1708,7 +1747,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(rate(container_cpu_usage_seconds_total{instance=~\"$host\",name=~\"$container\",name=~\".+\"}[5m])) by (name) *100",
+              "expr": "sum(rate(container_cpu_usage_seconds_total{instance=~\"$host\",name=~\"$container\",name=~\".+\", job=~\"$job\"}[5m])) by (name) *100",
               "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
@@ -1716,37 +1755,8 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "CPU Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "percent",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         }
       ],
       "targets": [
@@ -1890,7 +1900,7 @@
             {
               "datasource": "PBFA97CFB590B2093",
               "editorMode": "code",
-              "expr": "container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"}",
+              "expr": "container_memory_usage_bytes{name=~\".+\", instance=~\"$host\", job=~\"$job\"}",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{name}}",
@@ -1998,7 +2008,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "sum(sum(container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"}) by (name))",
+              "expr": "sum(sum(container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}) by (name))",
               "instant": false,
               "interval": "",
               "legendFormat": "Sum",
@@ -2094,7 +2104,7 @@
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "sum(sum(container_memory_cache{instance=~\"$host\", name=~\"$container\", name=~\".+\"}) by (name))",
+              "expr": "sum(sum(container_memory_cache{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}) by (name))",
               "instant": false,
               "interval": "",
               "legendFormat": "Sum",
@@ -2106,52 +2116,88 @@
           "type": "timeseries"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 0,
             "y": 32
           },
-          "hiddenSeries": false,
           "id": 48,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "avg",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -2159,7 +2205,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum by(name) (container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\"})",
+              "expr": "sum by(name) (container_memory_usage_bytes{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"})",
               "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
@@ -2167,83 +2213,92 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "Memory Usage",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "bytes",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 12,
             "y": 32
           },
-          "hiddenSeries": false,
           "id": 49,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null as zero",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -2251,7 +2306,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(container_memory_cache{instance=~\"$host\",name=~\"$container\",name=~\".+\"}) by (name)",
+              "expr": "sum(container_memory_cache{instance=~\"$host\",name=~\"$container\",name=~\".+\", job=~\"$job\"}) by (name)",
               "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
@@ -2259,37 +2314,8 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "Memory Cached",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:606",
-              "format": "bytes",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:607",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         }
       ],
       "targets": [
@@ -2319,52 +2345,88 @@
       "id": 2,
       "panels": [
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 5,
             "w": 12,
             "x": 0,
             "y": 21
           },
-          "hiddenSeries": false,
           "id": 40,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -2372,7 +2434,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(sum(rate(container_network_receive_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[5m])) by (name))\r\n",
+              "expr": "sum(sum(rate(container_network_receive_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[5m])) by (name))\r\n",
               "hide": false,
               "interval": "",
               "legendFormat": "Total",
@@ -2380,85 +2442,92 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "Total Received Network Traffic",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:674",
-              "format": "Bps",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:675",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 5,
             "w": 12,
             "x": 12,
             "y": 21
           },
-          "hiddenSeries": false,
           "id": 41,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
           "options": {
-            "alertThreshold": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
           },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -2466,7 +2535,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(sum(rate(container_network_transmit_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\"}[5m])) by (name))\r\n",
+              "expr": "sum(sum(rate(container_network_transmit_bytes_total{instance=~\"$host\", name=~\"$container\", name=~\".+\", job=~\"$job\"}[5m])) by (name))\r\n",
               "hide": false,
               "interval": "",
               "legendFormat": "Total",
@@ -2474,175 +2543,92 @@
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
           "title": "Total Sent Network Traffic",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:674",
-              "format": "Bps",
-              "logBase": 1,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:675",
-              "format": "short",
-              "logBase": 1,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false
-          }
+          "type": "timeseries"
         },
         {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 0,
             "y": 26
           },
-          "hiddenSeries": false,
           "id": 4,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "hideEmpty": false,
-            "hideZero": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
           "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "sum(rate(container_network_receive_bytes_total{instance=~\"$host\",name=~\"$container\",name=~\".+\"}[5m])) by (name)",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "{{name}}",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeRegions": [],
-          "title": "Received Network Traffic",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:674",
-              "format": "Bps",
-              "logBase": 1,
-              "show": true
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
             },
-            {
-              "$$hashKey": "object:675",
-              "format": "short",
-              "logBase": 1,
-              "show": true
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
             }
-          ],
-          "yaxis": {
-            "align": false
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
           },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 26
-          },
-          "hiddenSeries": false,
-          "id": 6,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "null",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
           "pluginVersion": "10.0.4",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
           "targets": [
             {
               "datasource": {
@@ -2650,44 +2636,116 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(rate(container_network_transmit_bytes_total{instance=~\"$host\",name=~\"$container\",name=~\".+\"}[5m])) by (name)",
+              "expr": "sum(rate(container_network_receive_bytes_total{instance=~\"$host\",name=~\"$container\",name=~\".+\", job=~\"$job\"}[5m])) by (name)",
+              "hide": false,
               "interval": "",
               "legendFormat": "{{name}}",
               "range": true,
               "refId": "A"
             }
           ],
-          "thresholds": [],
-          "timeRegions": [],
-          "title": "Sent Network Traffic",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
+          "title": "Received Network Traffic",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:832",
-              "format": "Bps",
-              "logBase": 1,
-              "show": true
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
             },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 26
+          },
+          "id": 6,
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "min",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.0.4",
+          "targets": [
             {
-              "$$hashKey": "object:833",
-              "format": "short",
-              "logBase": 1,
-              "show": true
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "editorMode": "code",
+              "expr": "sum(rate(container_network_transmit_bytes_total{instance=~\"$host\",name=~\"$container\",name=~\".+\", job=~\"$job\"}[5m])) by (name)",
+              "interval": "",
+              "legendFormat": "{{name}}",
+              "range": true,
+              "refId": "A"
             }
           ],
-          "yaxis": {
-            "align": false
-          }
+          "title": "Sent Network Traffic",
+          "type": "timeseries"
         }
       ],
       "targets": [
@@ -2794,7 +2852,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 55
+            "y": 22
           },
           "id": 17,
           "options": {
@@ -2818,7 +2876,7 @@
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "(time() - container_start_time_seconds{instance=~\"$host\",name=~\"$container\",name=~\".+\"})/86400",
+              "expr": "(time() - container_start_time_seconds{instance=~\"$host\",name=~\"$container\",name=~\".+\", job=~\"$job\"})/86400",
               "format": "table",
               "instant": true,
               "interval": "",
@@ -2877,12 +2935,40 @@
       "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": "5m",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "cadvisor"
+          ],
+          "value": [
+            "cadvisor"
+          ]
+        },
+        "definition": "label_values(cadvisor_version_info,job)",
+        "description": "Job name used to seperate between a set of exporters",
+        "hide": 0,
+        "includeAll": true,
+        "label": "job",
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "query": "label_values(cadvisor_version_info,job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
       {
         "allValue": ".*",
         "current": {
@@ -2967,7 +3053,7 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
