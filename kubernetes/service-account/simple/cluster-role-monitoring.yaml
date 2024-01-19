@@ -16,3 +16,9 @@ rules:
   verbs: ["get"]
 - nonResourceURLs: ["/metrics", "/metrics/cadvisor"]
   verbs: ["get"]
+
+
+# rules:
+#   - apiGroups: ["*"]
+#     resources: ["*"]
+#     verbs: ["*"]
