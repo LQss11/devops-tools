@@ -2,6 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_config_files:
+  - scrape-configs/docker/cadvisor-from-cluster.yaml
   - scrape-configs/docker/node-exporter.yml
   - scrape-configs/docker/cadvisor.yml
   - scrape-configs/docker/awaragi-mssql-exporter.yml

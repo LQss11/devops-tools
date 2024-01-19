@@ -5,3 +5,4 @@
 configmap.yaml
 rbacbinding.yaml
 token
+certs
