@@ -32,4 +32,14 @@ ping www.mydomainexamples.com
 # Check if server is running on port 80
 netstat -atulpn | grep -iw :8080
 
+
+# Iptables
+# List iptables
+iptables -L
+# Add rule (-A INPUT|OUTPUT) (-j ACCEPT|DROP)
+# -A insert the rule on bottom of the rule -I insert it on the top
+iptables -A INPUT -p tcp -s 172.16.238.187 --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j DROP
+# Delete rule number 3  from the Outbound chain
+iptables -D OUTPUT 5
 # Check for /etc/netplan/00-installer-config.yaml and netplan
