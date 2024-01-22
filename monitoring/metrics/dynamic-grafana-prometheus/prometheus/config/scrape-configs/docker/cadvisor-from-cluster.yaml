@@ -4,7 +4,7 @@ scrape_configs:
     scheme: https
     metrics_path: /metrics/cadvisor
     tls_config:
-      ca_file: /etc/prometheus/certs/ca.pem
+      # ca_file: /etc/prometheus/certs/ca.pem
       key_file: /etc/prometheus/certs/key.pem
       cert_file: /etc/prometheus/certs/cert.pem
       insecure_skip_verify: true
@@ -14,7 +14,7 @@ scrape_configs:
       - role: node
         api_server: 'https://192.168.1.27:6443'
         tls_config:
-          ca_file: /etc/prometheus/certs/ca.pem
+          # ca_file: /etc/prometheus/certs/ca.pem
           key_file: /etc/prometheus/certs/key.pem
           cert_file: /etc/prometheus/certs/cert.pem
           insecure_skip_verify: true
