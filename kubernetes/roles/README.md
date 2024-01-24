@@ -21,6 +21,11 @@ kubectl create clusterrolebinding exampleuser-pod-reader --clusterrole=pod-reade
 kubectl create rolebinding -n default john-pod-reader --clusterrole=pod-reader --group=dev
 ```
 
+# Verify permissions
+```sh
+kubectl auth can-i --list
+```
+
 # More Information
 - [kubectl create clusterrole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#kubectl-create-clusterrole)
 - [kubectl create clusterrolebinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#kubectl-create-clusterrolebinding)
