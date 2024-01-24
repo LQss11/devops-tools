@@ -26,6 +26,8 @@ The following files are required before running this script:
 - **certs/ca.crt**: ca certificate of the cluster
 ```sh
 docker build -t k8s-user .
+# Extract ca certificate from kubeconfig
+docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "KUBECONFIG=configs/config kubectl config view --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode >certs/ca.crt"
 # Create new user certs kubeconfig
 docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "./script.sh"
 ```
