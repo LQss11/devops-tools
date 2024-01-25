@@ -1,0 +1,36 @@
+# http://localhost:8080/api/v1/nodes/k8s-cluster-control-plane/proxy/metrics
+scrape_configs:
+  - job_name: "kubernetes-cadvisor-cluster1"
+    scheme: https
+    metrics_path: /metrics/cadvisor
+    tls_config:
+      key_file: /etc/prometheus/certs/client.key
+      cert_file: /etc/prometheus/certs/client-cluster1.crt
+      insecure_skip_verify: true
+    kubernetes_sd_configs:
+      - role: node
+        api_server: 'https://cluster1.example.com:6443'
+        tls_config:
+          key_file: /etc/prometheus/certs/client.key
+          cert_file: /etc/prometheus/certs/client-cluster1.crt
+          insecure_skip_verify: true
+    metric_relabel_configs:
+      - source_labels: [pod]
+        target_label: name
+  - job_name: "kubernetes-cadvisor-cluster2"
+    scheme: https
+    metrics_path: /metrics/cadvisor
+    tls_config:
+      key_file: /etc/prometheus/certs/client.key
+      cert_file: /etc/prometheus/certs/client-cluster2.crt
+      insecure_skip_verify: true
+    kubernetes_sd_configs:
+      - role: node
+        api_server: 'https://cluster2.example.com:6443'
+        tls_config:
+          key_file: /etc/prometheus/certs/client.key
+          cert_file: /etc/prometheus/certs/client-cluster2.crt
+          insecure_skip_verify: true
+    metric_relabel_configs:
+      - source_labels: [pod]
+        target_label: name

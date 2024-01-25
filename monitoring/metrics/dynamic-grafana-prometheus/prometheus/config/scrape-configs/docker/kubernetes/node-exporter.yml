@@ -1,0 +1,25 @@
+scrape_configs:
+  - job_name: "kubernetes-node-exporter-cluster1"
+    kubernetes_sd_configs:
+      - role: endpoints
+        kubeconfig_file: /etc/prometheus/certs/config-cluster1 
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "node-exporter"
+        action: keep
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "node.*|process.*"
+        action: keep
+  - job_name: "kubernetes-node-exporter-cluster2"
+    kubernetes_sd_configs:
+      - role: endpoints
+        kubeconfig_file: /etc/prometheus/certs/config-cluster2 
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "node-exporter"
+        action: keep
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: "node.*|process.*"
+        action: keep
