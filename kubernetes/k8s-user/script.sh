@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Function to cleanup on script interruption
+cleanup() {
+    echo -e "\nExiting due to sigint"
+    # Add any cleanup steps here if needed
+    exit 1
+}
+
+# Trap Ctrl+C and call cleanup function
+trap cleanup SIGINT
+
 # Ask user to input kubeconfig path (default to configs/config)
 read -p "Enter the kubeconfig path (default to configs/config): " KUBECONFIG_PATH
 export KUBECONFIG=${KUBECONFIG_PATH:-configs/config}
@@ -20,29 +30,30 @@ fi
 # Set user variables
 USER_DIR="certs/${USER_NAME}"
 
-# Check if the user directory exists
-if [ -d "$USER_DIR" ]; then
-    echo "Error: User directory '$USER_DIR' already exists. Exiting."
-    exit 1
-fi
-
 # Check if CSR for the user already exists
 if kubectl get csr "${USER_NAME}"; then
     echo "Error: Certificate Signing Request (CSR) for user '${USER_NAME}' already exists. Exiting."
     exit 1
 fi
 
+# Check if the user directory exists
+if [ -d "$USER_DIR" ]; then
+    echo "Error: User directory '$USER_DIR' already exists."
+    # exit 1
+else
+    
+    # Create user directory
+    mkdir -p "${USER_DIR}"
+    
+    # Generate RSA key and CSR
+    openssl genrsa -out "${USER_DIR}/${USER_NAME}.key" 2048
+    openssl req -new -key "${USER_DIR}/${USER_NAME}.key" -out "${USER_DIR}/${USER_NAME}.csr" -subj "/CN=${USER_NAME}/O=${USERGROUP}"
+fi
+
 # Set up user kubeconfig directory
 USER_CONFIG_PATH="configs/${USER_NAME}-config"
-rm -rf ${USER_CONFIG_PATH}
+# rm -rf ${USER_CONFIG_PATH}
 touch ${USER_CONFIG_PATH}
-
-# Create user directory
-mkdir -p "${USER_DIR}"
-
-# Generate RSA key and CSR
-openssl genrsa -out "${USER_DIR}/${USER_NAME}.key" 2048
-openssl req -new -key "${USER_DIR}/${USER_NAME}.key" -out "${USER_DIR}/${USER_NAME}.csr" -subj "/CN=${USER_NAME}/O=${USERGROUP}"
 
 # Create CertificateSigningRequest
 CSR_BASE64=$(cat "${USER_DIR}/${USER_NAME}.csr" | base64 | tr -d "\n")
@@ -67,8 +78,10 @@ CERTIFICATE=$(kubectl get csr/${USER_NAME} -o jsonpath='{.status.certificate}')
 echo "${CERTIFICATE}" | base64 -d > "${USER_DIR}/${USER_NAME}.crt"
 
 # Add to kubeconfig
+kubectl config view --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode >certs/ca.crt
+HOST=$(kubectl config view --minify --flatten -o jsonpath='{.clusters[].cluster.server}')
 export KUBECONFIG=${USER_CONFIG_PATH}
-kubectl config set-cluster kubernetes --server=https://localhost:6443 --certificate-authority certs/ca.crt --embed-certs
+kubectl config set-cluster kubernetes --server=${HOST} --certificate-authority certs/ca.crt --embed-certs
 kubectl config set-credentials ${USER_NAME} --client-key="${USER_DIR}/${USER_NAME}.key" --client-certificate="${USER_DIR}/${USER_NAME}.crt" --embed-certs=true
 kubectl config set-context ${USER_NAME} --cluster=kubernetes --user=${USER_NAME}
 kubectl config use-context ${USER_NAME}
