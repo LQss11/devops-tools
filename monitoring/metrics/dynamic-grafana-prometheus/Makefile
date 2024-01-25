@@ -7,7 +7,7 @@ DOTENV=dotenv
 .DEFAULT_GOAL := help
 
 # List of files/directories to ignore
-IGNORE = misc Makefile .gitignore docker-compose.yaml README.md .gitlab-ci.yml .global.env
+IGNORE = awaragi-mssql-exporter blackbox-exporter sql-exporter misc Makefile .gitignore docker-compose.yaml README.md .gitlab-ci.yml .global.env
 
 # Find all directories (excluding ignored files/directories)
 DIRECTORIES := $(filter-out $(IGNORE), $(wildcard *))
