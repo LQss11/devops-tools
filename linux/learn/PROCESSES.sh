@@ -33,6 +33,7 @@ systemctl reload docker
 systemctl status docker
 # Enable or disable from the sysctl processess on reboot
 systemctl enable docker
+systemctl enable --now mercury.service
 systemctl disable docker
 
 
