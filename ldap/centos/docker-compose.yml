@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  centos:
+    build: .
+    container_name: centos
+    tty: true
+    # command: bash
+volumes:
+  ldap_data:
+  ldap_config:
