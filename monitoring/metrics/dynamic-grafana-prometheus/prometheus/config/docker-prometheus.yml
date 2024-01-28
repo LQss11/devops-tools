@@ -2,14 +2,16 @@ global:
   scrape_interval: 15s
 
 scrape_config_files:
-  - scrape-configs/docker/cadvisor-from-cluster.yaml
   - scrape-configs/docker/node-exporter.yml
   - scrape-configs/docker/cadvisor.yml
   - scrape-configs/docker/awaragi-mssql-exporter.yml
   - scrape-configs/docker/sql-exporter.yml
   - scrape-configs/docker/prometheus.yml
   - scrape-configs/docker/blackbox.yml
-
+  # Cluster monitoring
+  - scrape-configs/docker/kubernetes/node-exporter.yml
+  - scrape-configs/docker/kubernetes/cadvisor.yml
+  
 # scrape_configs:
 rule_files:
   - "alert-rules.yml"

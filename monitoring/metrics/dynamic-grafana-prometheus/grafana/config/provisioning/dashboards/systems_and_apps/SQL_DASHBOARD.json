@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -285,7 +286,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -373,7 +375,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -712,7 +715,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "-- MONITORING Grafana (TOP X executed Queries details)\r\nSELECT\r\n  TOP 10\r\n  text,\r\n  execution_count AS count,\r\n  creation_time,\r\n  last_execution_time,\r\n  total_rows,\r\n  total_worker_time,\r\n  last_worker_time,\r\n  total_elapsed_time,\r\n  last_elapsed_time,\r\n  min_elapsed_time,\r\n  max_elapsed_time,\r\n  total_used_grant_kb,\r\n  last_used_grant_kb,\r\n  min_used_grant_kb,\r\n  max_used_grant_kb,\r\n  -- Total Used Granted Memory in Kilobytes\r\n  total_grant_kb,\r\n  last_grant_kb,\r\n  min_grant_kb,\r\n  max_grant_kb\r\nFROM\r\n  sys.dm_exec_query_stats AS deqs\r\n  CROSS APPLY sys.dm_exec_sql_text(deqs.sql_handle) AS dest\r\nORDER BY\r\n  count DESC;",
+              "rawSql": "-- MONITORING Grafana (TOP X executed Queries details)\r\nSELECT\r\n  TOP 20\r\n  text,\r\n  execution_count AS count,\r\n  creation_time,\r\n  last_execution_time,\r\n  total_rows,\r\n  total_worker_time,\r\n  last_worker_time,\r\n  total_elapsed_time,\r\n  last_elapsed_time,\r\n  min_elapsed_time,\r\n  max_elapsed_time,\r\n  total_used_grant_kb,\r\n  last_used_grant_kb,\r\n  min_used_grant_kb,\r\n  max_used_grant_kb,\r\n  -- Total Used Granted Memory in Kilobytes\r\n  total_grant_kb,\r\n  last_grant_kb,\r\n  min_grant_kb,\r\n  max_grant_kb\r\nFROM\r\n  sys.dm_exec_query_stats AS deqs\r\n  CROSS APPLY sys.dm_exec_sql_text(deqs.sql_handle) AS dest\r\nWHERE dest.text NOT LIKE '-- MONITORING%' AND dest.text NOT LIKE '(@%' AND dest.text NOT LIKE '%sp_%' AND dest.text NOT LIKE '%sys%'\r\nORDER BY\r\n  count DESC;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -760,7 +763,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1099,7 +1103,7 @@
               "editorMode": "code",
               "format": "table",
               "rawQuery": true,
-              "rawSql": "-- MONITORING Grafana (LAST X executed Queries details)\r\nSELECT\r\n  TOP 10\r\n  text,\r\n  execution_count AS count,\r\n  creation_time,\r\n  last_execution_time,\r\n  total_rows,\r\n  total_worker_time,\r\n  last_worker_time,\r\n  total_elapsed_time,\r\n  last_elapsed_time,\r\n  min_elapsed_time,\r\n  max_elapsed_time,\r\n  total_used_grant_kb,\r\n  last_used_grant_kb,\r\n  min_used_grant_kb,\r\n  max_used_grant_kb,\r\n  -- Total Used Granted Memory in Kilobytes\r\n  total_grant_kb,\r\n  last_grant_kb,\r\n  min_grant_kb,\r\n  max_grant_kb\r\nFROM\r\n  sys.dm_exec_query_stats AS deqs\r\n  CROSS APPLY sys.dm_exec_sql_text(deqs.sql_handle) AS dest\r\nORDER BY\r\n  last_execution_time DESC;",
+              "rawSql": "-- MONITORING Grafana (LAST X executed Queries details)\r\nSELECT\r\n  TOP 20\r\n  text,\r\n  execution_count AS count,\r\n  creation_time,\r\n  last_execution_time,\r\n  total_rows,\r\n  total_worker_time,\r\n  last_worker_time,\r\n  total_elapsed_time,\r\n  last_elapsed_time,\r\n  min_elapsed_time,\r\n  max_elapsed_time,\r\n  total_used_grant_kb,\r\n  last_used_grant_kb,\r\n  min_used_grant_kb,\r\n  max_used_grant_kb,\r\n  -- Total Used Granted Memory in Kilobytes\r\n  total_grant_kb,\r\n  last_grant_kb,\r\n  min_grant_kb,\r\n  max_grant_kb\r\nFROM\r\n  sys.dm_exec_query_stats AS deqs\r\n  CROSS APPLY sys.dm_exec_sql_text(deqs.sql_handle) AS dest\r\nWHERE dest.text NOT LIKE '-- MONITORING%' AND dest.text NOT LIKE '(@%' AND dest.text NOT LIKE '%sp_%' AND dest.text NOT LIKE '%sys%'\r\nORDER BY\r\n  last_execution_time DESC;",
               "refId": "A",
               "sql": {
                 "columns": [
@@ -1147,7 +1151,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2015,8 +2020,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2106,8 +2110,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2199,8 +2202,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2303,8 +2305,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2394,8 +2395,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2487,8 +2487,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -4386,7 +4385,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "localhost",
           "value": "localhost"
         },
@@ -4414,6 +4413,6 @@
   "timezone": "",
   "title": "SQL Server Metrics",
   "uid": "e32b837b-d88e-4fb7-ab00-a44d06df836c",
-  "version": 6,
+  "version": 4,
   "weekStart": ""
 }

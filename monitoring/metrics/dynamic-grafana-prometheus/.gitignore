@@ -5,4 +5,5 @@
 configmap.yaml
 rbacbinding.yaml
 token
-certs
+prometheus/config/certs/*
+!prometheus/config/certs/.gitkeep

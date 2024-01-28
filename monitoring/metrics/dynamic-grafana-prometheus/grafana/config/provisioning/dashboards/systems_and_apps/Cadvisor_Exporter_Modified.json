@@ -1554,7 +1554,7 @@
             "h": 4,
             "w": 17,
             "x": 0,
-            "y": 19
+            "y": 43
           },
           "id": 5,
           "links": [],
@@ -1620,7 +1620,7 @@
             "h": 4,
             "w": 7,
             "x": 17,
-            "y": 19
+            "y": 43
           },
           "id": 25,
           "options": {
@@ -1719,7 +1719,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 23
+            "y": 47
           },
           "id": 15,
           "options": {
@@ -1873,7 +1873,7 @@
             "h": 6,
             "w": 24,
             "x": 0,
-            "y": 31
+            "y": 55
           },
           "id": 45,
           "links": [],
@@ -1985,7 +1985,7 @@
             "h": 6,
             "w": 12,
             "x": 0,
-            "y": 37
+            "y": 61
           },
           "id": 46,
           "options": {
@@ -2081,7 +2081,7 @@
             "h": 6,
             "w": 12,
             "x": 12,
-            "y": 37
+            "y": 61
           },
           "id": 47,
           "options": {
@@ -2177,7 +2177,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 43
+            "y": 67
           },
           "id": 48,
           "options": {
@@ -2278,7 +2278,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 43
+            "y": 67
           },
           "id": 49,
           "options": {
@@ -2406,7 +2406,7 @@
             "h": 5,
             "w": 12,
             "x": 0,
-            "y": 52
+            "y": 76
           },
           "id": 40,
           "options": {
@@ -2507,7 +2507,7 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 52
+            "y": 76
           },
           "id": 41,
           "options": {
@@ -2608,7 +2608,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 57
+            "y": 81
           },
           "id": 4,
           "options": {
@@ -2709,7 +2709,7 @@
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 57
+            "y": 81
           },
           "id": 6,
           "options": {
@@ -2852,7 +2852,7 @@
             "h": 10,
             "w": 24,
             "x": 0,
-            "y": 66
+            "y": 90
           },
           "id": 17,
           "options": {
@@ -2988,7 +2988,7 @@
           "type": "prometheus",
           "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values({__name__=~\"container.*\"},instance)",
+        "definition": "label_values({__name__=~\"container.*\", job=~\"$job\"},instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Host",
@@ -2996,8 +2996,8 @@
         "name": "host",
         "options": [],
         "query": {
-          "query": "label_values({__name__=~\"container.*\"},instance)",
-          "refId": "Prometheus-host-Variable-Query"
+          "query": "label_values({__name__=~\"container.*\", job=~\"$job\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
         "regex": "",
@@ -3064,6 +3064,6 @@
   "timezone": "",
   "title": "Docker Monitoring",
   "uid": "d1c98999-c811-4914-bb41-320f195e213a",
-  "version": 4,
+  "version": 2,
   "weekStart": ""
 }
