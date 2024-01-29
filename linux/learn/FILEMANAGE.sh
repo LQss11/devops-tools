@@ -40,3 +40,24 @@ chmod 6664 /my/file/example
 chmod 1777 /my/file/example
 chmod +t /my/file/example
 
+head -10 /my/file/example
+tail -n 10 /my/file/example
+cut -d ',' -f 1 /my/file/example
+sort /my/file/example | uniq
+diff -c file1 file2 
+# Ignore case
+diff -i file1 file2 
+# Better comparison
+diff -y file1 file2
+# Same
+sdiff file1 file2
+
+# Pagers
+less file1 # Search with /something -> next use n back use shift n (case insensitive type -i to ignore case) q to quit
+
+# Case insensitive 
+sed -i 's/disabled/enabled/gi' somefile.conf
+# Sed between line 100 and 300
+sed -i '100,300s/disabled/enabled/gi' somefile.conf
+
+# Sed delimiters are many for example ### /// ~~~ ||| ,,, ::: 
