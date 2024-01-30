@@ -9,8 +9,11 @@ Just put [NAME of first title] () it will auto-complete itself.
 - [Passwords](#passwords)
 # Image Ref
 **JSON Extractor configuration:**
+
 [![JSON Extractor][1]][1]
+
 **HTTP header manager configuration:**
+
 [![HTTP header manager][2]][2]
 <!-- References URLS -->
 [1]: https://i.stack.imgur.com/ipJ6t.png
@@ -25,7 +28,10 @@ Just put [NAME of first title] () it will auto-complete itself.
 <!-- IMAGE -->
 ![alt](path)
 # Passwords
-<details><summary>Hidden password</summary>MyPass here</details>
+<details>
+  <summary>Hidden password</summary>
+  some stuff is hidden here
+</details>
 
 
 > **Helpful Hint!**
