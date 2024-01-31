@@ -1,36 +1,44 @@
-version: '3.8'
+version: "3.5"
+
 services:
-  mongodb:
-    image: mongo
+  mongo:
+    # image: mongo:latest
+    image: mongo:4.4.6
     container_name: mongodb
-    restart: always
-    volumes:
-      - mongodb-storage:/data/db
+    hostname: mongodb
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    networks:
-      - mongodb
-    # ports:
-    #   - 27017:27017 
-  mongoclient:
-    image: mongoclient/mongoclient:latest
-    container_name: mongoclient
-    networks:
-      - mongodb
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
-      - 3300:3000    
+      - "27017:27017"
+    networks:
+      - mongo
     volumes:
-      - mongoclient-storage:/data/db
-  adminer:
-    image: adminer
-    restart: always
+      - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
+  # https://hub.docker.com/_/mongo-express
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb:27017
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: "27017"
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: password
     ports:
-      - 8888:8080
+      - "8081:8081"
     networks:
-      - mongodb
-volumes:
-  mongodb-storage:
-  mongoclient-storage: 
+      - mongo
+    depends_on:
+      - mongo
+
 networks:
-  mongodb:
+  mongo:
+volumes:
+  mongodb-data:
+    name: mongodb-data
+  mongodb-config:
+    name: mongodb-config
