@@ -1,0 +1,33 @@
+FROM alpine:latest
+
+# Install necessary packages
+RUN apk update && apk add curl net-tools openssh openrc sshpass
+
+
+# Setup SSH Service
+RUN rc-update add sshd
+
+# Expose port for ssh
+EXPOSE 22
+
+# Update root password
+RUN echo 'root:root' | chpasswd
+
+# Allow root login with ssh
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+RUN ssh-keygen -A
+
+# Remove Cache
+RUN rm -rf /var/cache/apk/*
+
+# Start SSH Service & Run the entrypoint script
+ENTRYPOINT [ "sh", "-c", "/usr/sbin/sshd -D -e && sh" ]
+
+# docker build -t ssh:alpine -f .\Dockerfile.ssh.alpine .
+# docker run -d --name ssh1 ssh:alpine 
+# docker run -d --name ssh2 ssh:alpine 
+# docker exec -it ssh2 sh
+
+# docker stop ssh1 ssh2
+# docker rm ssh1 ssh2

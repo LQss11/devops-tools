@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  sftp:
+    image: atmoz/sftp
+    volumes:
+      - ./data:/home/foo/upload
+      # - ./users.conf:/etc/sftp/users.conf:ro
+    ports:
+      - "2222:22"
+    command: foo:pass:1001
+  openssh:
+    build: .
+    container_name: openssh
+    hostname: openssh
+    tty: true
+    command: sh
