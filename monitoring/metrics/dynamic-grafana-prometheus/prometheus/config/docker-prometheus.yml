@@ -11,7 +11,8 @@ scrape_config_files:
   # Cluster monitoring
   - scrape-configs/docker/kubernetes/node-exporter.yml
   - scrape-configs/docker/kubernetes/cadvisor.yml
-  
+  # Jenkins monitoring
+  - scrape-configs/docker/jenkins.yml
 # scrape_configs:
 rule_files:
   - "alert-rules.yml"

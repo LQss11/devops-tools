@@ -1,0 +1,7 @@
+# Plugin url: https://plugins.jenkins.io/prometheus/
+scrape_configs:
+  - job_name: "jenkins"
+    scrape_interval: 60s
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ['xxx.xxx.xxx.xxx:8080']

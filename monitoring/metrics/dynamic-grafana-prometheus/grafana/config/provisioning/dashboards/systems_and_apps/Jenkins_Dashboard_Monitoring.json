@@ -1,0 +1,2400 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 25,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 9,
+            "panels": [],
+            "title": "Default",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [
+                        {
+                            "options": {
+                                "1": {
+                                    "index": 0,
+                                    "text": "UP"
+                                }
+                            },
+                            "type": "value"
+                        }
+                    ],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 2,
+                "x": 0,
+                "y": 1
+            },
+            "id": 23,
+            "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_up{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Jenkins",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "none"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 3,
+                "x": 2,
+                "y": 1
+            },
+            "id": 22,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "name"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_version_info{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{version}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Version",
+            "transformations": [],
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "ms"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 3,
+                "x": 5,
+                "y": 1
+            },
+            "id": 21,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_uptime{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Uptime",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 2,
+                "x": 8,
+                "y": 1
+            },
+            "id": 4,
+            "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_node_count_value{job=~\"$job\",instance=~\"$instance\"} -1",
+                    "instant": false,
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Jenkins Nodes",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [
+                        {
+                            "options": {
+                                "0": {
+                                    "index": 0,
+                                    "text": "DOWN"
+                                },
+                                "1": {
+                                    "index": 1,
+                                    "text": "UP"
+                                }
+                            },
+                            "type": "value"
+                        }
+                    ],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "dark-red",
+                                "value": null
+                            },
+                            {
+                                "color": "semi-dark-green",
+                                "value": 1
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 10,
+                "x": 10,
+                "y": 1
+            },
+            "id": 24,
+            "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_nodes_online{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{node}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Agents Online",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 4,
+                "x": 20,
+                "y": 1
+            },
+            "id": 3,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_job_count_value{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Jobs Number",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "bytes"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 8,
+                "x": 0,
+                "y": 5
+            },
+            "id": 25,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_file_store_capacity_bytes{job=~\"$job\", instance=~\"$instance\", file_store=\"/ (rootfs)\"}",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "TOTAL",
+                    "range": true,
+                    "refId": "B"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_file_store_available_bytes{job=~\"$job\", instance=~\"$instance\", file_store=\"/ (rootfs)\"}",
+                    "instant": false,
+                    "legendFormat": "FREE",
+                    "range": true,
+                    "refId": "A"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "default_jenkins_file_store_capacity_bytes{job=~\"$job\", instance=~\"$instance\", file_store=\"/ (rootfs)\"} - default_jenkins_file_store_available_bytes{job=~\"$job\", instance=~\"$instance\", file_store=\"/ (rootfs)\"}",
+                    "hide": false,
+                    "instant": false,
+                    "legendFormat": "USED",
+                    "range": true,
+                    "refId": "C"
+                }
+            ],
+            "title": "Jenkins IO",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 4,
+                "x": 8,
+                "y": 5
+            },
+            "id": 6,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_executor_count_value{job=~\"$job\",instance=~\"$instance\"}",
+                    "instant": false,
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Jenkins Executors",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "semi-dark-green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 4,
+                "x": 12,
+                "y": 5
+            },
+            "id": 32,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_plugins_active{job=~\"$job\", instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{label_name}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Plugins",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "semi-dark-green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 4,
+                "x": 16,
+                "y": 5
+            },
+            "id": 31,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_plugins_withUpdate{job=~\"$job\", instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{label_name}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Outdated Plugins",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 2,
+                "x": 20,
+                "y": 5
+            },
+            "id": 11,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_project_enabled_count_value{job=~\"$job\", instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{label_name}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Enabled Jobs",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "semi-dark-orange",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "short"
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 4,
+                "w": 2,
+                "x": 22,
+                "y": 5
+            },
+            "id": 8,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "textMode": "auto"
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "expr": "jenkins_project_disabled_count_value{job=~\"$job\", instance=~\"$instance\"}",
+                    "instant": false,
+                    "legendFormat": "{{label_name}}",
+                    "range": true,
+                    "refId": "A"
+                }
+            ],
+            "title": "Disabled Jobs",
+            "type": "stat"
+        },
+        {
+            "collapsed": true,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 9
+            },
+            "id": 10,
+            "panels": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "palette-classic"
+                            },
+                            "custom": {
+                                "axisCenteredZero": false,
+                                "axisColorMode": "text",
+                                "axisLabel": "",
+                                "axisPlacement": "auto",
+                                "barAlignment": 0,
+                                "drawStyle": "line",
+                                "fillOpacity": 0,
+                                "gradientMode": "none",
+                                "hideFrom": {
+                                    "legend": false,
+                                    "tooltip": false,
+                                    "viz": false
+                                },
+                                "lineInterpolation": "linear",
+                                "lineWidth": 1,
+                                "pointSize": 5,
+                                "scaleDistribution": {
+                                    "type": "linear"
+                                },
+                                "showPoints": "auto",
+                                "spanNulls": false,
+                                "stacking": {
+                                    "group": "A",
+                                    "mode": "none"
+                                },
+                                "thresholdsStyle": {
+                                    "mode": "off"
+                                }
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green"
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": []
+                    },
+                    "gridPos": {
+                        "h": 6,
+                        "w": 24,
+                        "x": 0,
+                        "y": 10
+                    },
+                    "id": 7,
+                    "options": {
+                        "legend": {
+                            "calcs": [],
+                            "displayMode": "table",
+                            "placement": "right",
+                            "showLegend": true
+                        },
+                        "tooltip": {
+                            "mode": "single",
+                            "sort": "none"
+                        }
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "builder",
+                            "expr": "jenkins_node_builds_count{job=~\"$job\", instance=~\"$instance\"}",
+                            "instant": false,
+                            "legendFormat": "{{node}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Jenkins Build Count Per Node",
+                    "type": "timeseries"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "palette-classic"
+                            },
+                            "custom": {
+                                "axisCenteredZero": false,
+                                "axisColorMode": "text",
+                                "axisLabel": "",
+                                "axisPlacement": "auto",
+                                "barAlignment": 0,
+                                "drawStyle": "line",
+                                "fillOpacity": 0,
+                                "gradientMode": "none",
+                                "hideFrom": {
+                                    "legend": false,
+                                    "tooltip": false,
+                                    "viz": false
+                                },
+                                "lineInterpolation": "linear",
+                                "lineWidth": 1,
+                                "pointSize": 5,
+                                "scaleDistribution": {
+                                    "type": "linear"
+                                },
+                                "showPoints": "auto",
+                                "spanNulls": false,
+                                "stacking": {
+                                    "group": "A",
+                                    "mode": "none"
+                                },
+                                "thresholdsStyle": {
+                                    "mode": "off"
+                                }
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green"
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": []
+                    },
+                    "gridPos": {
+                        "h": 6,
+                        "w": 8,
+                        "x": 0,
+                        "y": 16
+                    },
+                    "id": 26,
+                    "options": {
+                        "legend": {
+                            "calcs": [],
+                            "displayMode": "table",
+                            "placement": "right",
+                            "showLegend": true
+                        },
+                        "tooltip": {
+                            "mode": "single",
+                            "sort": "none"
+                        }
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "builder",
+                            "expr": "default_jenkins_executors_busy{job=~\"$job\", instance=~\"$instance\"}",
+                            "instant": false,
+                            "legendFormat": "{{label}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Running Executor",
+                    "type": "timeseries"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "palette-classic"
+                            },
+                            "custom": {
+                                "axisCenteredZero": false,
+                                "axisColorMode": "text",
+                                "axisLabel": "",
+                                "axisPlacement": "auto",
+                                "barAlignment": 0,
+                                "drawStyle": "line",
+                                "fillOpacity": 0,
+                                "gradientMode": "none",
+                                "hideFrom": {
+                                    "legend": false,
+                                    "tooltip": false,
+                                    "viz": false
+                                },
+                                "lineInterpolation": "linear",
+                                "lineWidth": 1,
+                                "pointSize": 5,
+                                "scaleDistribution": {
+                                    "type": "linear"
+                                },
+                                "showPoints": "auto",
+                                "spanNulls": false,
+                                "stacking": {
+                                    "group": "A",
+                                    "mode": "none"
+                                },
+                                "thresholdsStyle": {
+                                    "mode": "off"
+                                }
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green"
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": [
+                            {
+                                "__systemRef": "hideSeriesFrom",
+                                "matcher": {
+                                    "id": "byNames",
+                                    "options": {
+                                        "mode": "exclude",
+                                        "names": [
+                                            "slave-node4"
+                                        ],
+                                        "prefix": "All except:",
+                                        "readOnly": true
+                                    }
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.hideFrom",
+                                        "value": {
+                                            "legend": false,
+                                            "tooltip": false,
+                                            "viz": true
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 6,
+                        "w": 8,
+                        "x": 8,
+                        "y": 16
+                    },
+                    "id": 27,
+                    "options": {
+                        "legend": {
+                            "calcs": [],
+                            "displayMode": "table",
+                            "placement": "right",
+                            "showLegend": true
+                        },
+                        "tooltip": {
+                            "mode": "single",
+                            "sort": "none"
+                        }
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "builder",
+                            "expr": "default_jenkins_executors_available{job=~\"$job\", instance=~\"$instance\"}",
+                            "instant": false,
+                            "legendFormat": "{{label}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Available Executor",
+                    "type": "timeseries"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "palette-classic"
+                            },
+                            "custom": {
+                                "axisCenteredZero": false,
+                                "axisColorMode": "text",
+                                "axisLabel": "",
+                                "axisPlacement": "auto",
+                                "barAlignment": 0,
+                                "drawStyle": "line",
+                                "fillOpacity": 0,
+                                "gradientMode": "none",
+                                "hideFrom": {
+                                    "legend": false,
+                                    "tooltip": false,
+                                    "viz": false
+                                },
+                                "lineInterpolation": "linear",
+                                "lineWidth": 1,
+                                "pointSize": 5,
+                                "scaleDistribution": {
+                                    "type": "linear"
+                                },
+                                "showPoints": "auto",
+                                "spanNulls": false,
+                                "stacking": {
+                                    "group": "A",
+                                    "mode": "none"
+                                },
+                                "thresholdsStyle": {
+                                    "mode": "off"
+                                }
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green"
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": [
+                            {
+                                "__systemRef": "hideSeriesFrom",
+                                "matcher": {
+                                    "id": "byNames",
+                                    "options": {
+                                        "mode": "exclude",
+                                        "names": [
+                                            "slave-node4"
+                                        ],
+                                        "prefix": "All except:",
+                                        "readOnly": true
+                                    }
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.hideFrom",
+                                        "value": {
+                                            "legend": false,
+                                            "tooltip": false,
+                                            "viz": true
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 6,
+                        "w": 8,
+                        "x": 16,
+                        "y": 16
+                    },
+                    "id": 28,
+                    "options": {
+                        "legend": {
+                            "calcs": [],
+                            "displayMode": "table",
+                            "placement": "right",
+                            "showLegend": true
+                        },
+                        "tooltip": {
+                            "mode": "single",
+                            "sort": "none"
+                        }
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "builder",
+                            "expr": "default_jenkins_executors_idle{job=~\"$job\", instance=~\"$instance\"}",
+                            "instant": false,
+                            "legendFormat": "{{label}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Idle Executor",
+                    "type": "timeseries"
+                }
+            ],
+            "title": "Agents Info",
+            "type": "row"
+        },
+        {
+            "collapsed": true,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 10
+            },
+            "id": 2,
+            "panels": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "#EAB839",
+                                        "value": 300000
+                                    },
+                                    {
+                                        "color": "#6ED0E0",
+                                        "value": 600000
+                                    },
+                                    {
+                                        "color": "#EF843C",
+                                        "value": 1200000
+                                    },
+                                    {
+                                        "color": "#E24D42",
+                                        "value": 2400000
+                                    },
+                                    {
+                                        "color": "dark-red",
+                                        "value": 3600010
+                                    }
+                                ]
+                            },
+                            "unit": "ms"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 4,
+                        "x": 0,
+                        "y": 11
+                    },
+                    "id": 29,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "topk(50, default_jenkins_builds_last_build_duration_milliseconds{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"})",
+                            "instant": false,
+                            "legendFormat": "{{jenkins_job}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Job Last Build Duration",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "#EAB839",
+                                        "value": 300000
+                                    },
+                                    {
+                                        "color": "#6ED0E0",
+                                        "value": 600000
+                                    },
+                                    {
+                                        "color": "#EF843C",
+                                        "value": 1200000
+                                    },
+                                    {
+                                        "color": "#E24D42",
+                                        "value": 2400000
+                                    },
+                                    {
+                                        "color": "dark-red",
+                                        "value": 3600010
+                                    }
+                                ]
+                            },
+                            "unit": "ms"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 5,
+                        "x": 4,
+                        "y": 11
+                    },
+                    "id": 13,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "topk(50,avg by (jenkins_job) (default_jenkins_builds_duration_milliseconds_summary_sum{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"}) / avg by (jenkins_job) (default_jenkins_builds_available_builds_count{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"}))",
+                            "instant": false,
+                            "legendFormat": "__auto",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Average Job Duration",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "dark-red",
+                                        "value": 0
+                                    },
+                                    {
+                                        "color": "orange",
+                                        "value": 40
+                                    },
+                                    {
+                                        "color": "semi-dark-blue",
+                                        "value": 50
+                                    },
+                                    {
+                                        "color": "semi-dark-green",
+                                        "value": 70
+                                    },
+                                    {
+                                        "color": "dark-green",
+                                        "value": 100
+                                    }
+                                ]
+                            },
+                            "unit": "none"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 5,
+                        "x": 9,
+                        "y": 11
+                    },
+                    "id": 17,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "default_jenkins_builds_health_score{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"}",
+                            "instant": false,
+                            "legendFormat": "{{jenkins_job}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Job Score",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "#6ED0E0",
+                                        "value": 5242880
+                                    },
+                                    {
+                                        "color": "#EAB839",
+                                        "value": 20971520
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 41943040
+                                    }
+                                ]
+                            },
+                            "unit": "bytes"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 5,
+                        "x": 14,
+                        "y": 11
+                    },
+                    "id": 18,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "default_jenkins_job_usage_bytes{job=~\"$job\", instance=~\"$instance\", jobName=~\"$jenkins_job\"}",
+                            "instant": false,
+                            "legendFormat": "{{jobName}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Job IO Usage",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "dark-red",
+                                        "value": 0
+                                    },
+                                    {
+                                        "color": "orange",
+                                        "value": 40
+                                    },
+                                    {
+                                        "color": "semi-dark-blue",
+                                        "value": 50
+                                    },
+                                    {
+                                        "color": "semi-dark-green",
+                                        "value": 70
+                                    },
+                                    {
+                                        "color": "dark-green",
+                                        "value": 100
+                                    }
+                                ]
+                            },
+                            "unit": "none"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 5,
+                        "x": 19,
+                        "y": 11
+                    },
+                    "id": 19,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "default_jenkins_builds_health_score{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"}",
+                            "instant": false,
+                            "legendFormat": "{{jenkins_job}}",
+                            "range": true,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Job Score",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                }
+            ],
+            "title": "Jobs Info",
+            "type": "row"
+        },
+        {
+            "collapsed": true,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 11
+            },
+            "id": 16,
+            "panels": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "semi-dark-green"
+                                    },
+                                    {
+                                        "color": "#EAB839",
+                                        "value": 300000
+                                    },
+                                    {
+                                        "color": "#6ED0E0",
+                                        "value": 600000
+                                    },
+                                    {
+                                        "color": "#EF843C",
+                                        "value": 1200000
+                                    },
+                                    {
+                                        "color": "#E24D42",
+                                        "value": 2400000
+                                    },
+                                    {
+                                        "color": "dark-red",
+                                        "value": 3600010
+                                    }
+                                ]
+                            },
+                            "unit": "ms"
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Field"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "displayName",
+                                        "value": "Job Name"
+                                    },
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": true
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "text",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Last"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.filterable",
+                                        "value": false
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "mode": "gradient",
+                                            "type": "color-background"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 6,
+                        "x": 0,
+                        "y": 12
+                    },
+                    "id": 14,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Last"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "default_jenkins_builds_last_stage_duration_milliseconds_summary_sum{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\"}\r\n",
+                            "hide": false,
+                            "instant": false,
+                            "legendFormat": "{{stage}}",
+                            "range": true,
+                            "refId": "B"
+                        }
+                    ],
+                    "title": "Average Stage Duration",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "filterable": true,
+                                "inspect": true
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green"
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 80
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byValue",
+                                    "options": {
+                                        "op": "gte",
+                                        "reducer": "last",
+                                        "value": 0
+                                    }
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.hidden",
+                                        "value": true
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 5,
+                        "w": 18,
+                        "x": 6,
+                        "y": 12
+                    },
+                    "id": 30,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "enablePagination": true,
+                            "fields": [],
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "frameIndex": 1,
+                        "showHeader": true
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "exemplar": false,
+                            "expr": "default_jenkins_builds_duration_milliseconds_summary_sum{job=~\"$job\", instance=~\"$instance\", jenkins_job=~\"$jenkins_job\", status=\"SUCCESS\"}",
+                            "format": "time_series",
+                            "hide": false,
+                            "instant": false,
+                            "interval": "",
+                            "legendFormat": "JOB={{jenkins_job}} / {{parameters}}",
+                            "range": true,
+                            "refId": "B"
+                        }
+                    ],
+                    "title": "Job Params",
+                    "transformations": [
+                        {
+                            "id": "reduce",
+                            "options": {
+                                "includeTimeField": false,
+                                "labelsToFields": false,
+                                "mode": "seriesToRows",
+                                "reducers": [
+                                    "last"
+                                ]
+                            }
+                        },
+                        {
+                            "disabled": true,
+                            "id": "labelsToFields",
+                            "options": {
+                                "keepLabels": [
+                                    "parameters",
+                                    "jenkins_job"
+                                ],
+                                "mode": "rows",
+                                "valueLabel": "jenkins_job"
+                            }
+                        }
+                    ],
+                    "transparent": true,
+                    "type": "table"
+                }
+            ],
+            "title": "Single Job Info (Select Single Job Name Before Opening)",
+            "type": "row"
+        }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": [
+            {
+                "current": {
+                    "selected": false,
+                    "text": "jenkins",
+                    "value": "jenkins"
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "PBFA97CFB590B2093"
+                },
+                "definition": "label_values(default_jenkins_up,job)",
+                "hide": 0,
+                "includeAll": false,
+                "label": "Job",
+                "multi": false,
+                "name": "job",
+                "options": [],
+                "query": {
+                    "query": "label_values(default_jenkins_up,job)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "PBFA97CFB590B2093"
+                },
+                "definition": "label_values(default_jenkins_up{job=~\"$job\"},instance)",
+                "hide": 0,
+                "includeAll": true,
+                "label": "Instance",
+                "multi": true,
+                "name": "instance",
+                "options": [],
+                "query": {
+                    "query": "label_values(default_jenkins_up{job=~\"$job\"},instance)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "PBFA97CFB590B2093"
+                },
+                "definition": "label_values(default_jenkins_builds_available_builds_count{job=~\"$job\"},jenkins_job)",
+                "hide": 0,
+                "includeAll": true,
+                "label": "Jenkins Job Name",
+                "multi": true,
+                "name": "jenkins_job",
+                "options": [],
+                "query": {
+                    "query": "label_values(default_jenkins_builds_available_builds_count{job=~\"$job\"},jenkins_job)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            }
+        ]
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Jenkins Dashboard Monitoring",
+    "uid": "d4c82f49-17bc-4420-b3f6-0545502a0adf",
+    "version": 13,
+    "weekStart": ""
+}
