@@ -1,0 +1,883 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 28,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "align": "auto",
+                        "cellOptions": {
+                            "type": "auto"
+                        },
+                        "inspect": false
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 7,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 11,
+            "options": {
+                "cellHeight": "sm",
+                "footer": {
+                    "countRows": false,
+                    "fields": "",
+                    "reducer": [
+                        "sum"
+                    ],
+                    "show": false
+                },
+                "showHeader": true,
+                "sortBy": [
+                    {
+                        "desc": true,
+                        "displayName": "Container Name"
+                    }
+                ]
+            },
+            "pluginVersion": "10.0.4",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "editorMode": "code",
+                    "exemplar": false,
+                    "expr": "label_replace(avg_over_time(kube_pod_container_info{cluster=~\"$cluster\", namespace=~\"$namespace\", container=~\"$container\"}[1m]), \"tag\", \"$1\", \"image\", \".*:([^:]+)$\")",
+                    "format": "table",
+                    "instant": true,
+                    "range": false,
+                    "refId": "A"
+                }
+            ],
+            "title": "Pods information",
+            "transformations": [
+                {
+                    "id": "organize",
+                    "options": {
+                        "excludeByName": {
+                            "Time": true,
+                            "Value": true,
+                            "__name__": true,
+                            "cluster": false,
+                            "container_id": true,
+                            "image": false,
+                            "image_id": true,
+                            "image_spec": true,
+                            "instance": true,
+                            "job": true,
+                            "namespace": true,
+                            "pod": true,
+                            "uid": true
+                        },
+                        "indexByName": {
+                            "Time": 6,
+                            "Value": 13,
+                            "cluster": 0,
+                            "container": 1,
+                            "container_id": 7,
+                            "image": 3,
+                            "image_id": 8,
+                            "image_spec": 9,
+                            "instance": 10,
+                            "job": 11,
+                            "namespace": 5,
+                            "pod": 4,
+                            "tag": 2,
+                            "uid": 12
+                        },
+                        "renameByName": {
+                            "Time": "",
+                            "Value": "",
+                            "__name__": "",
+                            "container": "Container Name",
+                            "image": "",
+                            "pod": "Pod Name",
+                            "tag": "Version"
+                        }
+                    }
+                },
+                {
+                    "id": "renameByRegex",
+                    "options": {
+                        "regex": "(.*)",
+                        "renamePattern": "$1"
+                    }
+                }
+            ],
+            "type": "table"
+        },
+        {
+            "collapsed": true,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 7
+            },
+            "id": 3,
+            "panels": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green",
+                                        "value": null
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 80
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": []
+                    },
+                    "gridPos": {
+                        "h": 8,
+                        "w": 10,
+                        "x": 0,
+                        "y": 8
+                    },
+                    "id": 5,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Container Name"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "exemplar": false,
+                            "expr": "label_replace(kube_pod_container_info{cluster=~\"$cluster\", namespace=~\"$namespace\", container=~\"$container\"}, \"tag\", \"$1\", \"image\", \".*:([^:]+)$\")\r\n",
+                            "format": "table",
+                            "instant": true,
+                            "range": false,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Pods information",
+                    "transformations": [
+                        {
+                            "id": "organize",
+                            "options": {
+                                "excludeByName": {
+                                    "Time": true,
+                                    "Value": true,
+                                    "__name__": true,
+                                    "cluster": true,
+                                    "container_id": true,
+                                    "image": false,
+                                    "image_id": true,
+                                    "image_spec": true,
+                                    "instance": true,
+                                    "job": true,
+                                    "namespace": true,
+                                    "pod": true,
+                                    "uid": true
+                                },
+                                "indexByName": {
+                                    "Time": 5,
+                                    "Value": 13,
+                                    "cluster": 6,
+                                    "container": 0,
+                                    "container_id": 7,
+                                    "image": 2,
+                                    "image_id": 8,
+                                    "image_spec": 9,
+                                    "instance": 10,
+                                    "job": 11,
+                                    "namespace": 4,
+                                    "pod": 1,
+                                    "tag": 3,
+                                    "uid": 12
+                                },
+                                "renameByName": {
+                                    "Time": "",
+                                    "Value": "",
+                                    "__name__": "",
+                                    "container": "Container Name",
+                                    "image": "Image Name",
+                                    "pod": "Pod Name",
+                                    "tag": "Version"
+                                }
+                            }
+                        },
+                        {
+                            "id": "renameByRegex",
+                            "options": {
+                                "regex": "(.*)",
+                                "renamePattern": "$1"
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "color": {
+                                "mode": "thresholds"
+                            },
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green",
+                                        "value": null
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 80
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": []
+                    },
+                    "gridPos": {
+                        "h": 8,
+                        "w": 14,
+                        "x": 10,
+                        "y": 8
+                    },
+                    "id": 1,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": true,
+                                "displayName": "Container Name"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "exemplar": false,
+                            "expr": "kube_pod_container_info{cluster=~\"$cluster\", namespace=~\"$namespace\", container=~\"$container\"}",
+                            "format": "table",
+                            "instant": true,
+                            "range": false,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Pods information",
+                    "transformations": [
+                        {
+                            "id": "organize",
+                            "options": {
+                                "excludeByName": {
+                                    "Time": true,
+                                    "Value": true,
+                                    "__name__": true,
+                                    "cluster": true,
+                                    "container_id": true,
+                                    "image_id": true,
+                                    "image_spec": true,
+                                    "instance": true,
+                                    "job": true,
+                                    "namespace": true,
+                                    "uid": true
+                                },
+                                "indexByName": {
+                                    "Time": 4,
+                                    "Value": 13,
+                                    "__name__": 5,
+                                    "cluster": 6,
+                                    "container": 0,
+                                    "container_id": 7,
+                                    "image": 2,
+                                    "image_id": 8,
+                                    "image_spec": 9,
+                                    "instance": 10,
+                                    "job": 11,
+                                    "namespace": 3,
+                                    "pod": 1,
+                                    "uid": 12
+                                },
+                                "renameByName": {
+                                    "Time": "",
+                                    "Value": "",
+                                    "__name__": "",
+                                    "container": "Container Name",
+                                    "image": "Image Name",
+                                    "pod": "Pod Name"
+                                }
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "filterable": false,
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green",
+                                        "value": null
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 80
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "id"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.width",
+                                        "value": 260
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Running"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "unit",
+                                        "value": "d"
+                                    },
+                                    {
+                                        "id": "decimals",
+                                        "value": 1
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "dark-green",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Running"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "unit",
+                                        "value": "ms"
+                                    },
+                                    {
+                                        "id": "decimals"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 12,
+                        "x": 0,
+                        "y": 16
+                    },
+                    "id": 2,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": [
+                            {
+                                "desc": false,
+                                "displayName": "Running"
+                            }
+                        ]
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "kube_service_spec_type{cluster=~\"$cluster\",namespace=~\"$namespace\"}",
+                            "format": "table",
+                            "hide": false,
+                            "instant": true,
+                            "interval": "",
+                            "legendFormat": "__auto",
+                            "refId": "A"
+                        },
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "kube_service_info{cluster=~\"$cluster\",namespace=~\"$namespace\"}",
+                            "format": "table",
+                            "hide": false,
+                            "instant": true,
+                            "interval": "",
+                            "legendFormat": "__auto",
+                            "refId": "B"
+                        },
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "label_replace(kube_deployment_created{cluster=~\"$cluster\",namespace=~\"$namespace\"}, \"service\", \"$1\", \"deployment\", \"(.*)\")\r\n",
+                            "format": "table",
+                            "hide": false,
+                            "instant": true,
+                            "interval": "",
+                            "legendFormat": "{{label_name}}",
+                            "refId": "C"
+                        }
+                    ],
+                    "title": "Service + deployment info",
+                    "transformations": [
+                        {
+                            "id": "filterFieldsByName",
+                            "options": {
+                                "include": {
+                                    "names": [
+                                        "service",
+                                        "type",
+                                        "cluster_ip",
+                                        "deployment"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "id": "joinByField",
+                            "options": {
+                                "byField": "service",
+                                "mode": "outer"
+                            }
+                        },
+                        {
+                            "id": "organize",
+                            "options": {
+                                "excludeByName": {},
+                                "indexByName": {
+                                    "cluster_ip": 3,
+                                    "deployment": 1,
+                                    "service": 0,
+                                    "type": 2
+                                },
+                                "renameByName": {
+                                    "Value #C": "",
+                                    "Value #D": "Running"
+                                }
+                            }
+                        }
+                    ],
+                    "type": "table"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "PBFA97CFB590B2093"
+                    },
+                    "fieldConfig": {
+                        "defaults": {
+                            "custom": {
+                                "align": "auto",
+                                "cellOptions": {
+                                    "type": "auto"
+                                },
+                                "filterable": false,
+                                "inspect": false
+                            },
+                            "mappings": [],
+                            "thresholds": {
+                                "mode": "absolute",
+                                "steps": [
+                                    {
+                                        "color": "green",
+                                        "value": null
+                                    },
+                                    {
+                                        "color": "red",
+                                        "value": 80
+                                    }
+                                ]
+                            }
+                        },
+                        "overrides": [
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "id"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "custom.width",
+                                        "value": 260
+                                    }
+                                ]
+                            },
+                            {
+                                "matcher": {
+                                    "id": "byName",
+                                    "options": "Running"
+                                },
+                                "properties": [
+                                    {
+                                        "id": "unit",
+                                        "value": "d"
+                                    },
+                                    {
+                                        "id": "decimals",
+                                        "value": 1
+                                    },
+                                    {
+                                        "id": "custom.cellOptions",
+                                        "value": {
+                                            "type": "color-text"
+                                        }
+                                    },
+                                    {
+                                        "id": "color",
+                                        "value": {
+                                            "fixedColor": "dark-green",
+                                            "mode": "fixed"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "gridPos": {
+                        "h": 10,
+                        "w": 12,
+                        "x": 12,
+                        "y": 16
+                    },
+                    "id": 4,
+                    "options": {
+                        "cellHeight": "sm",
+                        "footer": {
+                            "countRows": false,
+                            "fields": "",
+                            "reducer": [
+                                "sum"
+                            ],
+                            "show": false
+                        },
+                        "showHeader": true,
+                        "sortBy": []
+                    },
+                    "pluginVersion": "10.0.4",
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "prometheus",
+                                "uid": "PBFA97CFB590B2093"
+                            },
+                            "editorMode": "code",
+                            "expr": "(time() - kube_deployment_created{cluster=~\"$cluster\",namespace=~\"$namespace\",})/86400",
+                            "format": "table",
+                            "instant": true,
+                            "interval": "",
+                            "legendFormat": "{{name}}",
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Containers Info",
+                    "transformations": [
+                        {
+                            "id": "filterFieldsByName",
+                            "options": {
+                                "include": {
+                                    "names": [
+                                        "deployment",
+                                        "Value"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "id": "organize",
+                            "options": {
+                                "excludeByName": {},
+                                "indexByName": {},
+                                "renameByName": {
+                                    "Value": "Running",
+                                    "container_label_com_docker_compose_project": "Label",
+                                    "container_label_com_docker_compose_project_working_dir": "Working dir",
+                                    "container_label_com_docker_compose_service": "Service",
+                                    "image": "Registry Image",
+                                    "instance": "Instance",
+                                    "name": "Name"
+                                }
+                            }
+                        }
+                    ],
+                    "type": "table"
+                }
+            ],
+            "repeat": "cluster",
+            "repeatDirection": "h",
+            "title": "CLUSTER $cluster",
+            "type": "row"
+        }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": [
+            {
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "PBFA97CFB590B2093"
+                },
+                "definition": "label_values(kube_node_info,cluster)",
+                "hide": 0,
+                "includeAll": true,
+                "label": "cluster",
+                "multi": true,
+                "name": "cluster",
+                "options": [],
+                "query": {
+                    "query": "label_values(kube_node_info,cluster)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": false,
+                    "text": [
+                        "default"
+                    ],
+                    "value": [
+                        "default"
+                    ]
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "PBFA97CFB590B2093"
+                },
+                "definition": "label_values(kube_namespace_created,namespace)",
+                "hide": 0,
+                "includeAll": true,
+                "label": "namespace",
+                "multi": true,
+                "name": "namespace",
+                "options": [],
+                "query": {
+                    "query": "label_values(kube_namespace_created,namespace)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            },
+            {
+                "current": {
+                    "selected": true,
+                    "text": [
+                        "All"
+                    ],
+                    "value": [
+                        "$__all"
+                    ]
+                },
+                "definition": "label_values(kube_pod_container_info,container)",
+                "hide": 0,
+                "includeAll": true,
+                "label": "container",
+                "multi": true,
+                "name": "container",
+                "options": [],
+                "query": {
+                    "query": "label_values(kube_pod_container_info,container)",
+                    "refId": "PrometheusVariableQueryEditor-VariableQuery"
+                },
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "type": "query"
+            }
+        ]
+    },
+    "time": {
+        "from": "now-5m",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "KSM Pods information",
+    "uid": "ed397976-e7f4-449b-aab0-dd4dfb2c504e",
+    "version": 13,
+    "weekStart": ""
+}
