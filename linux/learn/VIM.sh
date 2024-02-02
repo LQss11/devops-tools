@@ -1,4 +1,4 @@
-# Search (\c is for case insensitive)
+# Search (\c is for case insensitive) type n or N to move forward or backward
 /something\c
 # Show line numbers
 :set nu
@@ -19,3 +19,12 @@ dd
 
 # Change file
 :e! filepath
+
+
+# Open 2 or + kubectl edit at a time
+# Navigate with ctrl + w and then arrows
+vi
+:vsp
+:term kubectl edit svc/kubernetes 
+# Or directly through vsp 
+:vsp | term kubectl edit svc/kubernetes
