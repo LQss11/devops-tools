@@ -5,13 +5,13 @@ metadata:
     app: node-exporter
   name: node-exporter
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: node-exporter
       port: 9100
       protocol: TCP
       targetPort: 9100
-      nodePort: 30910
+      # nodePort: 30910
   selector:
     app: node-exporter
   sessionAffinity: None
