@@ -1,0 +1,50 @@
+scrape_configs:
+  - job_name: "kubernetes-kube-state-metrics-cluster1"
+    kubernetes_sd_configs:
+      - role: endpoints
+        kubeconfig_file: /etc/prometheus/certs/config-cluster1 
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "kube-state-metrics"
+        action: keep
+      # Ignore telemetry metrics
+      - source_labels: [__meta_kubernetes_pod_container_port_number]
+        regex: "8081"
+        action: drop
+      - source_labels: [__meta_kubernetes_endpoint_node_name, __address__]
+        regex: "(.*);(.*):.*"
+        replacement: "$1:$2"
+        target_label: instance        
+    metric_relabel_configs:
+      - source_labels: [cluster]
+        regex: '(.*)'
+        replacement: 'cluster1'
+        target_label: cluster
+      - source_labels: [__name__]
+        regex: "go.*|process.*"
+        action: drop
+
+  - job_name: "kubernetes-kube-state-metrics-cluster2"
+    kubernetes_sd_configs:
+      - role: endpoints
+        kubeconfig_file: /etc/prometheus/certs/config-cluster2 
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: "kube-state-metrics"
+        action: keep
+      # Ignore telemetry metrics
+      - source_labels: [__meta_kubernetes_pod_container_port_number]
+        regex: "8081"
+        action: drop
+      - source_labels: [__meta_kubernetes_endpoint_node_name, __address__]
+        regex: "(.*);(.*):.*"
+        replacement: "$1:$2"
+        target_label: instance        
+    metric_relabel_configs:
+      - source_labels: [cluster]
+        regex: '(.*)'
+        replacement: 'cluster2'
+        target_label: cluster
+      - source_labels: [__name__]
+        regex: "go.*|process.*"
+        action: drop
