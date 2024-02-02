@@ -17,6 +17,9 @@ services:
       - '--config.file=/etc/prometheus/docker-prometheus.yml'
       - '--storage.tsdb.retention.time=72h'
       # - --storage.tsdb.retention.size=2GB
+      # Uncomment to Allow admin apis (e.g to delete job data)
+      # example: curl -X POST -g 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={job="kubernetes-kube-state-metrics"}'
+      # - '--web.enable-admin-api'          
     networks:
       - monitoring
     extra_hosts:
