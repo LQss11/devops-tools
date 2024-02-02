@@ -43,3 +43,4 @@ iptables -A INPUT -p tcp --dport 22 -j DROP
 # Delete rule number 3  from the Outbound chain
 iptables -D OUTPUT 5
 # Check for /etc/netplan/00-installer-config.yaml and netplan
+# Use nmtui gui
