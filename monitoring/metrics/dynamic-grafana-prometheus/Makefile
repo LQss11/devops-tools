@@ -63,7 +63,9 @@ k8s-ksm: $(ARG)
 	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/deployment.yaml
 	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/service-account.yaml
 	@kubectl $(ARG) -f https://raw.githubusercontent.com/kubernetes/kube-state-metrics/main/examples/standard/service.yaml
-
+ifeq ($(ARG),apply)
+	@kubectl patch deployment kube-state-metrics -n kube-system --type=json -p='[{"op": "add", "path": "/spec/template/spec/hostNetwork", "value":true}]'
+endif
 k8s-run: dotenv
 	@$(MAKE) docker-build $(ARG)
 	@echo "🚀 Applying manifests for $(ARG)..."
