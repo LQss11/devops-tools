@@ -2298,9 +2298,10 @@
         "list": [
             {
                 "current": {
+                    "isNone": true,
                     "selected": false,
-                    "text": "jenkins",
-                    "value": "jenkins"
+                    "text": "None",
+                    "value": ""
                 },
                 "datasource": {
                     "type": "prometheus",
