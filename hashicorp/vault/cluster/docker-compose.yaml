@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+  node-1:
+    build: .
+    container_name: node-1
+    hostname: node-1
+    environment:
+      - VAULT_ADDR=http://node-1:8200    
+    ports:
+      - "8210:8200"  
+      - "8211:8201"  
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/config-node-1.hcl:/etc/vault.d/vault.hcl
+      - hashicorp-vault-node-1:/opt/vault
+    command:  sh -c "vault server -config /etc/vault.d/vault.hcl"
+  node-2:
+    build: .
+    container_name: node-2
+    hostname: node-2
+    environment:
+      - VAULT_ADDR=http://node-2:8200  
+    ports:
+      - "8220:8200"  
+      - "8221:8201"  
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/config-node-2.hcl:/etc/vault.d/vault.hcl
+      - hashicorp-vault-node-2:/opt/vault
+    command:  sh -c "vault server -config /etc/vault.d/vault.hcl"
+volumes:
+  hashicorp-vault-node-1:
+  hashicorp-vault-node-2:
