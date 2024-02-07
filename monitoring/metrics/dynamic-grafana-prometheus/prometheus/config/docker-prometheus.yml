@@ -14,6 +14,23 @@ scrape_config_files:
   - scrape-configs/docker/kubernetes/kube-state-metrics.yml
   # Jenkins monitoring
   - scrape-configs/docker/jenkins.yml
+
+# Federation (scrape from distant prometheus)
+scrape_configs:
+  - job_name: 'federate'
+    scrape_interval: 15s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{job=~".*"}'
+        # - '{job="prometheus}'
+        # - '{__name__=~"job:.*"}'
+    static_configs:
+      - targets:
+        - 'xxx.xxx.xxx.xxx:9090'
+
+
 # scrape_configs:
 rule_files:
   - "alert-rules.yml"
