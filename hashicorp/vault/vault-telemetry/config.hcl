@@ -7,6 +7,8 @@ api_addr = "http://0.0.0.0:8200"
 listener "tcp" {
   address       = "0.0.0.0:8200"
   tls_disable = 1
+  # Unauthenticated access to /v1/sys/metrics
+  # https://developer.hashicorp.com/vault/docs/configuration/listener/tcp#unauthenticated_metrics_access
   # telemetry {
   #   unauthenticated_metrics_access = true
   # }  
