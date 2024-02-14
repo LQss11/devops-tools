@@ -1,8 +1,8 @@
 variables:
   HOST_USER: "gitlab"
-  HOST_IP: "192.168.1.4"
+  HOST_IP: "XXX.XXX.XXX.XXX"
   BUILD_DIR: "/home/gitlab/myapp"
-  REGISTRY_URL: "192.168.1.5:5000"
+  REGISTRY_URL: "XXX.XXX.XXX.XXX:5000"
 
 stages:
   - build

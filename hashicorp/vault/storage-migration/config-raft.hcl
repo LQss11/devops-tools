@@ -1,5 +1,5 @@
 api_addr = "https://vault-production:8200"
-cluster_addr = "https://192.168.1.222:8201"
+cluster_addr = "https://XXX.XXX.XXX.XXX:8201"
 cluster_name = "vault-cluster"
 
 max_lease_ttl = "10h"
@@ -14,15 +14,15 @@ storage "raft" {
   path    = "/opt/vault/data"
   node_id = "vault-1"
   // retry_join {
-  //   leader_api_addr = "http://192.168.1.222:8200"
+  //   leader_api_addr = "http://vault-2:8200"
   // }
   // retry_join {
-  //   leader_api_addr = "http://node-3:8200"
+  //   leader_api_addr = "http://vault-3:8200"
   // }  
 }
 listener "tcp" {
   address = "0.0.0.0:8200"
-  cluster_address = "192.168.1.222:8201"
+  cluster_address = "XXX.XXX.XXX.XXX:8201"
   tls_disable = false
   tls_disable_client_certs = true
   tls_cert_file = "/etc/vault/ssl/vault.crt"

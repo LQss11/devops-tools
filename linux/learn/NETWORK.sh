@@ -1,6 +1,6 @@
 # Networks
-/etc/hosts # Set host 192.1.1.44
-# You can use: nameserver 191.1.1.222 
+/etc/hosts # Set host 192.1.1.xxx
+# You can use: nameserver 191.1.1.xxx 
 # also could resolve domain for example: search mycompany.com to resolve anything under it
 /etc/resolv.conf 
 /etc/nsswitch.conf # Order tf resolv hosts: files dns
@@ -14,11 +14,11 @@ ip link # get info about interface
 ip link set dev eth0 up
 # Switch is used to connct vms on same network like 192.168.1.0 
 ip addr
-ip addr add 192.168.1.10/24 dev eth0 # Assign ip addr to vm (dev used to specify the network interface)
+ip addr add 192.1.1.10/24 dev eth0 # Assign ip addr to vm (dev used to specify the network interface)
 # Router used to connect 2 vms from different networks (it connects networks  from diff switches)
-ip route add 192.168.2.0/24 via 192.168.1.1 # ip route or ip r are the same
-# default = 0.0.0.0 = * 192.168.1.1 is the gateway and default is the target
-ip route add default via 192.168.1.1
+ip route add 192.1.2.0/24 via 192.1.1.1 # ip route or ip r are the same
+# default = 0.0.0.0 = * 192.1.1.1 is the gateway and default is the target
+ip route add default via 192.1.1.1
 # Delete default route 
 sudo ip r del default
 
@@ -38,7 +38,7 @@ netstat -atulpn | grep -iw :8080
 iptables -L
 # Add rule (-A INPUT|OUTPUT) (-j ACCEPT|DROP)
 # -A insert the rule on bottom of the rule -I insert it on the top
-iptables -A INPUT -p tcp -s 172.16.238.187 --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -s 192.1.1.10 --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 22 -j DROP
 # Delete rule number 3  from the Outbound chain
 iptables -D OUTPUT 5

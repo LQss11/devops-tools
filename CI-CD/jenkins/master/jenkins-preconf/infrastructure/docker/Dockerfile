@@ -50,7 +50,7 @@ RUN mkdir -p /root/.ssh/ && \
     echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa && \
     chmod 700 /root/.ssh/id_rsa  && \
     touch /root/.ssh/known_hosts && \
-    ssh-keyscan 192.168.1.124>> /root/.ssh/known_hosts
+    ssh-keyscan XXX.XXX.XXX.XXX>> /root/.ssh/known_hosts
 # credentialsId: 'jenkins_ssh_key'
 
 FROM init-jenkins as startup
