@@ -1,6 +1,6 @@
 api_addr = "https://vault-production:8200"
 cluster_addr = "https://192.168.1.222:8201"
-cluster_name = "vault-spark-local-cluster"
+cluster_name = "vault-cluster"
 
 max_lease_ttl = "10h"
 default_lease_ttl = "10h"
