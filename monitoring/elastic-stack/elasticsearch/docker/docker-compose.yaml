@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+    elasticsearch:
+      restart: always
+      container_name: elasticsearch
+      hostname: elasticsearch
+      build:
+        context: ..
+        dockerfile: ./docker/Dockerfile
+        args:
+          VERSION: "${ELK_VERSION}"
+      image: local/elasticsearch
+      environment:
+        ES_JAVA_OPTS: "-Xmx${ELASTICSEARCH_MEM_LIM} -Xms${ELASTICSEARCH_MEM_LIM}"
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+        XPACK_ENABLED: ${XPACK_ENABLED}
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      volumes:
+        - elasticsearch:/usr/share/elasticsearch/data
+      networks:
+        - logs-monitoring
+volumes:
+  elasticsearch:
+networks:
+  logs-monitoring:

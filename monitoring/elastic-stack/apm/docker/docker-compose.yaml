@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+    apm-server:
+      restart: always
+      container_name: apm-server
+      hostname: apm-server
+      build:
+        context: ..
+        dockerfile: ./docker/Dockerfile
+        args:
+          VERSION: "${ELK_VERSION}"
+      image: local/apm
+      command: apm-server -c /usr/share/apm/config/apm-server.yml -e
+      ports:
+        - 8200:8200
+      environment:
+        ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}      
+        APM_SECRET_KEY: ${APM_SECRET_KEY}  
+      networks:
+        - logs-monitoring
+networks:
+  logs-monitoring:

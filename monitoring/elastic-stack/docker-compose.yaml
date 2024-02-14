@@ -1,0 +1,7 @@
+version: '3.8'
+networks:
+  logs-monitoring:
+volumes:
+  elasticsearch:
+  grafana-data:
+  

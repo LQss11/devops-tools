@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  java-example:
+    restart: always
+    container_name: java-example
+    hostname: java-example
+    build:
+      context: .
+    image: local/java-example
+    ports:
+      - "8080:8080"
+    networks:
+      - logs-monitoring
+networks:
+  logs-monitoring:

@@ -1,0 +1,5 @@
+.env
+.vs
+.vscode
+.idea
+configmap.yaml
