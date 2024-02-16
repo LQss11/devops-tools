@@ -15,4 +15,7 @@ helm upgrade --install --create-namespace -n chaos-mesh-system chaos-mesh chaos-
 helm upgrade --install --create-namespace -n chaos-mesh-system chaos-mesh chaos-mesh/chaos-mesh --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
 
 # Make sure to grant the right roles to chaos mesh service account
+
+# Execute example workflow (https://chaos-mesh.org/docs/create-chaos-mesh-workflow/)
+kubectl create -f https://raw.githubusercontent.com/chaos-mesh/chaos-mesh/master/examples/workflow/serial.yaml
 ```
