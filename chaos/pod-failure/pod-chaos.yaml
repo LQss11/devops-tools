@@ -1,0 +1,22 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-failure-testcase
+  namespace: chaos
+spec:
+  action: pod-failure
+  mode: one
+  duration: '3m'
+  # selector:
+  #   labelSelectors: 
+  #     app: nginx
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      'app': 'nginx'        
+    # pods:
+    #   nginx:
+    #     - nginx-deployment-f6dc544c7-d6m6t
+
+# kubectl describe podchaos/pod-failure-testcase
