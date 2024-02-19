@@ -1,3 +1,13 @@
+# Single line create token
+```sh
+kubectl create serviceaccount vault
+kubectl create clusterrole full --verb=* --resource=* --resource=*
+kubectl create clusterrolebinding vault:full --clusterrole=full --serviceaccount=default:vault
+# secret must be created with annotatioion (couldn't find a straightforward way to create it with kubectl)
+# kubectl create secret generic vault-secret --type=kubernetes.io/service-account-token --from-literal=kubernetes.io/service-account.name=vault
+# Extract token
+kubectl -n default get secret vault-secret -o=jsonpath='{.data.token}' | base64
+```
 # SA Token long
 ```sh
 kubectl apply -f .
