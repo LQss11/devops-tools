@@ -8,3 +8,10 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 # Install helm
 choco install go
 ```
+# Enable disable adming
+```sh
+Add-LocalGroupMember -Group Administrator -Member org/user
+Get-LocalGroup
+Get-LocalGroupMember -Name Administrator
+Remove-LocalGroupMember -Group Administrator -Member org/user
+```
