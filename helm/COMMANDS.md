@@ -1,6 +1,8 @@
 # Commands
 Generate a single file containing all chart resources:
 ```sh
+# Get chart values
+helm show values chaos-mesh/chaos-mesh >values.yaml
 # Create values.yaml template from chart
 helm template vault hashicorp/vault --namespace vault --version 0.19.0  > ./vault.yaml
 # Another way to get info about upgrade
