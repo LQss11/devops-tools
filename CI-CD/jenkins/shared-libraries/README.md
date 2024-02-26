@@ -1,4 +1,8 @@
 # Shared Libraries
+# TEST
+```sh
+docker run -it --rm -v ${pwd}:/app -w /app groovy:alpine sh -c "groovy script.groovy"
+```
 # Create shared library
 Based on the [jenkins shared libraries documentation](https://www.jenkins.io/doc/book/pipeline/shared-libraries/) in order to create and reference shared libraries you have to do the following steps:
 1. go to <JENKINS_URL>/manage/configure
