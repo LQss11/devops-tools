@@ -1,41 +1,41 @@
+package org.example
+
 @Grab('org.yaml:snakeyaml:1.29')
 import org.yaml.snakeyaml.Yaml
 
 class YamlReader {
-    static void main(String[] args) {
-        def yaml = loadYamlFromFile("resources/data.yaml")
+    static void readYamlFromString(String yamlString, def dsl) {
+        try {
+            def yaml = new Yaml().load(yamlString)
 
-        def appName = System.getenv("APP_NAME")
+            def appName = dsl.env.MODULE // Default to "app1" if MODULE is not set
+            // def appName = System.getenv("MODULE") ?: "app1" // Default to "app1" if MODULE is not set
 
-        if (!appName) {
-            throw new IllegalArgumentException("❌ APP_NAME environment variable is required.")
-        }
-
-        if (yaml."$appName") {
-            def app = yaml."$appName"
-            if (app && app.name) {
-                println "========================================"
-                println "  🚀 Variables for ${appName.capitalize()}:"
-                println "========================================"
-                app.each { key, value ->
-                    println "  ⭐️ ${key.capitalize()}: ${value}"
-                }
-                println "========================================"
-                println "  🌐 Environment Variables:"
-                println "========================================"
-                System.getenv().each { key, value ->
-                    println "  🌟 $key: $value"
-                }
-            } else {
-                throw new IllegalArgumentException("❌ Required attributes 'app' and 'name' are missing for $appName.")
+            if (!yaml) {
+                throw new Exception("YAML file is empty or invalid.")
             }
-        } else {
-            throw new IllegalArgumentException("❌ Invalid value for APP_NAME.")
-        }
-    }
 
-    static def loadYamlFromFile(String filePath) {
-        def yamlString = new File(filePath).text
-        new Yaml().load(yamlString)
+            if (!yaml.containsKey(appName)) {
+                throw new Exception("Application '$appName' not found in YAML.")
+            }
+
+            def app = yaml[appName]
+            def output = ""
+            output += "========================================\n"
+            output += "  🚀 Variables for ${appName.capitalize()}:\n"
+            output += "========================================\n"
+            app.each { key, value ->
+                output += "  ⭐️ ${key.capitalize()}: ${value}\n"
+            }
+            output += "========================================\n"
+            output += "  🌐 Environment Variables:\n"
+            output += "========================================\n"
+            System.getenv().each { key, value ->
+                output += "  🌟 $key: $value\n"
+            }
+            dsl.echo(output)
+        } catch (Exception e) {
+            dsl.error("❌ Error: ${e.message}")
+        }
     }
 }
