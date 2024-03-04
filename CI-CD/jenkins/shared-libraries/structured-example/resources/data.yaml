@@ -1,0 +1,6 @@
+app1:
+  port: 8080
+  name: myfirstapp  
+app2:
+  port: 8090
+  name: mysecondapp
