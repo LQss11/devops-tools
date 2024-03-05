@@ -93,3 +93,7 @@ docker context use remote-vm
 docker ps
 ```
 
+# Save Load image single command
+```sh
+docker save salem | ssh root@xxx.xxx.xxx.xxx 'docker load'
+```
