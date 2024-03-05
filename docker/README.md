@@ -84,3 +84,12 @@ docker run -it --rm -v ${pwd}:/app ls /app
 ```
 This is the syntax
 `docker build https://<username>:<password>@github.com/user/myrepo.git#<branch>:<path_to_dockerfile>`
+
+# SSH Context (run docker commands over ssh with docker)
+```sh
+docker context create remote-vm --docker "host=ssh://root@xxx.xxx.xxx.xxx"
+docker context ls
+docker context use remote-vm
+docker ps
+```
+
