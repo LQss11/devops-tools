@@ -36,3 +36,8 @@ pipeline {
 }
 ```
 
+# Support packages
+If you want to use Grape to import a library like XMLSlurper, which is typically included with Groovy, you can do so with the following @Grab annotation:
+```groovy
+@Grab(group='org.codehaus.groovy', module='groovy', version='3.0.9')
+```
