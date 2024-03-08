@@ -48,3 +48,6 @@ Just put [NAME of first title] () it will auto-complete itself.
 > example
 > example2
 >```
+
+<!-- new line -->
+<div style="page-break-before: always;"></div>
