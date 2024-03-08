@@ -3,10 +3,11 @@ services:
   sqlserver:
     build: .
     container_name: sqlserver
-    restart: on-failure:15
+    restart: always
     environment:
       ACCEPT_EULA: 'Y'
       SA_PASSWORD: "P@ssword"   
+      MSSQL_AGENT_ENABLED: "true"
       # user: sa 
     volumes:
       - sqlserver-storage:/var/opt/mssql
