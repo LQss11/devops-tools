@@ -11,3 +11,11 @@ systemctl get-default
 ls -ltr /etc/systemd/system/default.target
 # UPDATE runlevel
 systemctl set-default multi-user.target
+
+# Update mode directly
+systemctl isolate graphical.target
+
+# Troubleshooting modes
+# filesystem readonly
+systemctl isolate emergency.target
+systemctl isolate rescue.target
