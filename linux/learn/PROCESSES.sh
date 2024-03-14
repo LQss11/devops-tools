@@ -16,7 +16,7 @@ WantedBy graphical.target
 
 # More sysctl commands
 systemctl set-default multi-user.target
-systemctl list-units --all
+systemctl list-units --type service --all
 
 systemctl start myapp.service
 systemctl status myapp.service
@@ -25,6 +25,8 @@ systemctl daemon-reload
 systemctl start myapp.service
 
 systemctl edit myapp.service --full
+# before accepting changes if we want to revert we can run
+systemctl revert myapp.service 
 
 systemctl start docker
 systemctl stop docker
@@ -36,6 +38,9 @@ systemctl enable docker
 systemctl enable --now mercury.service
 systemctl disable docker
 
+# Mask service to track issues sometimes a service starts another service even when it's stopped
+systemctl mask atd.server
+systemctl unmask atd.server
 
 # Journalctl
 journalctl -b 
