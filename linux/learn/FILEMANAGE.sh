@@ -4,17 +4,43 @@ ls -lh
 
 # Zipping
 # Compressfiles
+tar --create --file archive.tar a aa
+tar cf archive.tar a aa
 tar -czvf tar.tar a aa
-tar -C /opt/ -xvf myfile.tar.gz
+# Append to compressed tar
+tar --append --file archive.tar additionalfile.txt
+tar rf archive.tar additionalfile.txt
 # Get files in tar
+tar tf tar.tar
 tar -tf tar.tar
+tar --list --file tar.tar
 # Extract
 tar -xvf tar.tar
+tar --extract --file tar.tar
+tar xf tar.tar
+tar -C /mypath/ -xvf myfile.tar
+tar --directory /mypath/ -xvf myfile.tar
 
-# Other compression tools (Read compressed files without decompressed)
+# Other compression tools (Read compressed files without decompressed) 
+# you can use --decompress instead unzipping commands
+# Make sure that compressing delete tar so you can use -k option to keep
+file.bz2 | file.gz | file.xz | file.zip
 bzip2 | gzip | xz | zip
 bunzip2 | gunzip | unxz | unzip
 bzcat | zcat | xzcat
+
+# We can use both archive and compress
+tar --create --file --gzip archive.tar.gz file1 file2
+tar -czf archive.tar.gz file1 file2
+tar --create --file --bzip archive.tar.bz2 file1 file2
+tar -cjf archive.tar.bz2 file1 file2
+tar --create --file --xz archive.tar.xz file1 file2
+tar -cJf archive.tar.xz file1 file2
+
+# Best way to do it depending on compresed file extension
+tar --create --autocompress --file archive.tar.gz file1 file2
+tar caf archive.tar.gz file1 file2
+tar xf archive.tar.gz 
 
 
 # Find files 
