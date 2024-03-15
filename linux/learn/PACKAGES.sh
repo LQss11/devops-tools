@@ -29,3 +29,6 @@ apt edit-sources
 
 # Other apt commands
 apt remove | apt search telnet
+
+# get info about installed package
+apt show lobnginx-mod-stream
