@@ -27,8 +27,13 @@ yum provides scp
 # Edit sources
 apt edit-sources
 
-# Other apt commands
-apt remove | apt search telnet
-
 # get info about installed package
-apt show lobnginx-mod-stream
+apt show libnginx-mod-stream
+
+# search
+apt search ping
+
+# remove
+apt remove nginx
+# remove lib and dependencies
+apt autoremove
