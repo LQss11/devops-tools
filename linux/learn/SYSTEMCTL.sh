@@ -41,3 +41,6 @@ systemctl disable docker
 # Mask service to track issues sometimes a service starts another service even when it's stopped
 systemctl mask atd.server
 systemctl unmask atd.server
+
+# get all dependeincies
+systemctl list-dependencies
