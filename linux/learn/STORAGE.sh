@@ -52,3 +52,6 @@ resize2fs /dev/my_volume_group/vol1 # Apply changes to file system
 
 # Verify changes
 df -hP /mnt/vol1
+
+# check fs for errors 
+sudo xfs_repair /dev/vdb
