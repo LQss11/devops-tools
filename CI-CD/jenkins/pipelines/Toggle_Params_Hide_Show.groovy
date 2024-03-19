@@ -29,6 +29,12 @@ pipeline {
                                         [$class: 'GroovyScript', 
                                         script: 'return["error"]', 
                                         script: [
+                                            // Example Select
+                                            // <select name="value" id="RELEASE_TYPE">
+                                            // <option value="patch">patch</option>
+                                            // <option value="minor">minor</option>
+                                            // <option value="major">major</option>
+                                            // </select>
                                             script: '''
                                                 if (TOGGLE) {
                                                     return """
