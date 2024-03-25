@@ -12,7 +12,11 @@ visit adminer url at **localhost:8888**
 - **Username:** postgres
 - **Password:** root
 
+# Client pgadmin
 
+```sh
+docker run -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=youremail@example.com -e PGADMIN_DEFAULT_PASSWORD=yourpassword --name pgadmin -d dpage/pgadmin4
+```
 # Script
 
 ```sh
