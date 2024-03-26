@@ -24,6 +24,10 @@ docker exec -it postgresql bash
 PGPASSWORD='root' psql -h postgresql -U root -d initdatabase
 ```
 
+```sh
+PGPASSWORD='root' psql -h localhost -U root -d initdatabase -c "SELECT * FROM \"table\" WHERE date_example_column LIKE '%2024/3/14/10/44%'"
+```
+
 
 ```sql
 -- Create the schema
