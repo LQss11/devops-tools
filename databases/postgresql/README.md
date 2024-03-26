@@ -22,11 +22,15 @@ docker run -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=youremail@example.com -e PGADMIN_
 ```sh
 docker exec -it postgresql bash
 PGPASSWORD='root' psql -h postgresql -U root -d initdatabase
+```
 
 
+```sql
 -- Create the schema
 "CREATE SCHEMA IF NOT EXISTS app;"
+```
 
+```sql
 -- Create the table
 "CREATE TABLE IF NOT EXISTS app.users (
     id SERIAL PRIMARY KEY,
@@ -38,7 +42,9 @@ PGPASSWORD='root' psql -h postgresql -U root -d initdatabase
     poste VARCHAR(100),
     bio TEXT
 );"
+```
 
+```sql
 INSERT INTO app.users (name, initials, location, pic, badge, poste, bio)
 VALUES
     ('Alice C.', 'AC', 'San Diego, CA', '/demo/avatars/7.jpg', '/images/icons/flags/united-states-of-america.svg', 'Software Engineer', 'This is a nice user description that we can use as demo content'),
@@ -50,5 +56,4 @@ VALUES
     ('Emma X.', 'EX', 'Austin, TX', '/demo/avatars/13.jpg', '/images/icons/flags/united-states-of-america.svg', 'Marketing Manager', 'Sample bio for Emma'),
     ('Frank Y.', 'FY', 'Boston, MA', '/demo/avatars/14.jpg', '/images/icons/flags/united-states-of-america.svg', 'Project Coordinator', 'Sample bio for Frank'),
     ('Grace Z.', 'GZ', 'Denver, CO', '/demo/avatars/15.jpg', '/images/icons/flags/united-states-of-america.svg', 'HR Specialist', 'Sample bio for Grace');
-
 ```
