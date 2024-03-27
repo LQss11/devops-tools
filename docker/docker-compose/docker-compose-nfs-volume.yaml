@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  app:
+    container_name: app
+    image: alpine
+    restart: always
+    volumes:
+      - my-nfs:/usr/src/app/mypath
+
+volumes:
+  my-nfs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: nfsvers=4,addr=xxx.xxx.xxx.xxx,rw
+      device: ":/mnt/nfs/app/"
