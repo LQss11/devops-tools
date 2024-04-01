@@ -20,3 +20,6 @@ groupmod -n programmers developers
 
 # delete group (cannot delete group if it's primary for some user)
 groupdel programmers
+
+# Get users from groups
+getent group docker | cut -d: -f4 | tr ',' '\n'
