@@ -7,4 +7,5 @@ sudo sysctl net.ipv6.conf.default.disable_ipv6
 
 # Create config for sys config (man sysctl.d to get path of configs)
 echo "vm.swapiness=29" >/etc/sysctl.d/swap-less.conf
+# apply changes
 sudo sysctl -p /etc/sysctl.d/swap-less.conf
