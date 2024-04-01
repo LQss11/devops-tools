@@ -30,6 +30,8 @@ usermod -e "" john
 chage -M 30 john
 # get info
 chage --list john
+# expire password and force user to change it
+sudo chage --lastday 0 john
 
 
 # delete user
