@@ -1,0 +1,14 @@
+services:
+  alpine: 
+    image: alpine
+    container_name: alpine
+    tty: true
+    volumes:
+      - cifs_mount:/root/data/
+    working_dir: /root/data/
+volumes: 
+  cifs_mount:
+    driver_opts:
+      type: cifs 
+      o: o=addr=server.domain,username=myuser,password=mypw,file_mode=0777,dir_mode=0777,uid=1021,gid=100,vers=3.0
+      device: //192.168.1.x/Shared/Directory/path
