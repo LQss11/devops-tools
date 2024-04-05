@@ -1,0 +1,13 @@
+network:
+  version: 2
+  ethernets:
+    enp0s8:
+      dhcp4: false
+      addresses:
+        - 10.0.0.9/24
+        - 2041:0:140F::875B:131B/64
+      gateway4: 10.0.0.1
+      nameservers:
+        addresses:
+          - 10.0.0.1
+          - 192.168.1.1
