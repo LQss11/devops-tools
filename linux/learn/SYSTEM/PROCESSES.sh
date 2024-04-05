@@ -5,21 +5,21 @@ ps -auxf
 pgrep -a sshd
 
 # Prioritize processess with nice value (9 is value of ncie 100 is PID)
-sudo nice -n 15 /bin/bash
+nice -n 15 /bin/bash
 # Update nice value of sshd process
-sudo renice 9 $(ps aux | grep -i sshd | awk '{print $2}' | head -1)
-sudo renice 9 $(pgrep sshd)
+renice 9 $(ps aux | grep -i sshd | awk '{print $2}' | head -1)
+renice 9 $(pgrep sshd)
 
 # get processess nice values
 ps lax
 
 # list files that are opened by process
-sudo lsof $(ps aux | grep -i sshd | awk '{print $2}' | head -1)
+lsof -p $(ps aux | grep -i sshd | awk '{print $2}' | head -1)
 
 # Send signals (kill -l to list all signals)
-sudo systemctl status sshd.service
-sudo kill -SIGHUP $(pgrep sshd)
-sudo kill -1 $(pgrep sshd)
+systemctl status sshd.service
+kill -SIGHUP $(pgrep sshd)
+kill -1 $(pgrep sshd)
 
 # manage background processes
 # run in bg
