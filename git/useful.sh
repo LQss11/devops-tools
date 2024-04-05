@@ -9,3 +9,6 @@ git update-index --add --chmod=+x /path/to/file
 
 # For resolving merge conflicts
 git mergetool
+
+# Get eol 
+git ls-files --eol
