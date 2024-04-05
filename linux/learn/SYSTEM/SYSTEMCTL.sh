@@ -1,18 +1,5 @@
 # Systemct commands
-# Path: /etc/systemd/system/myapp.service
-# example file
-[Unit]
-Description=Some script for my app
-Documentation=http://someurl.com
-After= postgresql.server
-[Service]
-ExecStart=/bin/bash /usr/bin/myapp.sh
-User=my_service_user
-Restart=on-failure
-RestartSec=10
-
-[Install]
-WantedBy graphical.target
+# example file Path: /etc/systemd/system/myapp.service
 
 # More sysctl commands
 systemctl set-default multi-user.target

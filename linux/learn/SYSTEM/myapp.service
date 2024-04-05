@@ -1,0 +1,12 @@
+[Unit]
+Description=Some script for my app
+Documentation=http://someurl.com
+After= postgresql.server
+[Service]
+ExecStart=/bin/bash /usr/bin/myapp.sh
+User=my_service_user
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy graphical.target
