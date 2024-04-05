@@ -10,5 +10,5 @@ volumes:
   cifs_mount:
     driver_opts:
       type: cifs 
-      o: o=addr=server.domain,username=myuser,password=mypw,file_mode=0777,dir_mode=0777,uid=1021,gid=100,vers=3.0
+      o: addr=server.domain,username=myuser,password=mypw,file_mode=0777,dir_mode=0777,uid=1021,gid=100,vers=3.0
       device: //192.168.1.x/Shared/Directory/path
