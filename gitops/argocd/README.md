@@ -15,7 +15,7 @@ argocd login localhost:8080 --username=admin --password=$(kubectl -n argocd get 
 argocd account update-password --account=admin 
 # Get kubectl contexts with (kubectx or kubectl config get-contexts -o name) then run
 # This will be the outpu "Cluster 'https://kubernetes.docker.internal:6443' added"
-argocd cluster add docker-desktop
+argocd cluster add docker-desktop --name="docker-desktop"
 # Create new app
 argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
 # Another nginx app (localhost:30080)
