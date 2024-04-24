@@ -16,3 +16,5 @@ docker exec -it visualvm bash -c "java Main"
 docker stop visualvm
 docker rm visualvm
 ```
+# Script
+In case your app is already running in a container you can run the following script `visualvm_setup.sh`
