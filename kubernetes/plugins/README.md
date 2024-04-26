@@ -13,10 +13,17 @@ setx PATH "%PATH%;%USERPROFILE%\.krew\bin"
 kubectl krew
 # Some basic commans
 kubectl krew index list
-kubectl krew update
 kubectl krew install access-matrix
 kubectl krew info access-matrix
 # Url for plugins list https://krew.sigs.k8s.io/plugins/
 kubectl access-matrix for pods
+# Update index to fetch new versions
+kubectl krew update
+# Upgrade package
+kubectl krew upgrade grep
+# Search for all plugins
+kubectl krew search
+kubectl krew search rbac
+kubectl info tree
 ```
 > PS: Running kubectl krew command require adminstrator access
