@@ -1,6 +1,6 @@
 # Plugin List
-| plugin | utility |
-| ------ | ------- |
-|        |         |
+| plugin | utility                    |
+| ------ | -------------------------- |
+| df-pv  | Show disk usage of volumes |
 
 ## Commands
