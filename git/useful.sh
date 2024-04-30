@@ -12,3 +12,8 @@ git mergetool
 
 # Get eol 
 git ls-files --eol
+
+# Revert last 5 commits
+git revert --no-commit HEAD~5..HEAD
+# Revert to a specific commit
+git revert --no-commit <commit_hash>..HEAD
