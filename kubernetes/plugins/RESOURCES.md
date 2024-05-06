@@ -1,5 +1,5 @@
 # Plugin List
-| plugin | utility |
-| ------ | ------- |
-|        |         |
+| plugin | utility                     |
+| ------ | --------------------------- |
+| ktop   | more like top but for nodes |
 ## Commands
