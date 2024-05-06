@@ -5,6 +5,7 @@
 | [confirm](#confirm)         | Inform user about where to deploy and what will change                                |
 | [custom-cols](#custom-cols) | get information about some pods specs                                                 |
 | dup                         | duplicate resource (kubectl dup pod private-reg)                                      |
+| change-ns                   | change namespace of current cluster                                                   |
 | [emit-event](#emit-event)   | add event to resource                                                                 |
 | example   ⭐                 | prints example manifests (kubectl example configmap like kubectl explain --recursive) |
 | explore                     | explore all fields in al resources (like kubectl explain --recursive)                 |
@@ -16,6 +17,7 @@
 | [graph](#graph)             | create a graph based on some resources                                                |
 | [history](#history) ⭐       | get history of revisions of resources                                                 |
 | [ice](#ice) ⭐               | get important information and configs about containers in pods                        |
+| kc                          | manage contexts and kubeconfig files and create config files with roles               |
 
 ## Commands
 ### confirm
