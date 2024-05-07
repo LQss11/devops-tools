@@ -5,3 +5,4 @@
 - **kluster-capacity** simulation for capacity analysis
 - **kopilot** kubernetes with ai
 - **ks** integrate kubesphere
+- **liqo** multicluster
