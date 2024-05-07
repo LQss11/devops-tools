@@ -18,7 +18,9 @@
 | [history](#history) ⭐       | get history of revisions of resources                                                 |
 | [ice](#ice) ⭐               | get important information and configs about containers in pods                        |
 | kc                          | manage contexts and kubeconfig files and create config files with roles               |
-
+| [neat](#neat)               | get a neet resource manifest from existing one                                        |
+| kurt                        | get restart count of multiple resources (kubectl kurt all)                            |
+| lineage                     | get resource dependencies (kubectl lineage -A deploy/stark-back)                      |
 ## Commands
 ### confirm
 - kubectl confirm apply -f ./deploy.yaml
@@ -46,3 +48,5 @@
 - **between revisions:** kubectl history diff deploy nginx 84 86
 ### ice
 - **get all probes** kubectl ice probes
+### neat
+- kubectl get deploy/nginx -o yaml | kubectl neat -f-
