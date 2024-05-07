@@ -11,8 +11,6 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 argocd login localhost:8080 --username=admin --password=8CdA6e6o1wwsHFsI
 # or in one command
 argocd login localhost:8080 --username=admin --password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)
-# You can then update password through cli e.g(adminadmin123)
-argocd account update-password --account=admin 
 # Get kubectl contexts with (kubectx or kubectl config get-contexts -o name) then run
 # This will be the outpu "Cluster 'https://kubernetes.docker.internal:6443' added"
 argocd cluster add docker-desktop --name="docker-desktop"
@@ -38,7 +36,17 @@ kubectl get  secret --namespace argocd  mycluster.cloud.example  -o json | jq -r
 # Extract erver param
 kubectl get  secret --namespace argocd  mycluster.cloud.example  -o json | jq -r '.data.server' | base64 -d  && echo 
 ```
-
+# forgot password
+```sh
+# Restart password
+kubectl patch secret argocd-secret -n argocd -p '{"data": {"admin.password": null, "admin.passwordMtime": null}}'
+# Restart pod to apply new password
+kubectl delete pods -n argocd -l app.kubernetes.io/name=argocd-server
+# Get new secret password
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+# You can then update password through cli e.g(adminadmin123)
+argocd account update-password --account=admin 
+```
 # Additional Info
 For more docs follow this [link](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
