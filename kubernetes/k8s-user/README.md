@@ -12,24 +12,13 @@ In this example I am using a docker container containing openssl and kubectl all
 ```sh
 docker build -t k8s-user .
 # Create new user certs kubeconfig
-docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "./advanced.sh"
+docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "./common.sh"
 # Assign roles
 kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods,pods/log,pods/status
 # Whole cluster access pod-reader for user john
 kubectl create clusterrolebinding john-pod-reader --clusterrole=pod-reader --user="john"
 # Role binding per namespace for group dev
 kubectl create rolebinding -n default john-pod-reader --clusterrole=pod-reader --group=dev
-```
-## Using csr k8s resource
-The following files are required before running this script:
-- **configs/config**: containing authorized user to authentication to the cluster and create and approve certs and create roles
-- **certs/ca.crt**: ca certificate of the cluster
-```sh
-docker build -t k8s-user .
-# Extract ca certificate from kubeconfig
-docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "KUBECONFIG=configs/config kubectl config view --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode >certs/ca.crt"
-# Create new user certs kubeconfig
-docker run -it --rm -v ${pwd}:/app -w /app --name k8s-user k8s-user bash -c "./script.sh"
 ```
 
 
