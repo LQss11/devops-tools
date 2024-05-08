@@ -17,10 +17,13 @@
 | [graph](#graph)             | create a graph based on some resources                                                |
 | [history](#history) ⭐       | get history of revisions of resources                                                 |
 | [ice](#ice) ⭐               | get important information and configs about containers in pods                        |
+| ctr                         | get pod containers (kubectl ctr mypod)                                                |
+| mc                          | get rsources info of multiple clusters from same kubeconfig (kubectl mc get nodes)    |
 | kc                          | manage contexts and kubeconfig files and create config files with roles               |
 | [neat](#neat)               | get a neet resource manifest from existing one                                        |
 | kurt                        | get restart count of multiple resources (kubectl kurt all)                            |
 | lineage                     | get resource dependencies (kubectl lineage -A deploy/stark-back)                      |
+| [mexec](#mexec) ⭐           | run command on several pod + download and upload files between host and pods          |
 ## Commands
 ### confirm
 - kubectl confirm apply -f ./deploy.yaml
@@ -50,3 +53,7 @@
 - **get all probes** kubectl ice probes
 ### neat
 - kubectl get deploy/nginx -o yaml | kubectl neat -f-
+### mexec
+- **download all existing nginx.conf from all pods** kubectl mexec download --remote-path /etc/nginx/nginx.conf
+- **upload a file nginx.conf to all pods** kubectl mexec upload --local-file README.md --remote-path /tmp/README.md
+- **Run script on all pods** kubectl mexec -F ./myscript.sh
