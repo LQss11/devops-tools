@@ -21,6 +21,11 @@ kubectl create clusterrolebinding john-pod-reader --clusterrole=pod-reader --use
 kubectl create rolebinding -n default john-pod-reader --clusterrole=pod-reader --group=dev
 ```
 
+## Using csr k8s resource
+The following files are required before running this script:
+- **configs/config**: containing authorized user to authentication to the cluster and create and approve certs and create roles
+- **certs/ca.crt**: ca certificate of the cluster
+
 
 # More
 - [Cluster PKIs](https://kubernetes.io/docs/setup/best-practices/certificates/)
