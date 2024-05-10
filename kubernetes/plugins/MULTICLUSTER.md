@@ -16,6 +16,6 @@ kubectl karmada --kubeconfig /etc/karmada/karmada-apiserver.config  join member2
 ```
 - get clusters `kubectl --kubeconfig /etc/karmada/karmada-apiserver.config get clusters`
 - Install CRD `kubectl --kubeconfig /etc/karmada/karmada-apiserver.config apply -f https://raw.githubusercontent.com/karmada-io/karmada/master/samples/guestbook/guestbooks-crd.yaml`
-- Apply propafation policy (cluster affinity rule): `kubectl --kubeconfig /etc/karmada/karmada-apiserver.config apply -f https://raw.githubusercontent.com/karmada-io/karmada/master/samples/nginx/propagationpolicy.yaml` 
+- Apply propagation policy (cluster affinity rule): `kubectl --kubeconfig /etc/karmada/karmada-apiserver.config apply -f https://raw.githubusercontent.com/karmada-io/karmada/master/samples/nginx/propagationpolicy.yaml` 
 - Anything you deploy on karmada for example nginx with 7 replica 3 will be deployed on member with less resources and 4 one the one with more resources
 - Make sure that the cluster where karmada control plane is always up to date so your clusters will work properly. 
