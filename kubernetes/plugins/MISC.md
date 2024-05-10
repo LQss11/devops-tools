@@ -22,7 +22,7 @@
 | kc                          | manage contexts and kubeconfig files and create config files with roles               |
 | [neat](#neat)               | get a neet resource manifest from existing one                                        |
 | kurt                        | get restart count of multiple resources (kubectl kurt all)                            |
-| lineage                     | get resource dependencies (kubectl lineage -A deploy/stark-back)                      |
+| lineage                     | get resource dependencies (kubectl lineage -A deploy/mydeployment)                      |
 | [mexec](#mexec) ⭐           | run command on several pod + download and upload files between host and pods          |
 ## Commands
 ### confirm
