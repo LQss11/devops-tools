@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jmeter:
+    image: justb4/jmeter
+    container_name: "jmeter"
+    volumes:
+      - .:/app
+      - jtl:/usr/src/jtl
+      - dashboard:/tmp/dashboard
+    working_dir: /app
+    entrypoint: ""
+    command: >
+      bash -c "
+        jmeter -n -t 'google.jmx' -l /usr/src/jtl/$(date +'%Y-%b-%d-%H-%M-%S').jtl -Jusers=5 -e -f -o /tmp/new_dashboard && 
+        cp -r /tmp/new_dashboard/* /tmp/dashboard/ && 
+        echo init dashboard finished you can run this command to rerun the test: && echo docker exec -it jmeter sh -c \\\"jmeter -n -t 'google.jmx' -l /usr/src/jtl/latest.jtl -Jusers=10 -e -f -o /tmp/new_dashboard   '&&' cp -r /tmp/new_dashboard/'*' /tmp/dashboard/\\\" && tail -f /dev/null
+      "
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "9998:80"
+    volumes:
+      - dashboard:/usr/share/nginx/html
+      - ./restart_nginx.sh:/restart_nginx.sh
+    # entrypoint: /bin/sh -c "/restart_nginx.sh & nginx -g 'daemon off;'"
+    # command: /bin/sh -c "while :; do sleep 10; done"
+volumes:
+  dashboard:
+  jtl: 
