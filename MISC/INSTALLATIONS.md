@@ -11,7 +11,7 @@ choco install -y --force firefox vlc winrar obs-studio screentogif notion messen
 choco install -y --force git go redis-64 javaruntime jdk8 postman vscode mobaxterm notepadplusplus make
 choco install -y --force python --version 3.12.1
 # Install devops tools
-choco install -y --force terraform vault kubernetes-helm argocd-cli flux kubectx k9s
+choco install -y --force terraform vault kubernetes-helm argocd-cli flux kubectx k9s krew
 # Install cloud cli tools
 choco install -y --force azure-cli awscli
 # Intall linux and misc tools
