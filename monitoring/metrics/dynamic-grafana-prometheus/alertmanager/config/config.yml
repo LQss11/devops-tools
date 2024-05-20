@@ -1,24 +1,29 @@
+# https://github.com/prometheus/alertmanager/blob/main/doc/examples/simple.yml
+# https://prometheus.io/docs/alerting/latest/configuration/#file-layout-and-global-settings
 route:
-    receiver: 'pager'
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  receiver: my-team
+  routes:
+    - receiver: teams-channel
+      continue: true
+    - receiver: my-team
+      continue: true
 
 receivers:
-    - name: 'pager'
-      webhook_configs:
-      - url: http://google.com # replace with your PagerTree webhook url
+  - name: 'my-team'
+    email_configs:
+      - to: 'user1@example.com,user2@example.com'
+        from: 'email@example.com'
+        # smarthost: smtp.gmail.com:587
+        smarthost: smtp.office365.com:587
+        auth_username: email@example.com
+        auth_identity: email@example.com
+        auth_password: passhereplease
 
+  - name: 'teams-channel'
+    msteams_configs:
+      - send_resolved: true
+        webhook_url: https://myorg.webhook.office.com/webhookb2/****
 
-
-# route:
-#   receiver: 'mail'
-#   repeat_interval: 4h
-#   group_by: [ alertname ]
-
-
-# receivers:
-#   - name: 'mail'
-#     email_configs:
-#       - smarthost: 'smtp.gmail.com:465'
-#         auth_username: 'your_mail@gmail.com'
-#         auth_password: ""
-#         from: 'your_mail@gmail.com'
-#         to: 'some_mail@gmail.com'
