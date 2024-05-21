@@ -97,3 +97,8 @@ docker ps
 ```sh
 docker save salem | ssh root@xxx.xxx.xxx.xxx 'docker load'
 ```
+# Buildkit information
+- check this [url](https://github.com/moby/buildkit/issues/1214#issuecomment-1763493367)
+- Post Engine/CLI **23.0**, **DOCKER_BUILDKIT=1**
+- From Engine/CLI **18.06** to **20.10**, **DOCKER_BUILDKIT=0** **(# syntax = docker/dockerfile:experimental)**
+- docker build implementation in CLI **20.10** or older will use BuildKit without an explicit **DOCKER_BUILDKIT=1** when used against Engine **23.0** or newer.
