@@ -1,0 +1,2444 @@
+{
+    "title": "Azure Overview",
+    "description": "This dashboard provides a high-level view of your Azure stack, displaying key performance and resource metrics for your SQL Databases, VMs, Load Balancers, and App Services. Further reading on Azure monitoring, see:\n\n- [How to monitor Azure SQL Databases with Datadog](https://app.datadoghq.com/u?source=hyperlink&target=https%3A%2F%2Fwww.datadoghq.com%2Fblog%2Fmonitor-azure-sql-databases-datadog%2F&author=datadog-user&hash=oIzxdekC26e%2BEQhTpJq19trvl36PjmjW35cA%2BncZIBE%3D)\n\n- [How to monitor Azure VMs with Datadog](https://app.datadoghq.com/u?source=hyperlink&target=https%3A%2F%2Fwww.datadoghq.com%2Fblog%2Fmonitor-azure-vms-using-datadog%2F&author=datadog-user&hash=8BAkaOqvIKBbXkvpGPCV6gExbt6upbeUFpy7f9C2Fyo%3D)\n\n- [How to monitor Azure App Service applications with Datadog](https://app.datadoghq.com/u?source=hyperlink&target=https%3A%2F%2Fwww.datadoghq.com%2Fblog%2Fmonitor-azure-app-service-applications-datadog%2F&author=datadog-user&hash=T76BSq4cOXHDl13mHqvzaGfGC7ExsSMHXZqL%2BQ3gjyw%3D)\n\n- [How to monitor Azure Storage with Datadog](https://www.datadoghq.com/blog/monitor-azure-storage-datadog/)\n\n- [Azure Load Balancers](https://www.datadoghq.com/blog/datadog-generated-metrics-azure/#azure-load-balancers)\n\n- [Datadog’s Azure Integration Docs](https://app.datadoghq.com/u?source=hyperlink&target=https%3A%2F%2Fdocs.datadoghq.com%2Fintegrations%2Fazure%2F&author=datadog-user&hash=Vgf7egvU8hzZOL%2FBzxWyuTNPnBQGTF%2F6YRwycuPhg3A%3D)\n\nClone this template dashboard to make changes and add your own graph widgets.\n\n",
+    "widgets": [
+        {
+            "id": 6247801245923868,
+            "definition": {
+                "title": "New group",
+                "banner_img": "/static/images/integration_dashboard/azure_hero_1.png",
+                "show_title": false,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 8112772026623782,
+                        "definition": {
+                            "type": "note",
+                            "content": "The information presented in this dashboard is meant to serve as a starting point for monitoring each service. To get a much more detailed overview for each, see the following out of the box dashboards:\n\n- [Azure VM](/dash/integration/azure_vm) \n- [Azure SQL Databases Overview](/dash/integration/azure_sql_database) \n- [Azure Storage Overview](/dash/integration/azure_storage)\n- [Azure Load Balancers](/dash/integration/azure_load_balancer)\n- [Resource Usage and Quotas](/dash/integration/azure_usage_and_quotas)\n\n",
+                            "background_color": "white",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "top",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "left",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 7,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 4581971171151008,
+                        "definition": {
+                            "type": "note",
+                            "content": "Use the [Azure Serverless page](/functions?cloud=azure) to explore Azure App Service using our new dedicated view. Learn more in the [blog](https://www.datadoghq.com/blog/azure-app-service-datadog-serverless-view/). ",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "left",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 7,
+                            "height": 1
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 7,
+                "height": 6
+            }
+        },
+        {
+            "id": 5771177953249608,
+            "definition": {
+                "title": "Monitors",
+                "background_color": "white",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 17856428283420,
+                        "definition": {
+                            "title": "All Azure Monitors",
+                            "type": "manage_status",
+                            "display_format": "countsAndList",
+                            "color_preference": "text",
+                            "hide_zero_counts": true,
+                            "query": "metric:azure*  ",
+                            "sort": "status,asc",
+                            "count": 50,
+                            "start": 0,
+                            "summary_type": "monitors",
+                            "show_priority": false,
+                            "show_last_triggered": false
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 5,
+                            "height": 5
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 7,
+                "y": 0,
+                "width": 5,
+                "height": 6
+            }
+        },
+        {
+            "id": 7604221984961026,
+            "definition": {
+                "title": "Virtual Machines",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 7156287070572108,
+                        "definition": {
+                            "type": "note",
+                            "content": "See the [Azure VM Overview](/dash/integration/azure_vm) dashboard for more in-depth explanations and visualizations of VM usage and performance in an aggregate view or at an individual host level.",
+                            "background_color": "vivid_purple",
+                            "font_size": "18",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 419251381951774,
+                        "definition": {
+                            "title": "Running VMs",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "default(query1, 0)"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.vm.count{*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": false,
+                            "text_align": "center",
+                            "custom_links": [],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1953997374354296,
+                        "definition": {
+                            "title": "Unavailable VMs",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1 + query2 + query3"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.vm.count{$region,$subscription_name,*,$resource_group,*,status:stopped,$tenant,$subscription,$resource_name,$resource_name}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        },
+                                        {
+                                            "query": "sum:azure.vm.count{$region,$subscription_name,*,$resource_group,*,status:unavailable,$tenant,$subscription,$resource_name,$resource_name}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "max"
+                                        },
+                                        {
+                                            "query": "sum:azure.vm.count{$region,$subscription_name,*,$resource_group,*,status:failed,$tenant,$subscription,$resource_name,$resource_name}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query3",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "text_align": "center",
+                            "custom_links": [],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8774635674567672,
+                        "definition": {
+                            "title": "Total Network In",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.vm.network_in{*,*,*,*,*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8406747604401132,
+                        "definition": {
+                            "title": "Total Network Out",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.vm.network_out{*,*,*,*,*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 6,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 7653953742295008,
+                        "definition": {
+                            "type": "note",
+                            "content": "Depending on the application, consistently high CPU levels may be normal. However, maxed-out CPU may indicate a resource bottleneck or application performance problems.",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "center",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 1,
+                            "width": 4,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8241573111896506,
+                        "definition": {
+                            "title": "Total VMs",
+                            "title_size": "16",
+                            "title_align": "center",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "VMs",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.vm.count{*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name} by {status}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "blue",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 3125182409901906,
+                        "definition": {
+                            "title": "Network Traffic",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Network In",
+                                            "formula": "top(query1, 10, 'mean', 'desc')"
+                                        },
+                                        {
+                                            "alias": "Network Out",
+                                            "formula": "top(query2, 10, 'mean', 'desc')"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.vm.network_in{$region,$resource_group,*,$tenant,$subscription,*,$subscription_name,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        },
+                                        {
+                                            "query": "avg:azure.vm.network_out{$region,$resource_group,*,$tenant,$subscription,*,$subscription_name,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query2"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "blue",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "custom_links": []
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 2,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 2908881644175180,
+                        "definition": {
+                            "title": "Avg CPU Utilization",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.vm.percentage_cpu{*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 4236414870066828,
+                        "definition": {
+                            "title": "Max CPU utilization",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.vm.percentage_cpu{$subscription_name,$region,$resource_group,$tenant,$subscription,$resource_name,$resource_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "%",
+                            "text_align": "center",
+                            "custom_links": [],
+                            "precision": 1
+                        },
+                        "layout": {
+                            "x": 10,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8059919940919346,
+                        "definition": {
+                            "title": "CPU Utilization (Top 50)",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_table",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.vm.percentage_cpu{*,$tenant,$subscription,$region,$resource_group,*,$subscription_name,$resource_name,$resource_name} by {name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 50,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 0,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    },
+                                    "formulas": [
+                                        {
+                                            "alias": "Usage",
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 3,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 4231864317831122,
+                        "definition": {
+                            "type": "note",
+                            "content": "The following widgets contain metrics generated by the Datadog Agent. They are most beneficial when filtered by a single host.\n\n**It is best practice to install the datadog agent on all VM instances to get more metrics such as memory usage every 15s along with 50+ agent integrations to monitor what is running on your VM instances. [See the installation instructions](https://docs.datadoghq.com/agent/) for more details.**",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "center",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 6,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1443395206050126,
+                        "definition": {
+                            "title": "Memory Breakdown",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Usable Memory",
+                                            "formula": "query1"
+                                        },
+                                        {
+                                            "alias": "Memory Used",
+                                            "formula": "query2 - query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "sum:system.mem.usable{*,*,*,*,*,*,$region,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        },
+                                        {
+                                            "query": "sum:system.mem.total{*,*,*,*,*,*,$region,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query2"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 7,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 2442308307348488,
+                        "definition": {
+                            "title": "Disk Usage by Device (%)",
+                            "show_legend": true,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Disk Use %",
+                                            "formula": "query1 * 100"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "max:system.disk.in_use{*,*,*,*,*,*,$region,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "markers": [
+                                {
+                                    "label": "full",
+                                    "value": "y = 100",
+                                    "display_type": "error dashed"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 7,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 7024789100233974,
+                        "definition": {
+                            "title": "Load Averages 1-5-15 Min",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "1 min",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:system.load.1{*,$region,*,*,*,*,*,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                },
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "5 min",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:system.load.5{*,$region,*,*,*,*,*,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                },
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "15 min",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:system.load.15{*,$region,*,*,*,*,*,*,*,$tenant,$subscription,$resource_group,$subscription_name,$resource_name,$resource_name} by {host}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 7,
+                            "width": 4,
+                            "height": 3
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 6,
+                "width": 12,
+                "height": 11
+            }
+        },
+        {
+            "id": 2253976902590234,
+            "definition": {
+                "title": "SQL Databases",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 618215491601014,
+                        "definition": {
+                            "type": "note",
+                            "content": "See the [Azure SQL Databases Overview](/dash/integration/azure_sql_database) dashboard for more in-depth explanations and visualizations for your databases' utilization, storage + network, and geo-replication.",
+                            "background_color": "vivid_purple",
+                            "font_size": "18",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8974625512592014,
+                        "definition": {
+                            "title": "Failed Connections",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.sql_servers_databases.connection_failed{*,*,*,*,$resource_group,$tenant,$subscription,$subscription_name,$resource_name,$resource_name,$region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "conns",
+                            "custom_links": []
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8113365763497086,
+                        "definition": {
+                            "title": "Healthy Replication Links",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "100 * query1 / query2"
+                                        }
+                                    ],
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": ">=",
+                                            "palette": "white_on_green",
+                                            "value": 99
+                                        },
+                                        {
+                                            "comparator": ">=",
+                                            "palette": "white_on_yellow",
+                                            "value": 90
+                                        },
+                                        {
+                                            "comparator": ">=",
+                                            "palette": "white_on_red",
+                                            "value": 0
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.sql_servers_databases.replication_links.count{state:catch_up,*,$resource_group,$tenant,$subscription,$subscription_name,$resource_name,$resource_name,$region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "query": "sum:azure.sql_servers_databases.replication_links.count{*,$resource_group,$tenant,$subscription,$subscription_name,$resource_name,$resource_name,$region}",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "%",
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 323885701511620,
+                        "definition": {
+                            "title": "Backup Servers",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.sql_servers_databases.replication_links.count{*,$resource_group,$tenant,$subscription,$subscription_name,$resource_name,$resource_name,$region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "last"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 202618919857624,
+                        "definition": {
+                            "title": "Average CPU Utilization",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.sql_servers_databases.cpu_percent{*,$subscription_name,$resource_group,*,$tenant,$subscription,$resource_name,$resource_name,$region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 6,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 5114993219711462,
+                        "definition": {
+                            "type": "note",
+                            "content": "Each Azure SQL Database is assigned a certain number of Database Transaction Units (DTU). The DTU is a composite unit, intended to quantify a database’s relative capacity to do work.\n",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "center",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 1,
+                            "width": 4,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 7445577546543540,
+                        "definition": {
+                            "title": "Database Status",
+                            "type": "treemap",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.sql_servers_databases.count{*,$resource_group,$tenant,$subscription,$subscription_name,$resource_name,$resource_name,$region} by {status,name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 8,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 5680721044415576,
+                        "definition": {
+                            "title": "DTU Consumption % by Database",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.sql_servers_databases.dtu_consumption_percent{$subscription_name,$resource_group,*,$tenant,$subscription,$resource_name,$resource_name,$region} by {name}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "custom_links": []
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 2,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 1550867894304194,
+                        "definition": {
+                            "type": "note",
+                            "content": "The following widgets are derived from [Azure Logs](/logs?query=source%3Aazure&cols=host%2Cservice&index=%2A&messageDisplay=inline&stream_sort=time%2Cdesc&viz=stream&from_ts=1658942669467&to_ts=1658943569467&live=true), which are automatically configured when the [Datadog Agent](https://docs.datadoghq.com/integrations/azure/?tab=azurecliv20#agent-installation) is installed.  These logs record the who, what, when, and where of all user-performed and service account activity within your Azure environment",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "center",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 5,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 470619878880156,
+                        "definition": {
+                            "title": "Log Stream",
+                            "requests": [
+                                {
+                                    "response_format": "event_list",
+                                    "query": {
+                                        "data_source": "logs_stream",
+                                        "query_string": "source:azure.sql $tenant $subscription $subscription_name $resource_group $region $resource_name",
+                                        "indexes": [],
+                                        "storage": "hot",
+                                        "sort": {
+                                            "order": "desc",
+                                            "column": "timestamp"
+                                        }
+                                    },
+                                    "columns": [
+                                        {
+                                            "field": "status_line",
+                                            "width": "auto"
+                                        },
+                                        {
+                                            "field": "timestamp",
+                                            "width": "auto"
+                                        },
+                                        {
+                                            "field": "host",
+                                            "width": "auto"
+                                        },
+                                        {
+                                            "field": "service",
+                                            "width": "auto"
+                                        },
+                                        {
+                                            "field": "content",
+                                            "width": "compact"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "list_stream"
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 6,
+                            "width": 6,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 3381800883790334,
+                        "definition": {
+                            "title": "Event Outcomes",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "search": {
+                                                "query": "source:azure.sql $resource_name $region $resource_group $subscription_name $subscription $tenant"
+                                            },
+                                            "data_source": "logs",
+                                            "compute": {
+                                                "aggregation": "count"
+                                            },
+                                            "name": "query1",
+                                            "indexes": [
+                                                "*"
+                                            ],
+                                            "group_by": [
+                                                {
+                                                    "facet": "@evt.outcome",
+                                                    "sort": {
+                                                        "aggregation": "count",
+                                                        "order": "desc"
+                                                    },
+                                                    "limit": 10
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "sunburst",
+                            "legend": {
+                                "type": "inline"
+                            }
+                        },
+                        "layout": {
+                            "x": 6,
+                            "y": 6,
+                            "width": 3,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 559088636598424,
+                        "definition": {
+                            "title": "Failed Events",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_table",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "search": {
+                                                "query": "source:azure.sql @evt.outcome:Failed $resource_name $region $resource_group $subscription_name $subscription $tenant"
+                                            },
+                                            "data_source": "logs",
+                                            "compute": {
+                                                "aggregation": "count"
+                                            },
+                                            "name": "query1",
+                                            "indexes": [
+                                                "*"
+                                            ],
+                                            "group_by": [
+                                                {
+                                                    "facet": "@evt.name",
+                                                    "sort": {
+                                                        "aggregation": "count",
+                                                        "order": "desc"
+                                                    },
+                                                    "limit": 10
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 10,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 0,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    },
+                                    "formulas": [
+                                        {
+                                            "alias": "Count",
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 9,
+                            "y": 6,
+                            "width": 3,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 7669854961013634,
+                        "definition": {
+                            "title": "Authorized Actions",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_table",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "search": {
+                                                "query": "source:azure.sql $resource_name $region $resource_group $subscription_name $subscription $tenant"
+                                            },
+                                            "data_source": "logs",
+                                            "compute": {
+                                                "aggregation": "count"
+                                            },
+                                            "name": "query1",
+                                            "indexes": [
+                                                "*"
+                                            ],
+                                            "group_by": [
+                                                {
+                                                    "facet": "@identity.authorization.action",
+                                                    "sort": {
+                                                        "aggregation": "count",
+                                                        "order": "desc"
+                                                    },
+                                                    "limit": 10
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 10,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 0,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    },
+                                    "formulas": [
+                                        {
+                                            "alias": "Count",
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 9,
+                            "y": 8,
+                            "width": 3,
+                            "height": 2
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 17,
+                "width": 12,
+                "height": 11
+            }
+        },
+        {
+            "id": 5072736974338244,
+            "definition": {
+                "title": "App Services",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 6139003185565890,
+                        "definition": {
+                            "type": "note",
+                            "content": "Use the [Azure Serverless page](/functions?cloud=azure) to explore Azure App Service using our new dedicated view. Learn more in the [blog](https://www.datadoghq.com/blog/azure-app-service-datadog-serverless-view/). ",
+                            "background_color": "vivid_purple",
+                            "font_size": "18",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "left",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8592026140004518,
+                        "definition": {
+                            "title": "Web apps",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "default(query1, 0)"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.app_services.count{*,$subscription_name,$region,$resource_group,$resource_name,$tenant,$subscription}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "custom_links": [],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1224093878462432,
+                        "definition": {
+                            "title": "App Service Plans",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_table",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.web_serverfarms.cpu_percentage{$tenant,$subscription,$subscription_name,$resource_group,$region,$resource_name} by {name,resource_group,region,operating_system,plan_tier,plan_size,subscription_name}.rollup(max, 24)",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "query": "avg:azure.web_serverfarms.memory_percentage{$tenant,$subscription,$subscription_name,$resource_group,$region,$resource_name} by {name,resource_group,region,operating_system,plan_tier,plan_size,subscription_name}.rollup(max, 24)",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "query": "avg:azure.web_serverfarms.current_instance_count{$tenant,$subscription,$subscription_name,$resource_group,$region,$resource_name} by {name,resource_group,region,operating_system,plan_tier,plan_size,subscription_name}.rollup(max, 24)",
+                                            "data_source": "metrics",
+                                            "name": "query3",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "query": "avg:azure.web_serverfarms.number_of_sites{$tenant,$subscription,$subscription_name,$resource_group,$region,$resource_name} by {name,resource_group,region,operating_system,plan_tier,plan_size,subscription_name}.rollup(max, 24)",
+                                            "data_source": "metrics",
+                                            "name": "query4",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 100,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 3,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    },
+                                    "formulas": [
+                                        {
+                                            "formula": "exclude_null(query1)",
+                                            "cell_display_mode": "bar",
+                                            "alias": "CPU Utilization"
+                                        },
+                                        {
+                                            "formula": "exclude_null(query2)",
+                                            "cell_display_mode": "bar",
+                                            "alias": "Memory Percent"
+                                        },
+                                        {
+                                            "formula": "exclude_null(query3)",
+                                            "cell_display_mode": "bar",
+                                            "alias": "Instances"
+                                        },
+                                        {
+                                            "formula": "exclude_null(query4)",
+                                            "cell_display_mode": "bar",
+                                            "alias": "Apps"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 1,
+                            "width": 10,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 262640742343328,
+                        "definition": {
+                            "title": "Functions",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "default(query1, 0)"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.functions.count{*,$subscription_name,$region,$resource_group,$resource_name,$tenant,$subscription}.fill(null)",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_links": [],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 2290894488698404,
+                        "definition": {
+                            "title": "Executions",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.functions.function_execution_count{*,$subscription_name,$region,$resource_group,$resource_name,$tenant,$subscription}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_links": [],
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 3,
+                            "width": 2,
+                            "height": 1
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 28,
+                "width": 12,
+                "height": 5,
+                "is_column_break": true
+            }
+        },
+        {
+            "id": 4534548732942884,
+            "definition": {
+                "title": "Load Balancers",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 6951627842028036,
+                        "definition": {
+                            "type": "note",
+                            "content": "See the [Azure Load Balancer Overview](/dash/integration/azure_load_balancer) dashboard for more in-depth explanations and visualizations for the performance and health of your Azure Load Balancers.",
+                            "background_color": "vivid_purple",
+                            "font_size": "18",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 2839692792024918,
+                        "definition": {
+                            "title": "Standard Load Balancers",
+                            "title_size": "16",
+                            "title_align": "center",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.network_loadbalancers.count{sku_name:standard,$resource_name,$region,$resource_group,$tenant,$subscription,$subscription_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1578582810723236,
+                        "definition": {
+                            "title": "Basic Load Balancers",
+                            "title_size": "16",
+                            "title_align": "center",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.network_loadbalancers.count{sku_name:basic,*,*,*,*,*,$resource_name,$region,$resource_group,$tenant,$subscription,$subscription_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "max"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 1,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 194632006822112,
+                        "definition": {
+                            "type": "note",
+                            "content": "VIP refers to data path availability. This measures availability from within a region to the load balancer front end, all the way to the SDN stack that supports your VM.\n\nDIP refers to the health probe status, which indicates how Load Balancer views the health of your application, as indicated by your [health probe configuration](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-custom-probe-overview).\n\n[Learn more](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#multi-dimensional-metrics)",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "vertical_align": "center",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "bottom",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 1,
+                            "width": 8,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 164487619159564,
+                        "definition": {
+                            "title": "Network I/O by Bytes",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Network In",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.network_loadbalancers.byte_count{direction:in,$region,$resource_group,*,*,$resource_name,$tenant,$subscription,$subscription_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "green",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                },
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Network Out",
+                                            "formula": "0 - query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.network_loadbalancers.byte_count{direction:out,$region,$resource_group,*,*,$resource_name,$tenant,$subscription,$subscription_name}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "purple",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            }
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 6188478116498776,
+                        "definition": {
+                            "title": "DIP Availability",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Health Probe Status",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.network_loadbalancers.health_probe_status{$resource_name,$region,$resource_group,$tenant,$subscription,$subscription_name} by {name,resource_group,region}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "warm",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            }
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 2,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 8628618229855108,
+                        "definition": {
+                            "title": "VIP Availability",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Data Path Availability",
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.network_loadbalancers.data_path_availability{$resource_name,$region,$resource_group,$tenant,$subscription,$subscription_name} by {name,resource_group,region}",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            }
+                        },
+                        "layout": {
+                            "x": 8,
+                            "y": 2,
+                            "width": 4,
+                            "height": 3
+                        }
+                    },
+                    {
+                        "id": 8631012914839360,
+                        "definition": {
+                            "title": "Backend Pool Host Count by LB",
+                            "type": "treemap",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.network_loadbalancers.backend_pool_host_count{*,*,*,*,*,$resource_name,$region,$resource_group,$tenant,$subscription,$subscription_name} by {name,region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 5,
+                            "width": 12,
+                            "height": 3
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 33,
+                "width": 12,
+                "height": 9
+            }
+        },
+        {
+            "id": 3055378204023594,
+            "definition": {
+                "title": "Storage",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 4083353915764310,
+                        "definition": {
+                            "type": "note",
+                            "content": "For a high level overview of all your storage services, see the [Azure Storage Overview](/dash/integration/azure_storage) dashboard.\n\nFor  detailed overviews of each individual storage service, use the following out-of-the-box dashboards:\n\n- [Blob Storage Dashboard](/dash/integration/azure_blob_storage)\n- [Table Storage Dashboard](/dash/integration/azure_table_storage)\n- [File Storage Dashboard](/dash/integration/azure_file_storage)\n- [Queue Storage Dashboard](/dash/integration/azure_queue_storage)\n",
+                            "background_color": "vivid_purple",
+                            "font_size": "16",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "left",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 2603719403987210,
+                        "definition": {
+                            "title": "Storage Availability",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.storage.availability{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 6686618985174896,
+                        "definition": {
+                            "title": "Used Capacity",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.storage.used_capacity{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 3261884487666448,
+                        "definition": {
+                            "title": "Total Transactions",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.storage.transactions{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 4614324315267208,
+                        "definition": {
+                            "title": "Storage Usage",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": true,
+                            "legend_layout": "horizontal",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "alias": "Container Count",
+                                            "formula": "query1"
+                                        },
+                                        {
+                                            "alias": "Queue Count",
+                                            "formula": "query2"
+                                        },
+                                        {
+                                            "alias": "File Count",
+                                            "formula": "query3"
+                                        },
+                                        {
+                                            "alias": "Table Count",
+                                            "formula": "query4"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.storage_storageaccounts_blobservices.container_count{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1"
+                                        },
+                                        {
+                                            "query": "sum:azure.storage_storageaccounts_queueservices.queue_count{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query2"
+                                        },
+                                        {
+                                            "query": "sum:azure.storage_storageaccounts_fileservices.file_count{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}.weighted()",
+                                            "data_source": "metrics",
+                                            "name": "query3"
+                                        },
+                                        {
+                                            "query": "sum:azure.storage_storageaccounts_tableservices.table_count{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query4"
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 6,
+                            "y": 2,
+                            "width": 6,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 516887370465662,
+                        "definition": {
+                            "title": "Storage Account Status",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.storage.count{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant} by {status}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "type": "sunburst",
+                            "legend": {
+                                "type": "table"
+                            }
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 3,
+                            "width": 6,
+                            "height": 3
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 42,
+                "width": 12,
+                "height": 7
+            }
+        },
+        {
+            "id": 7978956381858692,
+            "definition": {
+                "title": "Resource Usage and Quotas",
+                "background_color": "vivid_blue",
+                "show_title": true,
+                "type": "group",
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 2344140016440540,
+                        "definition": {
+                            "type": "note",
+                            "content": "Keeping track of your Azure environment’s resource usage compared their quotas and limits is critical to avoiding provisioning failures. \n\nDatadog Automatically collects data from Azure Usage APIs for tracking consumption and limits for Azure storage, network, and compute resources in your stack.\n\nYou can see a detailed breakdown of your usage using the [Resource Usage and Quota Overview] dashboard.",
+                            "background_color": "vivid_purple",
+                            "font_size": "16",
+                            "text_align": "center",
+                            "vertical_align": "center",
+                            "show_tick": false,
+                            "tick_pos": "50%",
+                            "tick_edge": "left",
+                            "has_padding": true
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 12,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1009205701823440,
+                        "definition": {
+                            "title": "Resource Count",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_table",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.usage.current_value{$subscription,$subscription_name,$resource_group,$resource_name,$region,$tenant} by {usage_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 500,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 0,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    },
+                                    "formulas": [
+                                        {
+                                            "alias": "Count",
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 3,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 462397077266792,
+                        "definition": {
+                            "title": "vCPU Cores",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.usage.current_value{usage_name:cores,*,$subscription_name,$region,$subscription,$resource_group,$resource_name,$tenant}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "",
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1436945622711124,
+                        "definition": {
+                            "title": "Storage Accounts",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.usage.current_value{usage_category:storage,usage_name:storageaccounts,*,$subscription_name,$region,$subscription,$resource_group,$resource_name,$tenant}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 5,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 8666521188997708,
+                        "definition": {
+                            "title": "Virtual Networks",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:azure.usage.current_value{*,$subscription_name,$region,usage_name:virtualnetworks,$subscription,$resource_group,$resource_name,$tenant}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 0
+                        },
+                        "layout": {
+                            "x": 7,
+                            "y": 2,
+                            "width": 2,
+                            "height": 1
+                        }
+                    },
+                    {
+                        "id": 1172748501753766,
+                        "definition": {
+                            "title": "Highest Regional Network Quota Consumption, %",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "conditional_formats": [
+                                        {
+                                            "comparator": "<",
+                                            "palette": "white_on_green",
+                                            "value": 0.5
+                                        },
+                                        {
+                                            "comparator": ">",
+                                            "palette": "white_on_red",
+                                            "value": 0.9
+                                        },
+                                        {
+                                            "comparator": ">=",
+                                            "palette": "white_on_yellow",
+                                            "value": 0.5
+                                        }
+                                    ],
+                                    "style": {
+                                        "palette": "dog_classic"
+                                    },
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.usage.percentage{$subscription_name,$region,usage_category:virtual_network,!usage_name:networkwatchers,$subscription,$resource_group,$resource_name,$tenant} by {region,subscription_name,usage_name}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "sort": {
+                                        "count": 10,
+                                        "order_by": [
+                                            {
+                                                "type": "formula",
+                                                "index": 0,
+                                                "order": "desc"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "custom_links": []
+                        },
+                        "layout": {
+                            "x": 9,
+                            "y": 2,
+                            "width": 3,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 5296062009664934,
+                        "definition": {
+                            "title": "Remaining API Calls vs Previous Day Avg",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "change",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "day_before(query1)"
+                                        },
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "change_type": "relative",
+                                    "order_dir": "asc",
+                                    "response_format": "scalar",
+                                    "show_present": true,
+                                    "increase_good": true,
+                                    "queries": [
+                                        {
+                                            "query": "avg:azure.usage.remaining_api_calls{$region,*,$subscription_name,*,$subscription,$resource_group,$resource_name,$tenant} by {usage_name,subscription_name,region}",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "order_by": "change"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 3,
+                            "width": 6,
+                            "height": 3
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 49,
+                "width": 12,
+                "height": 7
+            }
+        }
+    ],
+    "template_variables": [
+        {
+            "name": "tenant",
+            "prefix": "tenant",
+            "available_values": [],
+            "default": "*"
+        },
+        {
+            "name": "subscription",
+            "prefix": "subscription",
+            "available_values": [],
+            "default": "*"
+        },
+        {
+            "name": "subscription_name",
+            "prefix": "subscription_name",
+            "available_values": [],
+            "default": "*"
+        },
+        {
+            "name": "resource_group",
+            "prefix": "resource_group",
+            "available_values": [],
+            "default": "*"
+        },
+        {
+            "name": "region",
+            "prefix": "region",
+            "available_values": [],
+            "default": "*"
+        },
+        {
+            "name": "resource_name",
+            "prefix": "name",
+            "available_values": [],
+            "default": "*"
+        }
+    ],
+    "layout_type": "ordered",
+    "notify_list": [],
+    "reflow_type": "fixed"
+}
