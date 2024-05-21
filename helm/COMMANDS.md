@@ -9,7 +9,6 @@ helm template vault hashicorp/vault --namespace vault --version 0.19.0  > ./vaul
 helm upgrade --install --create-namespace --namespace test  my-release hashicorp/vault --dry-run >./manifests.yaml
 # Pull whole chart
 helm pull --untar metrics-server/metrics-server  --version 3.12.0
-docker run -it --rm -v ${pwd}:/app -w /app alpine sh -c "mkdir -p chart && tar -xzf metrics-server-3.12.0.tgz -C chart"  
 ```
 ```sh
 # Favorite command full (can use --reuse-values and --reset-values)
