@@ -7,6 +7,13 @@ providers:
   editable: true
   options:
     path: /etc/grafana/provisioning/dashboards
+- name: logs
+  folder: 'logs'
+  type: file
+  disableDeletion: false
+  editable: true
+  options:
+    path: /etc/grafana/provisioning/dashboards/logs
 - name: systems_and_apps
   folder: 'systems_and_apps'
   type: file
