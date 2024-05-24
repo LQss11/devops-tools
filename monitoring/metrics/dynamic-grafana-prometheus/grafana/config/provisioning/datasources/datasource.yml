@@ -11,7 +11,21 @@ datasources:
       httpMethod: POST
       tlsSkipVerify: true
     editable: true      
-
+  - name: Alertmanager-Config
+    type: alertmanager
+    uid: alertmanager-cfg
+    access: proxy
+    url: http://alertmanager:9093
+    jsonData:
+      implementation: prometheus
+  - name: Loki
+    type: loki
+    access: proxy 
+    orgId: 1
+    url: http://loki:3100
+    basicAuth: false
+    version: 1
+    editable: false
   - name: Alertmanager
     type: camptocamp-prometheus-alertmanager-datasource
     access: server
