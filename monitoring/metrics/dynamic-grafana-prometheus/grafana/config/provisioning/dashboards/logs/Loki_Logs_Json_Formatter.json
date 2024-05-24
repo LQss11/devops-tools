@@ -1,0 +1,671 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Universal and flexible dashboard for logging",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "gnetId": 12611,
+    "graphTooltip": 0,
+    "id": 35,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "description": "Total  Count of log lines in the specified time range",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "color": "rgb(31, 255, 7)",
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "rgb(31, 255, 7)",
+                  "value": null
+                },
+                {
+                  "color": "rgb(31, 255, 7)",
+                  "value": 10
+                },
+                {
+                  "color": "rgb(31, 255, 7)",
+                  "value": 50
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 11,
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "${loki}"
+            },
+            "editorMode": "builder",
+            "expr": "sum(count_over_time(({container=\"$container\", stream=~\"$stream\", pod=~\"$pod\"})[$__interval]))",
+            "hide": false,
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Total  Count of logs",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "description": "Total Count: of $searchable_pattern in the specified time range",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "color": "rgb(222, 15, 43)",
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "rgb(222, 15, 43)",
+                  "value": null
+                },
+                {
+                  "color": "rgb(222, 15, 43)",
+                  "value": 10
+                },
+                {
+                  "color": "rgb(222, 15, 43)",
+                  "value": 50
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 6,
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "${loki}"
+            },
+            "editorMode": "code",
+            "expr": "sum(count_over_time(({container=\"$container\", stream=~\"$stream\", pod=~\"$pod\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
+            "hide": false,
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Total Count: of $searchable_pattern",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "description": "Live logs is a like 'tail -f' in a real time",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "timestamp"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 213
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "http_user_agent"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 911
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "source"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 106
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "hostname"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 224
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "ip"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 121
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "client"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 105
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "request_method"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 129
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "referer"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 631
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "request"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 358
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "size"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "status"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 73
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 24,
+          "x": 0,
+          "y": 3
+        },
+        "id": 2,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "upstreamtime"
+            }
+          ]
+        },
+        "pluginVersion": "11.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "${loki}"
+            },
+            "editorMode": "code",
+            "expr": "{container=\"$container\", pod=~\"$pod\", stream=~\"$stream\"} |~ \"(?i)$searchable_pattern\" | json",
+            "hide": false,
+            "queryType": "range",
+            "refId": "A"
+          }
+        ],
+        "title": "Live logs",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "format": "json",
+              "jsonPaths": [
+                {
+                  "path": ""
+                }
+              ],
+              "keepTime": false,
+              "replace": true,
+              "source": "Line"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "domain": false,
+                "id": true,
+                "labels": true,
+                "source": false,
+                "stream": true,
+                "time": true,
+                "tsNs": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "labels": ""
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": true,
+                  "field": "timestamp"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "collapsed": true,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 14,
+        "panels": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "${loki}"
+            },
+            "gridPos": {
+              "h": 20,
+              "w": 24,
+              "x": 0,
+              "y": 13
+            },
+            "id": 12,
+            "options": {
+              "code": {
+                "language": "plaintext",
+                "showLineNumbers": false,
+                "showMiniMap": false
+              },
+              "content": "# Nginx Monitoring\n\n## Prerequisites\n\nTo use this dashboard, ensure you have JSON-formatted Nginx logs coming from a Promtail/Loki datasource.\n\n## Configuration Example\n\nTo set up your Nginx logs for monitoring, follow these steps:\n\n1. **Edit the Log Format:**\n   \n   Open your `/etc/nginx/nginx.conf` file and configure the log format to JSON by adding the following lines:\n\n   ```nginx\n   log_format main escape=json '{'\n                   '\"timestamp\":\"$time_iso8601\",'\n                   '\"source\":\"$server_addr\",'\n                   '\"hostname\":\"$hostname\",'\n                   '\"ip\":\"$http_x_forwarded_for\",'\n                   '\"client\":\"$remote_addr\",'\n                   '\"request_method\":\"$request_method\",'\n                   '\"scheme\":\"$scheme\",'\n                   '\"domain\":\"$server_name\",'\n                   '\"referer\":\"$http_referer\",'\n                   '\"request\":\"$request_uri\",'\n                   '\"args\":\"$args\",'\n                   '\"size\":$body_bytes_sent,'\n                   '\"status\":$status,'\n                   '\"responsetime\":$request_time,'\n                   '\"upstreamtime\":\"$upstream_response_time\",'\n                   '\"upstreamaddr\":\"$upstream_addr\",'\n                   '\"http_user_agent\":\"$http_user_agent\",'\n                   '\"https\":\"$https\"'\n                   '}';\n   ```\n\n2. **Specify the Log File:**\n   \n   Ensure the access log uses the `main` log format by adding or modifying the following line:\n\n   ```nginx\n   access_log /var/log/nginx/access.log main;\n   ```\n\n3. **Deploy and Connect to Loki:**\n   \n   After configuring the log format and log file, deploy your Nginx configuration. Then, link your logs from Loki. You should see all the specified fields in the monitoring dashboard.\n\nBy following these steps, your Nginx logs will be formatted correctly for JSON processing and monitoring through Loki, providing detailed insights into your web server's activity.",
+              "mode": "markdown"
+            },
+            "pluginVersion": "11.0.0",
+            "title": "Documentation",
+            "type": "text"
+          }
+        ],
+        "title": "Tips",
+        "type": "row"
+      }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": "etcd",
+            "value": "etcd"
+          },
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "definition": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Service",
+          "multi": false,
+          "name": "container",
+          "options": [],
+          "query": {
+            "label": "container",
+            "refId": "LokiVariableQueryEditor-VariableQuery",
+            "stream": "{container=~\".+\"}",
+            "type": 1
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "definition": "label_values({container_name=\"$container_name\"}, pod_name)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Pod",
+          "multi": true,
+          "name": "pod",
+          "options": [],
+          "query": {
+            "label": "pod",
+            "refId": "LokiVariableQueryEditor-VariableQuery",
+            "stream": "{container=\"$container\"}",
+            "type": 1
+          },
+          "refresh": 2,
+          "regex": "$container.*",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "definition": "label_values({container_name=\"$container_name\"}, stream)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Stream",
+          "multi": false,
+          "name": "stream",
+          "options": [],
+          "query": {
+            "label": "stream",
+            "refId": "LokiVariableQueryEditor-VariableQuery",
+            "stream": "{container=\"$container\"}",
+            "type": 1
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "",
+            "value": ""
+          },
+          "hide": 0,
+          "label": "Search (case insensitive)",
+          "name": "searchable_pattern",
+          "options": [
+            {
+              "selected": true,
+              "text": "",
+              "value": ""
+            }
+          ],
+          "query": "",
+          "skipUrlSync": false,
+          "type": "textbox"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "Loki"
+            ],
+            "value": [
+              "c48309d6-fd45-4e6c-a87a-62dde59726d7"
+            ]
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "loki",
+          "multi": true,
+          "name": "loki",
+          "options": [],
+          "query": "loki",
+          "queryValue": "",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1m",
+      "to": "now"
+    },
+    "timeRangeUpdatedDuringEditOrView": false,
+    "timepicker": {
+      "refresh_intervals": [
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "",
+    "title": "Nginx Json Logs dashboard",
+    "uid": "admo4vdc04qo0c",
+    "version": 3,
+    "weekStart": ""
+  }
