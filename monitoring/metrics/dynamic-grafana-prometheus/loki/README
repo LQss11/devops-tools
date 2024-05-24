@@ -1,0 +1,14 @@
+# Loki
+just run helm commands to install loki chart in your cluster.
+
+* clone repo
+* install helm loki repo
+* install helm loki chart
+
+```sh
+helm repo add grafana https://grafana.github.io/helm-charts
+helm upgrade --create-namespace --install loki --namespace=monitoring --values values.yaml grafana/loki-stack
+
+# Get more info about values
+helm pull --untar grafana/loki-stack
+```
