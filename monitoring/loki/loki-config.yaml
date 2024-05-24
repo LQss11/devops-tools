@@ -31,7 +31,7 @@ schema_config:
       schema: v11
       index:
         prefix: index_
-        period: 48h
+        period: 24h
 
 ruler:
   alertmanager_url: http://localhost:9093
