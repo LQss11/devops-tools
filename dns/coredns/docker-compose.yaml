@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  custom_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.100.0/24"
+
+services:
+  coredns:
+    image: coredns/coredns:latest
+    container_name: coredns
+    hostname: coredns
+    networks:
+      custom_network:
+        ipv4_address: 192.168.100.10
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - ./Corefile:/Corefile
+    command: -conf /Corefile
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    networks:
+      custom_network:
+        ipv4_address: 192.168.100.11
+    ports:
+      - "80:80"
+    restart: always
+
+  alpine:
+    image: alpine
+    container_name: alpine
+    networks:
+      custom_network:
+        ipv4_address: 192.168.100.12
+    depends_on:
+      - coredns
+    command: sh -c "echo 'nameserver 192.168.100.10' > /etc/resolv.conf && sleep infinity"
+    restart: always
