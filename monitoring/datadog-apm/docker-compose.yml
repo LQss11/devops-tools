@@ -1,0 +1,66 @@
+version: "3.0"
+
+services:
+  datadog-agent:
+    image: datadog/agent:latest
+    hostname: datadog-agent
+    container_name: datadog-agent
+    environment:
+      - DD_SITE=us3.datadoghq.com
+      - DD_API_KEY=${DD_API_KEY?Datadog API Key is required}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    ports:
+      - "8126:8126"
+    networks:
+      - dd 
+  node-app:
+    build: 
+      context: ./node-app
+      dockerfile: Dockerfile
+    hostname: node-app
+    container_name: node-app
+    restart: always
+    depends_on:
+      datadog-agent:
+        condition: service_healthy # This checks for health
+    ports:
+      - 3000:3000
+    environment:
+      - DD_AGENT_HOST=datadog-agent  
+    networks:
+      - dd 
+  hello-world:
+    build: 
+      context: ./spring-boot-app
+      dockerfile: Dockerfile
+    hostname: hello-world
+    container_name: hello-world
+    mem_reservation: 300MB
+    mem_limit: 500MB
+    restart: always
+    depends_on:
+      datadog-agent:
+        condition: service_healthy # This checks for health
+    ports:
+      - 8080:8080
+    # we can either use labels or env vars or agent arguments and priority in order
+    labels:
+      - com.datadoghq.tags.service="myspringapp"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
+      - com.datadoghq.tags.site="us3.datadoghq.com"
+    environment:
+      - DD_SERVICE=myspringapp
+      - DD_ENV=prod
+      - DD_VERSION=0.0.1
+      # - DD_AGENT_HOST=host.docker.internal  
+      - DD_AGENT_HOST=datadog-agent  
+      - DD_SITE=us3.datadoghq.com 
+    networks:
+      - dd 
+networks:
+  dd:
+    name: datadog
