@@ -1,0 +1,18 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "npm build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dd-trace": "^5.14.1",
+    "http-proxy-middleware": "^3.0.0",
+    "winston": "^3.13.0"
+    
+  }
+}
