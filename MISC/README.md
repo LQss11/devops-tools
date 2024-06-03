@@ -15,3 +15,8 @@ Get-LocalGroup
 Get-LocalGroupMember -Name Administrator
 Remove-LocalGroupMember -Group Administrator -Member org/user
 ```
+# Add dns address
+```sh
+Get-DnsClientServerAddress -InterfaceAlias "Ethernet" | Select-Object -ExpandProperty ServerAddresses
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "8.8.8.8 1.1.1.1"
+```
