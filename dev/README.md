@@ -10,6 +10,7 @@ registry=https://registry.npmjs.org/
 ```
 ### Nuget
 using [NuGet.Config](https://learn.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesources) file:
+- Path: /root/.nuget/NuGet/NuGet.Config
 ```xml
 <packageSources>
     <clear />    
@@ -18,6 +19,22 @@ using [NuGet.Config](https://learn.microsoft.com/en-us/nuget/reference/nuget-con
     <add key="http-source" value="http://httpsourcetrusted/" allowInsecureConnections="true" />
     <add key="Test Source" value="c:\packages" />
 </packageSources>
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <!-- <config>
+    <add key="maxHttpRequestsPerSource" value="10" />
+  </config> -->
+  <packageSources>
+    <add key="NexusRepo" value="https://nexus:8081/repository/nuget.org-proxy/" />
+    <add key="http-source" value="http://httpsourcetrusted/" allowInsecureConnections="true" />
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+  </packageSources>
+  <config>
+    <add key="allowUntrustedRoot" value="true" />
+  </config>
+</configuration>
+
 ```
 ### Maven
 In maven adding a repo is a bit different we first need to set repo then pass server id username and password make sure to follow this example on how to create repository and [server](https://maven.apache.org/settings.html#servers)
