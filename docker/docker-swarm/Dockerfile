@@ -1,7 +1,7 @@
 FROM docker:dind
 WORKDIR /usr/src/app/
 EXPOSE 22
-RUN apk add curl wget bash net-tools openssh openrc nmap
+RUN apk add curl wget bash net-tools openssh openrc nmap sshpass
 
 # Setup SSH Service
 RUN rc-update add sshd &&  \
@@ -12,6 +12,6 @@ RUN rc-update add sshd &&  \
 VOLUME [ "/var/lib/docker" ]
 COPY . . 
 # COPY entrypoint.sh entrypoint.sh
-RUN chmod 777 entrypoint.sh
+RUN chmod 777 *.sh
 
 ENTRYPOINT ["./entrypoint.sh"]

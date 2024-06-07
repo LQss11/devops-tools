@@ -7,8 +7,4 @@ docker exec -it swarm-manager-2 bash
 
 docker node ls
 docker stack deploy 
-docker service create \
-  --mode global \
-  --publish mode=host,target=80,published=8080 \
-  --name=nginx \
-  nginx:alpine
+docker service create --mode global -p 8080:80 --name=nginx nginx:alpine
