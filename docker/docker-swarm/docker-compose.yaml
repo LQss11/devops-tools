@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     image: docker:swarm
     privileged: true
+    restart: always
     volumes:
       - .:/app
     deploy:
@@ -28,6 +29,7 @@ services:
       dockerfile: Dockerfile
     image: docker:swarm
     privileged: true
+    restart: always
     volumes:
       - .:/app/
     deploy:

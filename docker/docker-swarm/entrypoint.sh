@@ -10,7 +10,7 @@ cat >/root/.ssh/config<< EOF
 Host *
     StrictHostKeyChecking accept-new
 EOF
-/usr/sbin/sshd -D -e 
+/usr/sbin/sshd -D -e &
 log "Starting Docker daemon"
 dockerd-entrypoint.sh
 # nmap -sn 172.10.10.0/24 | grep manager 
