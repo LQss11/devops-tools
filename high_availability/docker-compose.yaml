@@ -1,0 +1,36 @@
+version: '3'
+# https://github.com/docker/for-mac/issues/4754#issuecomment-734143775
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.20.0.0/16"
+          gateway: "172.20.0.1"
+
+services:
+  first:
+    image: jwilder/whoami
+    container_name: first
+    networks:
+      my_network:
+        ipv4_address: "172.20.0.3"
+
+  second:
+    image: jwilder/whoami
+    container_name: second
+    networks:
+      my_network:
+        ipv4_address: "172.20.0.4"
+
+  third:
+    image: ubuntu:20.04
+    container_name: third
+    privileged: true
+    volumes:
+      - /lib/modules:/lib/modules
+    tty: true
+    command: bash
+    networks:
+      my_network:
+        ipv4_address: "172.20.0.5"
