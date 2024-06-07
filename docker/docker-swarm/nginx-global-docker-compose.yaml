@@ -1,0 +1,11 @@
+version: '3'
+name: init-stack
+services:
+  nginx-swarm:
+    image: nginx:alpine
+    deploy:
+      mode: global
+      # replicas: 5
+    ports:
+      - "80:80"
+      - "443:443"

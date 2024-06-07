@@ -1,0 +1,49 @@
+version: "3.8"
+name: swarm
+services:
+  manager:
+    networks:
+      - swarm
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker:swarm
+    privileged: true
+    volumes:
+      - .:/app
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    healthcheck:
+      test: ["CMD-SHELL", "docker ps > /dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3          
+  worker:
+    networks:
+      - swarm
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker:swarm
+    privileged: true
+    volumes:
+      - .:/app/
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+    healthcheck:
+      test: ["CMD-SHELL", "docker ps > /dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3          
+networks:
+  swarm:
+    name: swarm
+    external: false
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.10.10.0/24
