@@ -20,3 +20,8 @@ git filter-branch
 git filter-repo
 BFG Repo cleaner
 ```
+
+# Undo last commit
+```sh
+git reset --soft HEAD~
+```
