@@ -1,0 +1,41 @@
+stages:
+  - build
+  - test
+
+# Job 1 using Alpine (default)
+job1:
+  stage: build
+  image: alpine:latest
+  script:
+    - echo "Building job 1 using Alpine..."
+  tags:
+    - "runner1"
+  
+job1_test:
+  stage: test
+  image: alpine:latest
+  script:
+    - apk add curl
+    - echo "Testing job 1 using Alpine..."
+    - find .
+  tags:
+    - docker
+
+# Job 2 using Ubuntu
+job2:
+  stage: build
+  image: ubuntu:latest
+  script:
+    - apt-get update && apt-get install -y curl
+    - echo "Building job 2 using Ubuntu..."
+  tags:
+    - docker
+
+job2_test:
+  stage: test
+  image: ubuntu:latest
+  script:
+    - echo "Testing job 2 using Ubuntu..."
+    - ls -laht
+  tags:
+    - docker

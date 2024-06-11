@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  gitlab-runner:
+    build: .
+    # image: gitlab-agent
+    container_name: gitlab-runner
+    hostname: gitlab-runner
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    restart: always
+    # entrypoint: ""
+    # command: bash
+    # tty: true
+    deploy:
+      resources:
+        limits:
+          memory: 7GB
+    
+    env_file:
+      - .env
