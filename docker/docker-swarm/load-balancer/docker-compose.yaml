@@ -1,0 +1,28 @@
+version: "3.8"
+name: swarm
+services:
+  load-balancer:
+    container_name: load-balancer
+    hostname: load-balancer
+    image: load-balancer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    expose:
+      - 80
+      - 8080
+      - 3000
+      - 9900
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "3000:3000"
+      - "9900:9000"
+    networks:
+      - swarm      
+networks:
+  swarm:
+    name: swarm
+    external: true
+# tasks.portainer_agent:9001
