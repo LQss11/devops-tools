@@ -45,3 +45,6 @@ done
 wait
 
 log "SSH key check completed for all users and hosts."
+
+# Can be executed remotely
+# bash <(curl -sSL https://raw.githubusercontent.com/LQss11/devops-tools/main/linux/script/scan/ssh_existing_key_conn.sh)
