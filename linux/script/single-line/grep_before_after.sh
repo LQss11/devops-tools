@@ -1,0 +1,1 @@
+grep -ir --binary-files=without-match -o -P '.{0,10}example.{0,1000}' /
