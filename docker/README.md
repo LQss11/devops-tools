@@ -102,3 +102,8 @@ docker save salem | ssh root@xxx.xxx.xxx.xxx 'docker load'
 - Post Engine/CLI **23.0**, **DOCKER_BUILDKIT=1**
 - From Engine/CLI **18.06** to **20.10**, **DOCKER_BUILDKIT=0** **(# syntax = docker/dockerfile:experimental)**
 - docker build implementation in CLI **20.10** or older will use BuildKit without an explicit **DOCKER_BUILDKIT=1** when used against Engine **23.0** or newer.
+
+# Scan Docker image layers
+```sh
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest my image
+```
