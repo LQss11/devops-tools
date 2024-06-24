@@ -18,6 +18,11 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "test.mydockerapp.com:127.0.0.1"
+    # Using dns will override the defaults
+    # Must then include 8.8.8.8 for public dns
+    dns:
+      - 10.0.0.101
+      - 8.8.8.8
     volumes:
       - my-vol:/my-volxxx
       # - recreate-if-not-exist:/my-volxxx
