@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  portainer:
+    image: portainer/portainer-${EDITION:-ce}:${VERSION:-2.20.3-alpine}
+    container_name: portainer
+    restart: always
+    ports:
+      # - "8000:8000"
+      # - "9000:80"
+      # - "443:9443"
+      - "9000:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+      - ./keys/:/certs/
+    # Get commands from here
+    # docker run -it --rm portainer/portainer-ee:2.20.3-alpine --help
+    command: >
+      --admin-password-file=/run/secrets/portainer-pass 
+      --logo='${LOGO_URL}'
+      ${SSL?--ssl To ignore ssl certs or --sslcert="/certs/cert.pem" --sslkey="/certs/key.pem" to enable ssl certificates}
+      ${LICENCE?Licence key is required empty if ce or not be empty if ee}
+    # --admin-password='$$2y$$05$$s10ZD0KQzNuLRieBvnjdvOxffYBpOnEz/McOcsVdoMGfbkCNfcpSG'
+    secrets:
+      - portainer-pass
+volumes:
+  portainer_data:
+secrets:
+  portainer-pass:
+    file: ./password.txt
