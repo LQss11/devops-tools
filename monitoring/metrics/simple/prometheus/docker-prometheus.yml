@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+
+scrape_config_files:
+  - /config/scrape-configs/node-exporter.yml
+  - /config/scrape-configs/cadvisor.yml
+  - /config/scrape-configs/prometheus.yml
+
+# scrape_configs:
+rule_files:
+  - "/config/scrape-configs/alerts/alert-rules.yml"
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093
