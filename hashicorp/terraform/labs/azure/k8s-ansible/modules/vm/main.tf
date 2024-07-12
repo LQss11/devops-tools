@@ -1,6 +1,6 @@
 resource "azurerm_public_ip" "main" {
   count               = var.vm_purpose == "ansible" ? var.node_count : 0
-  name                = "${var.prefix}-${var.vm_purpose}-public-ip-${count.index}-${var.env}"
+  name                = "${var.vm_purpose}-${count.index}-public-ip"
   location            = var.location
   resource_group_name = var.rg
   allocation_method   = "Static"
@@ -9,7 +9,7 @@ resource "azurerm_public_ip" "main" {
 resource "azurerm_network_interface" "main" {
   count = var.node_count
 
-  name                = "${var.prefix}-${var.vm_purpose}-nic-${count.index}-${var.env}"
+  name                = "${var.vm_purpose}-${count.index}-nic"
   location            = var.location
   resource_group_name = var.rg
 

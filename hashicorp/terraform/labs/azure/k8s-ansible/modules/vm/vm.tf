@@ -1,22 +1,22 @@
 resource "azurerm_linux_virtual_machine" "main" {
   count = var.node_count
 
-  name                = "${var.prefix}-${var.vm_purpose}-node-${count.index}-${var.env}"
+  name                = "${var.vm_purpose}-node-${count.index}"
   location            = var.location
   resource_group_name = var.rg
   size                = var.size
-  admin_username      = "lqss"
   network_interface_ids = [
     azurerm_network_interface.main[count.index].id,
   ]
-
   admin_ssh_key {
-    username   = "lqss"
-    public_key = file("${path.root}/.ssh/id_rsa.pub")
-
-
+    username   = var.username
+    public_key = var.public_key_content
+    # public_key = file("${path.root}/.ssh/id_rsa.pub")
   }
-
+  
+  admin_username                  = var.username
+  admin_password                  = var.password
+  disable_password_authentication = false
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
@@ -29,3 +29,4 @@ resource "azurerm_linux_virtual_machine" "main" {
     version   = "latest"
   }
 }
+
