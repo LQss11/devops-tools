@@ -1,0 +1,69 @@
+---
+- name: Setup Kubernetes apt repository and install necessary packages
+  hosts: all
+  become: yes
+  tasks:
+    - name: Remove existing Kubernetes apt keyring file if it exists
+      file:
+        path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        state: absent
+
+    - name: Remove existing Kubernetes apt repository file if it exists
+      file:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        state: absent
+
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install packages needed to use the Kubernetes apt repository
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+        update_cache: yes
+
+    - name: Ensure /etc/apt/keyrings directory exists
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download and install Kubernetes GPG key
+      shell: >
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key |
+        sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      args:
+        creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add Kubernetes repository to sources.list.d
+      shell: >
+        echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' |
+        sudo tee /etc/apt/sources.list.d/kubernetes.list
+      args:
+        creates: /etc/apt/sources.list.d/kubernetes.list
+
+    - name: Update apt package index again after adding repository
+      apt:
+        update_cache: yes
+
+    - name: Install kubectl, kubelet, and kubeadm
+      apt:
+        name:
+          - kubectl
+          - kubelet
+          - kubeadm
+        state: present
+
+    - name: Hold kubectl, kubelet, and kubeadm packages to prevent automatic upgrades
+      dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      loop:
+        - kubectl
+        - kubelet
+        - kubeadm
