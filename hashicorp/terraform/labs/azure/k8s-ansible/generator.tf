@@ -3,10 +3,15 @@ resource "local_file" "ansible_hosts" {
   content = templatefile("ansible/templates/hosts.tpl", {
     masters_private_ips = module.master.private_ips
     workers_private_ips = module.worker.private_ips
+    username = var.username
   })
 }
 
 resource "null_resource" "copy_ssh_keys" {
+  depends_on = [
+    module.ansible, 
+    local_file.ansible_hosts
+  ]
   triggers = {
     always_run = "${timestamp()}"
   }
@@ -16,11 +21,15 @@ resource "null_resource" "copy_ssh_keys" {
     user     = var.username
     password = var.password # Note: Using passwords in plaintext is not recommended; consider using SSH keys instead
   }
-  
+
   # Once all goo can test running this command
   # ansible -i hosts.yml all -m ping 
+  # ansible-playbook -i hosts.yml kubernetes-cluster.yml
   provisioner "remote-exec" {
-    inline = [ "sudo apt-get update && apt-get install -y ansible" ]
+    inline = [
+      "sudo apt-get -qqq update && sudo apt-get install -y -qqq  ansible",
+      # "ansible -i ~/ansible/hosts.yml all -m ping"
+    ]
   }
   provisioner "file" {
     source      = ".ssh/"
