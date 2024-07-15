@@ -13,3 +13,13 @@ variable "location" {
   description = "Location where to deploy all resources"
 }
 
+variable "username" {
+  default     = "lqss"
+  description = "Vms username"
+}
+
+variable "password" {
+  default     = "Admin1235"
+  description = "Vms password"
+}
+
