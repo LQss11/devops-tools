@@ -1,0 +1,78 @@
+# http://www.adminz.in/2022/01/kubernetes-with-containerd-using-ansible.html
+- hosts: all
+  become: yes
+
+  vars_prompt:
+   - name: "new_user"
+     prompt: "Account need to be create in remote server."
+     private: no
+
+  tasks:
+    - name: creating the user {{ new_user }}.
+      user:
+        name: "{{ new_user }}"
+        createhome: yes
+        shell: /bin/bash
+        append: yes
+        state: present  
+
+    - name: Create a dedicated sudo entry file for the user.
+      file:
+        path: "/etc/sudoers.d/{{ new_user }}"
+        state: touch
+        mode: '0600'
+        
+    - name: "Setting up Sudo without Password for user {{ new_user }}."
+      lineinfile:
+        dest: "/etc/sudoers.d/{{ new_user }}"
+        line: '{{ new_user }}  ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Set authorized key for user copying it from current {{ new_user }}  user.
+      authorized_key:
+         user: "{{ new_user }}"
+         state: present
+         key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+    - name: Print the created user.
+      shell: id "{{ new_user }}"
+      register: new_user_created
+    - debug:
+        msg: "{{ new_user_created.stdout_lines[0] }}"
+
+    
+    - name: Remove Containerization packages
+      apt:
+        name: docker-ce docker-ce-cli containerd.io 
+        state: absent
+        purge: yes
+
+    - name: Remove Containerization directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/docker
+        - /etc/docker
+        - /var/lib/docker
+        - /var/run/docker.sock
+
+    - name: Remove containerd packages
+      apt:
+        name: containerd
+        state: absent
+        purge: yes
+
+    - name: Remove containerd directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/containerd
+        - /var/lib/containerd
+        
+    - name: "Update cache & Full system update"
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+        force_apt_get: true
