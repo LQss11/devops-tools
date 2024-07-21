@@ -1,0 +1,2 @@
+- eks https://github.com/hashicorp/learn-terraform-provision-eks-cluster.git
+- terraform doc eks https://developer.hashicorp.com/terraform/tutorials/kubernetes/eks
