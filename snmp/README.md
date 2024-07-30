@@ -49,7 +49,7 @@ authtrapenable 1
 ## SNMP
 You can try to send hello world using snmp walk as a test example:
 ```sh
-snmptrap -v 2c -c test 10.0.1.101:161 "" 1.3.6.1.2.1.43.18.2.0.1
+snmpwalk -v 2c -c test 10.0.1.101:161
 ```
 ## SNMP traps
 You can try to send hello world using snmp trap as a test example:
