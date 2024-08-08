@@ -29,3 +29,19 @@ sudo rm -rf ./oracle-database-xe-21c-1.0-1.ol8.x86_64.rpm
 # Configure Oracle Database
 yes "your-pass123" | sudo /etc/init.d/oracle-xe-21c configure
 
+# Setup default oracle home
+su - oracle
+export ORACLE_HOME=/opt/oracle/product/21c/dbhomeXE
+export PATH=$ORACLE_HOME/bin:$PATH
+export ORACLE_SID=XE
+# sqlplus / as sysdba
+# sqlplus sys/your-pass123@XE as sysdba
+
+
+
+# Run sqplus
+sqlplus
+```
+
+# Reference
+- [Links for oracle download and install](https://www.oracle.com/database/free/get-started/)
