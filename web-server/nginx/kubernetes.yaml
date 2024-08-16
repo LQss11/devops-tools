@@ -1,0 +1,175 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web App</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin: 50px;
+            }
+            button {
+                display: block;
+                width: 200px;
+                margin: 20px auto;
+                padding: 10px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to the Web App</h1>
+        <a href="/tomcat/"><button>Tomcat</button></a>
+        <a href="/"><button>Home</button></a>
+        <a href="/httpd/"><button>Apache HTTPD</button></a>
+        <a href="/error"><button>Error</button></a>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    # UPSTREAMS Could be used for load balancer
+    upstream httpd {
+        server apache-service:80;
+    }
+    upstream tomcat {
+        server tomcat-service:8080;
+    }
+
+    upstream nginx {
+        server localhost:81;
+    }
+    server {
+        listen 81;
+        server_name localhost;
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        include /etc/nginx/mime.types;
+
+        # FRONT
+        location / {
+            try_files $uri $uri/ /index.html;
+            proxy_redirect off;
+        }
+        location = /error {
+            proxy_pass http://nginx/50x.html;
+        }
+        # Apache httpd
+        location /httpd/ {
+            proxy_pass http://httpd/ ;
+        }
+        # Tomcat
+        location /tomcat/ {
+            proxy_pass http://tomcat/ ;
+            proxy_no_cache 1;
+            proxy_cache_bypass 1;
+        }
+    }
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: nginx
+        resources: {}
+        image: nginx:latest
+        ports:
+        - containerPort: 81
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        - name: nginx-index-volume
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      - name: apache
+        resources: {}
+        image: httpd:latest
+        ports:
+        - containerPort: 80
+      - name: tomcat
+        resources: {}
+        image: tomcat:latest
+        ports:
+        - containerPort: 8080
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config
+      - name: nginx-index-volume
+        configMap:
+          name: nginx-index
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 81
+      nodePort: 30700
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-service
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30800
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  selector:
+    app: web-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30900
+  type: NodePort
