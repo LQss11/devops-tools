@@ -1,0 +1,18 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "To create an nodejs app you can simply run this command:\r ```sh\r docker run --rm -it -v ${pwd}:/app -w /app node:alpine sh -c \"npm init -y && npm install express\"\r ```",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "mysql2": "^3.11.0",
+    "winston": "^3.14.2"
+  }
+}
