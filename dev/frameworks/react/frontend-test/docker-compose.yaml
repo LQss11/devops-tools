@@ -1,0 +1,23 @@
+version: '3.8'
+name: fullstack
+services:
+  frontend:
+    build: .
+    container_name: frontend
+    image: react-frontend:latest
+    ports:
+      - '80:80'
+    networks:
+      - backend_network
+    restart: always # Automatically restart the container if it stops
+    environment:
+      BACKEND_URL: http://backend:3000
+    # entrypoint: ""
+    # tty: true
+    # command: sh
+    # environment:
+    #   - NODE_ENV=production
+
+networks:
+  backend_network:
+    driver: bridge
