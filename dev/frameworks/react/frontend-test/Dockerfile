@@ -5,10 +5,14 @@ FROM node:alpine AS build
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+# COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+# RUN npm install
+# --mount=type=bind,source=package-lock.json,target=package-lock.json \
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=cache,target=/root/.npm \
+    npm i
 
 # Copy the rest of the application code
 COPY . .

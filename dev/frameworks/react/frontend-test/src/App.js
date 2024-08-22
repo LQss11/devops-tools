@@ -1,14 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import UsersPage from './UsersPage'; // Import the new UsersPage component
 
 function App() {
-  const [dbVersion, setDbVersion] = useState('Loading...');
-  const [error, setError] = useState(null);
+  return (
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <nav>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/users">Users</Link></li>
+            </ul>
+          </nav>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/users" element={<UsersPage />} />
+          </Routes>
+        </header>
+      </div>
+    </Router>
+  );
+}
 
-  useEffect(() => {
-    // Fetch the database version from the backend API
-    fetch('/api') // This will be proxied by Nginx or during development by `proxy.js`
+function HomePage() {
+  const [dbVersion, setDbVersion] = React.useState('Loading...');
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch('/api')
       .then(response => response.json())
       .then(data => {
         setDbVersion(data.message);
@@ -20,24 +46,9 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Database Version: {error ? error : dbVersion}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Home Page</h1>
+      <p>Database Version: {error ? error : dbVersion}</p>
     </div>
   );
 }
