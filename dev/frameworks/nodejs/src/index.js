@@ -10,10 +10,10 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Use API routes
-app.use('/api', apiRoutes);
+app.use('/api/examples', apiRoutes);
 
 // Root API
-app.get('/', async (req, res, next) => {
+app.get('/api', async (req, res, next) => {
   try {
     const version = await getDatabaseVersion(); // Use the function from database.js
     res.json({ message: `Hello from MySQL ${version}` });

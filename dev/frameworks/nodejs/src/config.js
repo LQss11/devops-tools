@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // Function to read a file and return its content
-const readFileSync = filename => fs.readFileSync(filename).toString('utf8');
+// const readFileSync = filename => fs.readFileSync(filename).toString('utf8');
 
 // Configuration constants
 module.exports = {

@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
+          resources: {}
           image: nodejs-backend
           imagePullPolicy: IfNotPresent
           ports:
@@ -60,7 +61,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: backend
 spec:
   type: NodePort
   selector:

@@ -5,7 +5,7 @@ metadata:
 data:
   NODE_ENV: "production"
   LOGGING_FORMAT: "json"
-  DATABASE_HOST: "mysql-service"
+  DATABASE_HOST: "mysql"
   DATABASE_PORT: "3306"
   DATABASE_DB: "mydb"
   DATABASE_USER: "root"
