@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('./logger');
-const apiRoutes = require('./api/router'); // Import API routes
-const { db, getDatabaseVersion } = require('./database'); // Import the db instance and getDatabaseVersion
+const apiRoutes = require('./api/router');
+const { getDatabaseVersion } = require('./database');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,13 +9,31 @@ const port = process.env.PORT || 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Middleware for logging requests and responses
+app.use((req, res, next) => {
+  const start = Date.now();
+  logger.info(`Request ${req.method} ${req.originalUrl} started`);
+
+  // Capture the original send function
+  const originalSend = res.send;
+
+  res.send = function (body) {
+    const duration = Date.now() - start;
+    logger.info(`Response ${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`);
+    res.send = originalSend; // Restore original send function
+    return res.send(body);
+  };
+
+  next();
+});
+
 // Use API routes
 app.use('/api/examples', apiRoutes);
 
 // Root API
 app.get('/api', async (req, res, next) => {
   try {
-    const version = await getDatabaseVersion(); // Use the function from database.js
+    const version = await getDatabaseVersion();
     res.json({ message: `Hello from MySQL ${version}` });
   } catch (error) {
     next(error);
