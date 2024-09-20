@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Define the keywords to search for
-# Commit will not proceed if filename or file contains keyword
+# Commit will not proceed if filename or file contains keyword (case-insensitive)
 KEYWORDS=("key1" "application" "mu" "password")
 
-# Define the IP address patterns to search for so we don't commit ip addresses containing this pool
+# Define the IP address patterns to search for so we don't commit IP addresses containing this pool
 IP_PATTERNS=("192\.168\.1\." "188\.162\.12\.")
 
 # Get the list of files to be committed
@@ -18,8 +18,8 @@ check_keyword() {
     local file="$1"
     # Iterate over each keyword
     for keyword in "${KEYWORDS[@]}"; do
-        # Check if the file contains the keyword
-        if grep -q "$keyword" "$file"; then
+        # Check if the file contains the keyword (case-insensitive)
+        if grep -qi "$keyword" "$file"; then
             echo "File '$file' contains the word '$keyword'. Commit aborted."
             keyword_found=1
         fi
@@ -44,8 +44,8 @@ check_filename_keyword() {
     local filename="$1"
     # Iterate over each filename keyword
     for keyword in "${KEYWORDS[@]}"; do
-        # Check if the filename contains the keyword
-        if echo "$filename" | grep -q "$keyword"; then
+        # Check if the filename contains the keyword (case-insensitive)
+        if echo "$filename" | grep -qi "$keyword"; then
             echo "Filename '$filename' contains the keyword '$keyword'. Commit aborted."
             keyword_found=1
         fi
