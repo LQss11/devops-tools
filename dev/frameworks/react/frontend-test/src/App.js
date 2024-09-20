@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import UsersPage from './UsersPage'; // Import the new UsersPage component
+import ErrorsPage from './ErrorsPage'; // Import the new ErrorsPage component
 
 function App() {
   return (
@@ -17,11 +18,13 @@ function App() {
             <ul>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/users">Users</Link></li>
+              <li><Link to="/errors">Errors</Link></li> {/* New link */}
             </ul>
           </nav>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/errors" element={<ErrorsPage />} /> {/* New route */}
           </Routes>
         </header>
       </div>
