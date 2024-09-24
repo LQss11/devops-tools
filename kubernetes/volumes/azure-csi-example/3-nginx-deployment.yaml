@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: azure-csi-example
+  labels:
+    app: app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+      annotations:
+        kubernetes.io/description: "Example app1 app"
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux    
+      containers:
+        - name: app1
+          image: nginx
+          resources: {}
+          command: ["/bin/bash", "-c", "--"]
+          args:
+            - |
+              mkdir -p /var/log/azure-csi-example
+              while true; do
+                echo `date` example file 1 log >> /var/log/azure-csi-example/first.log
+                echo `date` example file 2 log >> /var/log/azure-csi-example/second.log
+                sleep 5
+              done &
+              nginx -g 'daemon off;'
+          volumeMounts:
+            - name: logs
+              mountPath: /var/log/azure-csi-example
+              subPath: myapp1            
+      volumes:
+        - name: logs
+          persistentVolumeClaim:
+            claimName: logs
+  

@@ -1,0 +1,44 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: logs
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - cache=strict
+  - actimeo=30
+parameters:
+  skuName: Standard_LRS
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: logs
+  namespace: azure-csi-example
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: logs
+  resources:
+    requests:
+      storage: 100Mi
+---
+# # In case you want to use an existing storage account instead of creating a new one 
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: azure-csi-example-pv
+# spec:
+#   capacity:
+#     storage: 100Mi
+#   accessModes:
+#     - ReadWriteMany
+#   storageClassName: azurefile
+#   azureFile:
+#     secretName: azure-secret
+#     shareName: aksshare
+#     secretNamespace: azure-csi-example
