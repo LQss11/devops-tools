@@ -107,3 +107,15 @@ docker save salem | ssh root@xxx.xxx.xxx.xxx 'docker load'
 ```sh
 docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest my image
 ```
+
+# Install Docker in Windows Server 2019 Datacenter
+Based on this [Question](https://learn.microsoft.com/en-us/answers/questions/1696617/how-to-install-docker-in-windows-server-2019-datac) and this [Prep Windows for containers documentation](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce#windows-server-1) You can simply install docker runnin this command (it will restart your pc):
+```sh
+Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/Windows-Containers/Main/helpful_tools/Install-DockerCE/install-docker-ce.ps1" -o install-docker-ce.ps1
+.\install-docker-ce.ps1
+```
+
+# Verify versions for docker windows container
+```ps1
+(docker manifest inspect mcr.microsoft.com/windows/servercore:ltsc2022 -v | ConvertFrom-Json).Descriptor.platform."os.version"
+```
