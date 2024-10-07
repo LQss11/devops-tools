@@ -1,0 +1,42 @@
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: app1-pvc
+#   namespace: alpine
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+#   storageClassName: standard  # Adjust this based on your cluster's available storage classes
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine
+  namespace: alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+    spec:
+      containers:
+      - name: alpine
+        image: alpine:latest
+        resources: {}
+        # kubectl -n alpine exec -it deploy/alpine -- ls /mnt/data
+        command: ["sleep"]
+        args: ["infinity"]
+        volumeMounts:
+        - name: app1-storage
+          mountPath: /mnt/data
+      volumes:
+        - name: app1-storage
+          persistentVolumeClaim:
+            claimName: alpine-pvc

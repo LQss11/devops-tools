@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: app1
+  labels:
+    app: app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+      annotations:
+        kubernetes.io/description: "Example app1 app"
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux    
+      containers:
+        - name: app1
+          image: nginx
+          resources: {}
+          command: ["/bin/bash", "-c", "--"]
+          # kubectl -n app1 exec -it deploy/app2 -- bash -c 'cat /var/log/specific/path/$POD_NAME/first.log'
+          # kubectl -n app1 exec -it deploy/app2 -- bash -c 'cat /var/log/specific/path/$POD_NAME/second.log'
+          args:
+            - |
+              mkdir -p /var/log/specific/path/$POD_NAME
+              while true; do
+                echo `date` example file 1 log >> /var/log/specific/path/$POD_NAME/first.log
+                echo `date` example file 2 log >> /var/log/specific/path/$POD_NAME/second.log
+                sleep 5
+              done &
+              nginx -g 'daemon off;'
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: app1-storage
+              mountPath: /var/log/specific/path
+      volumes:
+        - name: app1-storage
+          persistentVolumeClaim:
+            claimName: app1-pvc
