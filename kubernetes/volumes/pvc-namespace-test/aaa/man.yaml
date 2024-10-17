@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-prod-pvc
+  namespace: alpine
+spec:
+  from:
+  - group: ""
+    kind: PersistentVolumeClaim
+    namespace: app1
+  to:
+  - group: snapshot.storage.k8s.io
+    kind: VolumeSnapshot
+    name: new-snapshot-demo
