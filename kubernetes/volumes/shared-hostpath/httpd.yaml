@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd
+  namespace: default
+  labels:
+    app: httpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpd
+  template:
+    metadata:
+      labels:
+        app: httpd
+        admission.datadoghq.com/enabled: "false" # Disable Datadog injection
+      annotations:
+        kubernetes.io/description: "Example httpd Datadog autodiscovery integration"
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux    
+      containers:
+        - name: httpd
+          image: httpd
+          resources: {}
+          command: ["/bin/bash", "-c", "--"]
+          args:
+            - |
+              mkdir -p /var/log/specific/path/httpd
+              while true; do
+                echo `date` example file 1 log httpd >> /var/log/specific/path/httpd/app1.log
+                echo `date` example file 2 log httpd >> /var/log/specific/path/httpd/app2.log
+                sleep 5
+              done &
+              httpd -DFOREGROUND     
+          volumeMounts:
+            - name: applogs
+              mountPath: /var/log/specific/path
+      volumes:
+        - name: applogs
+          hostPath:
+            path: /var/log/example
