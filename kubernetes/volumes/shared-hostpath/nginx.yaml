@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        admission.datadoghq.com/enabled: "false" # Disable Datadog injection
+      annotations:
+        kubernetes.io/description: "Example nginx Datadog autodiscovery integration"
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux    
+      containers:
+        - name: nginx
+          image: nginx
+          resources: {}
+          command: ["/bin/bash", "-c", "--"]
+          args:
+            - |
+              mkdir -p /var/log/specific/path/nginx
+              while true; do
+                echo `date` example file 1 log nginx >> /var/log/specific/path/nginx/app1.log
+                echo `date` example file 2 log nginx >> /var/log/specific/path/nginx/app2.log
+                sleep 5
+              done &
+              nginx -g 'daemon off;'     
+          volumeMounts:
+            - name: applogs
+              mountPath: /var/log/specific/path
+      volumes:
+        - name: applogs
+          hostPath:
+            path: /var/log/example
