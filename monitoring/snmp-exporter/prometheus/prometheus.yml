@@ -1,0 +1,16 @@
+scrape_configs:
+  - job_name: 'snmp-exporter'
+    scrape_interval: 5s  # Collect metrics every 5 seconds
+    static_configs:
+      - targets:
+        - 192.168.1.1  # SNMP device IP address
+    metrics_path: /snmp
+    params:
+      module: [if_mib]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: host.docker.internal:9116  # SNMP Exporter's address
