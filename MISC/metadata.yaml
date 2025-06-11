@@ -1,0 +1,16 @@
+header-includes: |
+  \usepackage{graphicx}
+  \usepackage{fancyhdr}
+  \usepackage{eso-pic}
+
+  % Add watermark
+  \AddToShipoutPictureBG{%
+    \AtPageLowerLeft{%
+      \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{DXHero-logo-01.png}%
+    }%
+  }
+
+  % Add custom header
+  \fancyhead[L]{\includegraphics[width=3cm]{DXHero-logo-03.png}}
+  \fancyhead[R]{\includegraphics[width=2cm]{DD-Advanced-Partner-Photoroom.png}}
+  \pagestyle{fancy}

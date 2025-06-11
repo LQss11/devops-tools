@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: User & Product API
+  version: 1.0.0
+# servers:
+#   - url: https://api.example.com/v1
+paths:
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        "200":
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+              example:
+                - id: "1"
+                  firstName: "John"
+                  lastName: "Doe"
+                  email: "john.doe@example.com"
+                  phone: "+123456789"
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+            example:
+              firstName: "Alice"
+              lastName: "Smith"
+              email: "alice.smith@example.com"
+              phone: "+987654321"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              example:
+                message: "User created successfully."
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+              example:
+                id: "1"
+                firstName: "John"
+                lastName: "Doe"
+                email: "john.doe@example.com"
+                phone: "+123456789"
+    put:
+      summary: Update user details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+            example:
+              firstName: "John"
+              lastName: "Doe"
+              email: "john.updated@example.com"
+              phone: "+111222333"
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            application/json:
+              example:
+                message: "User updated successfully."
+    delete:
+      summary: Delete a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User deleted successfully
+          content:
+            application/json:
+              example:
+                message: "User deleted successfully."
+
+  /products:
+    get:
+      summary: Get all products
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+              example:
+                - id: "101"
+                  name: "Laptop"
+                  description: "High-performance laptop"
+                  price: 1200.99
+                  stock: 25
+    post:
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+            example:
+              name: "Smartphone"
+              description: "Latest model smartphone"
+              price: 899.99
+              stock: 50
+      responses:
+        "201":
+          description: Product created successfully
+          content:
+            application/json:
+              example:
+                message: "Product created successfully."
+
+  /products/{id}:
+    get:
+      summary: Get a product by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+              example:
+                id: "101"
+                name: "Laptop"
+                description: "High-performance laptop"
+                price: 1200.99
+                stock: 25
+    put:
+      summary: Update product details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+            example:
+              name: "Laptop"
+              description: "Updated model with better specs"
+              price: 1299.99
+              stock: 20
+      responses:
+        "200":
+          description: Product updated successfully
+          content:
+            application/json:
+              example:
+                message: "Product updated successfully."
+    delete:
+      summary: Delete a product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              example:
+                message: "Product deleted successfully."
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer

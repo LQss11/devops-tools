@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: First App
+  version: 1.0.0
+
+paths:
+  /updatePhone:
+    post:
+      summary: Update phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Contact"
+            example:
+              firstname: "Anna"
+              lastname: "Woods"
+              phone: "5555555555"
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              examples:
+                success:
+                  value:
+                    message: "Successfully updated!"
+
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        phone:
+          type: string
+      required:
+        - firstname
+        - lastname
+        - phone

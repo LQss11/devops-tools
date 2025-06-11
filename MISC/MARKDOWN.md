@@ -51,3 +51,7 @@ Just put [NAME of first title] () it will auto-complete itself.
 
 <!-- new line -->
 <div style="page-break-before: always;"></div>
+
+
+[a good reference](https://github.com/ElectricRCAircraftGuy/eRCaGuy_hello_world/blob/master/markdown/github_readme_center_and_align_images.md)
+
